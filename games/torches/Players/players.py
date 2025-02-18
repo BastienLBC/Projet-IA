@@ -91,6 +91,7 @@ class ia_player(Player):
         en fonction de l'epsilon, joue soit un nb aleatoire,
         soit le coup réfléchi par l'exploitation.
         met à jour l'état précédent
+        (exploit doit être 1, 2 ou 3)
         
         Returns:
             -Int : le coup à jouer choisi par l'ia (action)
