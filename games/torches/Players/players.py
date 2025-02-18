@@ -98,7 +98,7 @@ class ia_player(Player):
         if self.previous_state:
             self.historique.append((self.previous_state, GameModel.nb))
 
-        #eps = proba qui choisi si on exploite ou si on explore (random)
+        #eps = proba qui choisi si on exploite (move réfléchi) ou si on explore (random move)
         if random.uniform(0,1.0) < self.eps:
             move = random.randint(1,3)
         else:
