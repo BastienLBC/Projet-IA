@@ -67,3 +67,13 @@ class Human(Player):
     """
     def play(self) -> int:
         return int(input(f"{self.name}, combien d'allumettes prenez-vous (1-3) ? "))
+    
+
+class ia_player(Player):
+    def __init__(self, epsilon = 0.9, learning_rate = 0.01, historique =None, previous_state = None):
+        super().__init__()
+        self.eps= epsilon
+        self.lr = learning_rate
+        self.historique = [] or historique
+        self.previous_state = previous_state
+        self.v_function = {"lose":-1, "win":1}
