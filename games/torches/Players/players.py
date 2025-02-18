@@ -93,7 +93,7 @@ class ia_player(Player):
         met à jour l'état précédent
         
         Returns:
-            -Int : le coup à jouer choisi par l'ia
+            -Int : le coup à jouer choisi par l'ia (action)
         """
         if self.previous_state:
             self.historique.append((self.previous_state, GameModel.nb))
