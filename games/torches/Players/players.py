@@ -105,8 +105,21 @@ class ia_player(Player):
         else:
             move = self.exploit()
 
-        self.previous_state = GameModel.nb - move
+        self.previous_state = GameModel.nb - move # met à jour l'état
         return move
     
-    def win(self)->None:
-        pass
+    def win(self) -> None:
+        """
+        Ajoute une victoire à l'ia, et met à jour la transition
+        """
+        super().win()
+        self.historique.append((self.previous_state, self.v_function["win"]))
+        self.previous_state = None
+
+    def lose(self) -> None:
+        """
+        Ajoute une défaite à l'ia, et met à jour la transition
+        """
+        super().lose()
+        self.historique.append((self.previous_state, self.v_function["lose"]))
+        self.previous_state = None
