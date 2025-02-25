@@ -1,4 +1,4 @@
-from Game.game_controller import GameModel
+from Game.game_controller import *
 from Players.players import Human, ia_player,Player
 
 def training(ai1, ai2, nb_games, nb_epsilon):
@@ -50,9 +50,9 @@ def compare_ai(*ais):
 
 if __name__ == "__main__":
     joueur = Player('Joueur')
-    alice = ia_player("alice")
-    bob = ia_player("bob")
-    randy = ia_player("randy")
+    alice = ia_player('alice')
+    bob = ia_player('bob')
+    randy = ia_player('randy')
 
 
     # Entraînement de Alice et Bob
