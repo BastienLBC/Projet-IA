@@ -97,14 +97,6 @@ def exploit(self) -> int:
 
     return best_move
 
-def play(self):
-    if self.previous_state is not None:
-        self.historique.append((self.previous_state, self.nb_torchs))
-
-    self.previous_state = self.nb_torchs
-
-    return self.exploit()
-
 def win(self) -> None:
     """
     Ajoute une victoire au nb de victoires,
