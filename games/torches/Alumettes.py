@@ -1,5 +1,5 @@
 from Game.game_controller import *
-from Players.players import Human, ia_player,Player
+from Players.players import *
 
 if __name__ == "__main__":
     joueur = Player('Joueur')
