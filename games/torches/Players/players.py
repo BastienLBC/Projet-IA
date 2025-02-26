@@ -107,7 +107,7 @@ class ia_player(Player):
             -Int : le coup à jouer choisi par l'ia
         """
         if self.previous_state:
-            self.historique.append((self.previous_state, GameModel.nb))
+            self.historique.append((self.previous_state, self.game.nb))
 
         #eps = proba qui choisi si on exploite ou si on explore (random)
         if random.uniform(0,1.0) < self.eps:
@@ -115,7 +115,7 @@ class ia_player(Player):
         else:
             move = self.exploit()
 
-        self.previous_state = GameModel.nb - move
+        self.previous_state = self.game.nb - move
         return move
 
     def win(self) -> None:
