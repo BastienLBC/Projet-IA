@@ -31,8 +31,8 @@ class GameModel:
         self.displayable = display
         self.current_player = None
 
-        self.player1.game = self
-        self.player2.game = self
+        self.players1.game = self
+        self.players2.game = self
 
         self.shuffle()
 
@@ -40,7 +40,7 @@ class GameModel:
         """
         Selecte aléatoirement un joueur pour commencer
         """
-        self.current_player = random.choice([self.player1, self.player2])
+        self.current_player = random.choice([self.players1, self.players2])
 
     def reset(self)->None:
         """
@@ -92,7 +92,7 @@ class GameModel:
         """
         Inverse le joueur courant
         """
-        self.current_player = self.player1 if self.current_player == self.player2 else self.player2
+        self.current_player = self.players1 if self.current_player == self.players2 else self.players2
 
     def get_current_player(self)->str:
         """
@@ -119,4 +119,4 @@ class GameModel:
         Returns:
             Player: joueur perdant
         """
-        return self.player1 if self.get_winner() == self.player2 else self.player2
+        return self.players1 if self.get_winner() == self.players2 else self.players2
