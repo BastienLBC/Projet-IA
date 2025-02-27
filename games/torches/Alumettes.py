@@ -16,3 +16,5 @@ if __name__ == "__main__":
     randy = ia_player('Randy')
 
     
+    game = GameControler([joueur, alice])
+    game.training(alice,bob,1000,10)

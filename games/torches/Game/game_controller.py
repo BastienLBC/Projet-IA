@@ -25,9 +25,10 @@ class GameControler:
         Raise: 
             ValueError : si il n'y a pas au moins un joueur humain
         """
+       
         if not isinstance(players[0], Human) and not isinstance(players[1], Human):
             raise ValueError("Il doit y avoir au moins un joueur humain.")
-
+        
         self.model = GameModel(nb_torchs, players)
         self.view = GameView(self)
 
@@ -128,7 +129,7 @@ class GameControler:
     def training(self, ai1, ai2, nb_games, nb_epsilon):
         # Train the AIs @ai1 and @ai2 during @nb_games games
         # epsilon decrease every @nb_epsilon games
-        training_game = GameModel(12, players=[ai1, ai2], displayable = False)
+        training_game = GameModel(15, players=[ai1, ai2], display=False)
         for i in range(0, nb_games):
             if i % nb_epsilon == 0:
                 ai1.next_epsilon()
