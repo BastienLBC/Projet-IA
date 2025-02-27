@@ -15,19 +15,19 @@ class GameModel:
         displayable (bool): active/désactive l'affichage dans la console
         current_player: Joueur dont c'est le tour
     """
-    def __init__(self, nb_torch:int, players:list[str], display: bool=True)->None:
+    def __init__(self, nb_torch:int, players:list[str], displayable: bool=True)->None:
         """
         Initialise une partie.
 
         Args:
             nb_torch (int): nombre d'alumettes au départ
             players (list): liste des joueurs
-            display (bool): active/désactive l'affichage dans la console (true par défaut)
+            displayable (bool): active/désactive l'affichage dans la console (true par défaut)
         """
         self.original_nb = nb_torch
         self.nb = nb_torch
         self.players = players
-        self.displayable = display
+        self.displayable = displayble
         self.current_player = None
 
         for player in self.players:

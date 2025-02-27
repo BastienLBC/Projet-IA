@@ -16,5 +16,10 @@ if __name__ == "__main__":
     randy = ia_player('Randy')
 
     
-    game = GameControler([joueur, alice])
-    game.training(joueur,bob,1000,10)
+    game = GameControler([bob, alice])
+    game.training(bob,alice,1000,10)
+
+    jsp = GameControler([randy, joueur])
+    jsp = jsp.training(randy,joueur,1000,10)
+
+    

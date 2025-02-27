@@ -139,8 +139,8 @@ class GameControler:
         training_game.play()
         if isinstance(ai1, ia_player):
             ai1.train()
-            if isinstance(ai2, ia_player):
-                ai2.train()
+        if isinstance(ai2, ia_player):
+            ai2.train()
         training_game.reset()
 
 
