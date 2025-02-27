@@ -148,13 +148,21 @@ class ia_player(Player):
         Parcourt l'historique à l'envers et le vide une fois terminé.
         """
         while self.historique:
-            state, next_state = self.historique.pop()
-            if next_state not in self.v_function:
-                self.v_function[next_state] = 0  # Initialisation des états inconnus
+            state, result = self.historique.pop()  # On récupère l'état actuel et le résultat de la partie
+        
+            # Initialisation des états inconnus avec une valeur par défaut (par exemple 0)
             if state not in self.v_function:
-                self.v_function[state] = 0  # Initialisation des états inconnus
-            self.v_function[state] += self.lr * float(self.v_function[next_state] - self.v_function[state])
-    
+                self.v_function[state] = 0  # Initialisation pour les nouveaux états
+        
+            # Si le résultat est une victoire ou une défaite, on met à jour l'état correspondant
+            if result == "win":
+                self.v_function[state] = 1  # Valeur de la victoire
+            elif result == "lose":
+                self.v_function[state] = -1  # Valeur de la défaite
+
+            # L'historique est vidé une fois l'entraînement terminé
+        self.historique.clear()
+            
     def next_epsilon(self, coef: float = 0.95, min: float = 0.05) -> None:
         """
         Réduit l'epsilon pour favoriser l'exploitation au fil du temps.
