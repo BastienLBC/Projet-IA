@@ -95,9 +95,9 @@ class ia_player(Player):
         nb_torches = self.get_nb_torchs()
         for i in [1,2,3]:
            next_state = nb_torches - i
-           next_value = self.v_function.get(next_state)
+           next_value = self.v_function.get(next_state, 0)
 
-           if  next_value < best_value :
+           if  next_value > best_value :
                best_value = next_value
                best_move = i
 
@@ -155,7 +155,7 @@ class ia_player(Player):
                 self.v_function[next_state] = 0  # Initialisation des états inconnus
             if state not in self.v_function:
                 self.v_function[state] = 0  # Initialisation des états inconnus
-            self.v_function[state] += self.lr * (self.v_function[next_state] - self.v_function[state])
+            self.v_function[state] += self.lr * float(self.v_function[next_state] - self.v_function[state])
 
     def next_epsilon(self, coef: float = 0.95, min: float = 0.05) -> None:
         """
