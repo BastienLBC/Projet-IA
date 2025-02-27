@@ -6,7 +6,7 @@ from Players.players import *
 def training(ai1, ai2, nb_games, nb_epsilon):
         # Train the AIs @ai1 and @ai2 during @nb_games games
         # epsilon decrease every @nb_epsilon games
-        training_game = GameModel(15, ai1, ai2, displayable = False)
+        training_game = GameModel(15, ai1, ai2, display= False)
         for i in range(0, nb_games):
             if i % nb_epsilon == 0:
                 if type(ai1)==ia_player : ai1.next_epsilon()
@@ -36,10 +36,9 @@ if __name__ == "__main__":
 
     
 
-    game = GameControler(bob, alice)
-    game.training(bob, alice, 1000, 10)
+    
+    training(bob, alice, 1000, 10)
 
-    jsp = GameControler(randy, joueur)
-    jsp = jsp.training(randy,joueur,1000,10)
+    
     
     
