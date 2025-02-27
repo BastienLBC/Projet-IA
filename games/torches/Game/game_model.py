@@ -53,7 +53,7 @@ class GameModel:
         """
         affiche le nombre d'alumettes restantes dans la console
         """
-        if self.display:
+        if self.display == True:
             print(f"Allumettes restantes: {self.nb}")
 
     def step(self, action:int)->None:
