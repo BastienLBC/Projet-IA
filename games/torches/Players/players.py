@@ -153,7 +153,8 @@ class ia_player(Player):
                 self.v_function[next_state] = 0  # Initialisation des états inconnus
             if state not in self.v_function:
                 self.v_function[state] = 0  # Initialisation des états inconnus
-            
+            self.v_function[state] += self.lr * (self.v_function[next_state] - self.v_function[state])
+
     def next_epsilon(self, coef: float = 0.95, min: float = 0.05) -> None:
         """
         Réduit l'epsilon pour favoriser l'exploitation au fil du temps.
