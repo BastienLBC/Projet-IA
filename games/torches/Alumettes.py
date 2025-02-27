@@ -34,7 +34,7 @@ def compare_ai(*ais):
     print(stats2)
     print(f"{'-'*4}{'-'*len(ais)*15}")
 
-    all_v_dict = {key : [ia_player.V.get(key,0) for ai in ais] for key in ais[0].V.keys()}
+    all_v_dict = {key : [ia_player.V.get(key,0) for ia_player in ais] for key in ais[0].V.keys()}
     sorted_v = lambda v_dict : sorted(filter(lambda x : type(x[0])==int ,v_dict.items()))
     for state, values in sorted_v(all_v_dict):
         print(f"{state:2} :", end='')
