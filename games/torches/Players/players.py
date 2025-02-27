@@ -78,7 +78,7 @@ class ia_player(Player):
         self.lr = learning_rate
         self.historique =  historique if historique is not None else []
         self.previous_state = previous_state
-        self.v_function = {"lose":-1, "win":1}
+        self.v_function = {"lose":0, "win":10}
     def get_nb_torchs(self) -> int:
         """
         Retourne le nombre actuel d'allumettes en jeu.
@@ -152,9 +152,9 @@ class ia_player(Player):
         while self.historique:
             state, next_state = self.historique.pop()
             if next_state not in self.v_function:
-                self.v_function[next_state] = next_state  # Initialisation des états inconnus
+                self.v_function[next_state] = 5  
             if state not in self.v_function:
-                self.v_function[state] = 0  # Initialisation des états inconnus
+                self.v_function[state] = 0 
             self.v_function[state] += self.lr * (self.v_function[next_state] - self.v_function[state])
             
     def next_epsilon(self, coef: float = 0.95, min: float = 0.05) -> None:
