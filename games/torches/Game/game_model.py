@@ -103,7 +103,7 @@ class GameModel:
         """
         return self.current_player
 
-    def get_winner(self)->str:
+    def get_loser(self)->str:
         """
         Retourne le gagnant de la partie
 
@@ -112,11 +112,11 @@ class GameModel:
         """
         return self.current_player if self.is_game_over() else None
 
-    def get_loser(self)->str:
+    def get_winner(self)->str:
         """
         Retourne le perdant de la partie
 
         Returns:
             Player: joueur perdant
         """
-        return self.players1 if self.get_winner() == self.players2 else self.players2
+        return self.players1 if self.get_loser() == self.players2 else self.players2

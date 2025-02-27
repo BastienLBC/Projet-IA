@@ -24,7 +24,7 @@ class GameView(Tk):
     
     def update_view(self):
         self.canvas.delete("all")
-        self.draw_matches(self.controller.get_nb_matches())
+        self.draw_matches(self.controller.get_nb_torchs())
         self.message_label.config(text=self.controller.get_status_message())
     
     def draw_matches(self, count):
