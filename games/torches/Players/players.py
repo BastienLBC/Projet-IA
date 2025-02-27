@@ -95,9 +95,9 @@ class ia_player(Player):
         nb_torches = self.get_nb_torchs()
         for i in [1,2,3]:
            next_state = nb_torches - i
-           next_value = self.v_function.get(next_state, 0)
+           next_value :float = self.v_function.get(next_state)
 
-           if next_value > best_value :
+           if  next_value < best_value :
                best_value = next_value
                best_move = i
 
