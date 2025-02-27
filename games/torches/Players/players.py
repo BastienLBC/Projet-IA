@@ -95,7 +95,7 @@ class ia_player(Player):
         nb_torches = self.get_nb_torchs()
         for i in [1,2,3]:
            next_state = nb_torches - i
-           next_value :float = self.v_function.get(next_state)
+           next_value = self.v_function.get(next_state)
 
            if  next_value < best_value :
                best_value = next_value
@@ -133,6 +133,7 @@ class ia_player(Player):
         super().win()
         self.historique.append((self.previous_state, self.v_function["win"]))
         self.previous_state = None
+        self.train()
 
     def lose(self) -> None:
         """
@@ -141,6 +142,7 @@ class ia_player(Player):
         super().lose()
         self.historique.append((self.previous_state, self.v_function["lose"]))
         self.previous_state = None
+        self.train()
 
     def train(self) -> None:
         """
