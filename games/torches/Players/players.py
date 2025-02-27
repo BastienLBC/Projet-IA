@@ -87,19 +87,19 @@ class ia_player(Player):
     
     def exploit(self) -> int:
         """
-        Choisit la pire action possible pour le donner a son adversaire
+        Choisit la pire action possible pour donner la pire situation à son adversaire.
         """
         best_move = None
-        best_value = float("-inf") 
+        worst_value = float("inf") 
 
         nb_torches = self.get_nb_torchs()
-        for i in [1,2,3]:
-           next_state = nb_torches - i
-           next_value = self.v_function.get(next_state, 0)
+        for i in [1, 2, 3]:
+            next_state = nb_torches - i
+            next_value = self.v_function.get(next_state, 0)
 
-           if  next_value > best_value :
-               best_value = next_value
-               best_move = i
+            if next_value < worst_value:
+                worst_value = next_value
+                best_move = i
 
         return best_move
     
