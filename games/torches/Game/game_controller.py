@@ -123,3 +123,49 @@ class GameControler:
         is_player = isinstance(self.model.get_current_player(), Player)
         is_human = isinstance(self.model.get_current_player(), Human)
         return is_player and not is_human
+
+    @staticmethod
+    def training(ai1, ai2, nb_games, nb_epsilon):
+    # Train the AIs @ai1 and @ai2 during @nb_games games
+    # epsilon decrease every @nb_epsilon games
+        training_game = GameModel(12, [ai1, ai2], display = False)
+        for i in range(nb_games):
+            if i % nb_epsilon == 0:
+                if isinstance(ai1, ai_player): 
+                    ai1.next_epsilon()
+                if isinstance(ai2, ai_player):
+                    ai2.next_epsilon()
+
+            training_game.play()
+            if isinstance(ai1, ai_player):
+                ai1.train()
+            if isinstance(ai2, ai_player):
+                ai2.train()
+        training_game.reset()
+    
+    def compare_ai(*ais):
+    # Print a comparison between the @ais
+        names = f"{'':4}"
+        stats1 = f"{'':4}" 
+        stats2 = f"{'':4}"
+
+        for ai in ais:
+            names += f"{ai.name:^15}"
+            stats1 += f"{str(ai.wins)+'/'+str(ai.nb_games):^15}"
+            stats2 += f"{f'{(ai.wins/ai.nb_games*100):4.1f}'+'%':^15}"
+
+        print(names)
+        print(stats1)
+        print(stats2)
+        print(f"{'-'*4}{'-'*len(ais)*15}")
+
+        all_v_dict = {key: [ai.v_function.get(key,0) for ai in ais] 
+                    for key in ais[0].v_function.keys()}
+        
+        sorted_v = lambda v_dict: sorted(filter(lambda x: isinstance(x[0],int), v_dict.items()))
+        
+        for state, values in sorted_v(all_v_dict):
+            print(f"{state:2} :", end='')
+            for value in values:
+                print(f"{value:^15}", end='')
+            print()

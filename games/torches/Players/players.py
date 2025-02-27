@@ -67,26 +67,25 @@ class Human(Player):
     """
     def play(self) -> int:
         return int(input(f"{self.name}, combien d'allumettes prenez-vous (1-3) ? "))
-    
 
-class ia_player(Player):
+class ai_player(Player):
     """
     Classe qui représente un player AI (qui hérite de player)
     redéfini play 
     """
-    def __init__(self,name:str, game=None, epsilon: float = 0.9, learning_rate: float= 0.01, historique: list[int]=None, previous_state: int= None)->None:
-        super().__init__(name,game)
-        self.eps= epsilon
+    def __init__(self, name: str, game=None, epsilon: float = 0.9, learning_rate: float = 0.01, historique: list[int] = None, previous_state: int = None) -> None:
+        super().__init__(name, game)
+        self.eps = epsilon
         self.lr = learning_rate
-        self.historique = [] or historique
+        self.historique = historique if historique is not None else []
+        #self.historique = [] or historique
         self.previous_state = previous_state
         self.v_function = {
             "lose":-1,
             "win":1,
-            1:0,
-            2:0,
-            3:0
         }
+        for i in range(13):
+            self.v_function[i] = 0
 
     def exploit(self)->int:
         """
@@ -100,7 +99,7 @@ class ia_player(Player):
         possible_actions = {}
 
         for action in range(1,4):
-            next_state = GameModel.nb - action
+            next_state = self.game.nb - action
             state_value = self.v_function.get(next_state, 0)
             possible_actions[action] = state_value
 
@@ -118,7 +117,7 @@ class ia_player(Player):
             -Int : le coup à jouer choisi par l'ia (action)
         """
         if self.previous_state:
-            self.historique.append((self.previous_state, GameModel.nb))
+            self.historique.append((self.previous_state, self.game.nb))
 
         #eps = proba qui choisi si on exploite (move réfléchi) ou si on explore (random move)
         if random.uniform(0,1.0) < self.eps:
@@ -126,7 +125,7 @@ class ia_player(Player):
         else:
             move = self.exploit()
 
-        self.previous_state = GameModel.nb - move # met à jour l'état
+        self.previous_state = self.game.nb - move # met à jour l'état
         return move
 
     def win(self) -> None:
@@ -155,10 +154,10 @@ class ia_player(Player):
             current_value = self.v_function.get(state, 0)
             if state not in self.v_function:
                 self.v_function[state] = 0
-            
-            next_value = self.v_function[next_state] if isinstance(next_state, int) else self.v_function.get(next_state, 0)
+
+            next_value = self.v_function.get(next_state, 0) if isinstance(next_state, int) else 0
             self.v_function[state] = current_value + self.lr * (next_value - current_value)
-        
+
         self.historique.clear()
 
     def next_epsilon(self, coef=0.95, min=0.05)->None:

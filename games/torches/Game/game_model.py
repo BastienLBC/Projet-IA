@@ -124,3 +124,4 @@ class GameModel:
             Player: joueur perdant
         """
         return self.current_player if self.is_game_over() else None
+
