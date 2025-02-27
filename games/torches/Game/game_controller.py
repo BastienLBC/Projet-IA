@@ -126,19 +126,22 @@ class GameControler:
         is_human = isinstance(self.model.get_current_player(), Human)
         return is_player and not is_human
 
-    def training(self, ai1, ai2, nb_games, nb_epsilon):
+    def training(ai1, ai2, nb_games, nb_epsilon):
         # Train the AIs @ai1 and @ai2 during @nb_games games
         # epsilon decrease every @nb_epsilon games
         training_game = GameModel(15, players=[ai1, ai2], display=False)
         for i in range(0, nb_games):
             if i % nb_epsilon == 0:
-                ai1.next_epsilon()
+                if isinstance(ai1, ia_player):
+                    ai1.next_epsilon()
+            if isinstance(ai2, ia_player):
                 ai2.next_epsilon()
-
-            training_game.play()
+        training_game.play()
+        if isinstance(ai1, ia_player):
             ai1.train()
-            ai2.train()
+            if isinstance(ai2, ia_player):
+                ai2.train()
+        training_game.reset()
 
-            training_game.reset()
 
     

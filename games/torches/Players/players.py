@@ -1,7 +1,6 @@
 """
 Module qui gère les différents types de joueurs
 """
-
 import random
 
 # --- Player Classes ---
@@ -80,13 +79,18 @@ class ia_player(Player):
         self.historique =  historique if historique is not None else []
         self.previous_state = previous_state
         self.v_function = {"lose":-1, "win":1}
-
+    def get_nb_torchs(self) -> int:
+        """
+        Retourne le nombre actuel d'allumettes en jeu.
+        """
+        return self.game.nb 
+    
     def exploit(self) -> int:
         """
         Choisit la pire action possible pour le donner a son adversaire
         """
         best_move = None
-        best_value = float("inf") 
+        best_value = float("-inf") 
 
         nb_torches = self.get_nb_torchs()
         for i in [1,2,3]:

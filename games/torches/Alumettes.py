@@ -17,4 +17,4 @@ if __name__ == "__main__":
 
     
     game = GameControler([joueur, alice])
-    game.training(alice,bob,1000,10)
+    game.training(joueur,bob,1000,10)
