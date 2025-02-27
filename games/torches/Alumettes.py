@@ -24,17 +24,17 @@ def compare_ai(*ais):
     stats1 = f"{'':4}"
     stats2 = f"{'':4}"
 
-    for ai in ais :
-        names += f"{ai.name:^15}"
-        stats1 += f"{str(ai.nb_wins)+'/'+str(ai.nb_games):^15}"
-        stats2 += f"{f'{ai.nb_wins/ai.nb_games*100:4.4}'+'%':^15}"
+    for ia_player in ais :
+        names += f"{ia_player.name:^15}"
+        stats1 += f"{str(ia_player.wins)+'/'+str(ia_player.nb_games):^15}"
+        stats2 += f"{f'{ia_player.wins/ia_player.nb_games*100:4.4}'+'%':^15}"
 
     print(names)
     print(stats1)
     print(stats2)
     print(f"{'-'*4}{'-'*len(ais)*15}")
 
-    all_v_dict = {key : [ai.V.get(key,0) for ai in ais] for key in ais[0].V.keys()}
+    all_v_dict = {key : [ia_player.V.get(key,0) for ai in ais] for key in ais[0].V.keys()}
     sorted_v = lambda v_dict : sorted(filter(lambda x : type(x[0])==int ,v_dict.items()))
     for state, values in sorted_v(all_v_dict):
         print(f"{state:2} :", end='')
