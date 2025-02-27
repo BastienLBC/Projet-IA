@@ -27,7 +27,7 @@ class GameModel:
         self.original_nb = nb_torch
         self.nb = nb_torch
         self.players = players
-        self.displayable = displayble
+        self.displayable = displayable
         self.current_player = None
 
         for player in self.players:

@@ -129,7 +129,7 @@ class GameControler:
     def training(self,ai1, ai2, nb_games, nb_epsilon):
         # Train the AIs @ai1 and @ai2 during @nb_games games
         # epsilon decrease every @nb_epsilon games
-        training_game = GameModel(15, players=[ai1, ai2], display=False)
+        training_game = GameModel(15, players=[ai1, ai2], displayable=False)
         for i in range(0, nb_games):
             if i % nb_epsilon == 0:
                 if isinstance(ai1, ia_player):
