@@ -25,10 +25,10 @@ class GameControler:
         Raise: 
             ValueError : si il n'y a pas au moins un joueur humain
         """
-       
+        """
         if not isinstance(players[0], Human) and not isinstance(players[1], Human):
             raise ValueError("Il doit y avoir au moins un joueur humain.")
-        
+        """
         self.model = GameModel(nb_torchs, players)
         self.view = GameView(self)
 
