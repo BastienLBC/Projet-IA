@@ -87,23 +87,42 @@ class ai_player(Player):
         for i in range(13):
             self.v_function[i] = 0
 
-    def exploit(self)->int:
+    # def exploit(self)->int:
+    #     """
+    #     trouve la meilleure action à jouer en calculant pour chaque action,
+    #     l'état d'après le coup (pour avoir l'état où se trouvera l'adversaire)
+
+    #     Returns:
+    #         int: la meilleure action entre 1 et 3,
+    #         où la plus petite action est le moins bon pour l'adversaire
+    #     """
+    #     possible_actions = {}
+
+    #     for action in range(1,4):
+    #         next_state = self.game.nb - action
+    #         state_value = self.v_function.get(next_state, 0)
+    #         possible_actions[action] = state_value
+
+    #     return min(possible_actions, key=possible_actions.get) 
+    
+    def exploit(self) -> int:
         """
-        trouve la meilleure action à jouer en calculant pour chaque action,
-        l'état d'après le coup (pour avoir l'état où se trouvera l'adversaire)
-
-        Returns:
-            int: la meilleure action entre 1 et 3,
-            où la plus petite action est le moins bon pour l'adversaire
+        choisit la pire action possible pour le donner a son adversaire
         """
-        possible_actions = {}
+        best_move = None
+        best_value = float("inf")
+        nb_torchs = self.game.nb
 
-        for action in range(1,4):
-            next_state = self.game.nb - action
-            state_value = self.v_function.get(next_state, 0)
-            possible_actions[action] = state_value
+        for i in [1,2, 3]:
+            next_state = nb_torchs - i
+            next_value = self.v_function.get(next_state, 0)
 
-        return min(possible_actions, key=possible_actions.get) 
+            if best_move is None or next_value < best_value or (next_value == best_value and i < best_move):
+                best_value = next_value
+                best_move = i
+
+        return best_move
+
 
     def play(self)->int:
         """
@@ -130,39 +149,59 @@ class ai_player(Player):
 
     def win(self) -> None:
         """
-        Ajoute une victoire à l'ia, et met à jour la transition
+        Ajoute une victoire au nb de victoires,
+        ajoute la dernière transition avec win à l'historique, 
+        remets previous_state à None.
         """
         super().win()
-        self.historique.append((self.previous_state, self.v_function["win"]))
+        if self.previous_state is not None:
+            self.historique.append((self.previous_state, "win"))
         self.previous_state = None
 
     def lose(self) -> None:
         """
-        Ajoute une défaite à l'ia, et met à jour la transition
+        Ajoute une défaite au nb de défaites,
+        ajoute la dernière transition avec lose à l'historique,
+        remets previous_state à None.
         """
         super().lose()
-        self.historique.append((self.previous_state, self.v_function["lose"]))
+        if self.previous_state is not None:
+            self.historique.append((self.previous_state, "lose"))
         self.previous_state = None
 
-    def train(self)->None:
+    # def train(self)->None:
+    #     """
+    #     entraine l'ia avec la v function.
+    #     en utilisant la formule V(s) = v(s) + learning rate * [v(s')- v(s)]
+    #     et vide l'historique
+    #     """
+    #     for state, next_state in reversed(self.historique):
+    #         current_value = self.v_function.get(state, 0)
+    #         if state not in self.v_function:
+    #             self.v_function[state] = 0
+
+    #         next_value = self.v_function.get(next_state, 0) if isinstance(next_state, int) else 0
+    #         self.v_function[state] = current_value + self.lr * (next_value - current_value)
+
+    #     self.historique.clear()
+    
+    def train(self) -> None:
         """
-        entraine l'ia avec la v function.
-        en utilisant la formule V(s) = v(s) + learning rate * [v(s')- v(s)]
-        et vide l'historique
+        Entraîne l'IA en se basant sur l'historique.
+        Parcourt l'historique à l'envers et le vide une fois terminé.
         """
-        for state, next_state in reversed(self.historique):
-            current_value = self.v_function.get(state, 0)
+        while self.historique:
+            state, next_state = self.historique.pop()
+            if next_state not in self.v_function:
+                self.v_function[next_state] = 0
             if state not in self.v_function:
                 self.v_function[state] = 0
+            self.v_function[state] += self.lr * (self.v_function[next_state] - self.v_function[state])
 
-            next_value = self.v_function.get(next_state, 0) if isinstance(next_state, int) else 0
-            self.v_function[state] = current_value + self.lr * (next_value - current_value)
-
-        self.historique.clear()
 
     def next_epsilon(self, coef=0.95, min=0.05)->None:
         """
-        réduit l'epsilon pour utiliser + l'exploitation au fur et à mesure
+        Fait varier l'epsilon mais il ne descend jamais en dessous de 0.05
         
         Args:
             coef (float): coefficient de réduction
