@@ -166,6 +166,8 @@ class ia_player(Player):
         Réduit l'epsilon pour favoriser l'exploitation au fil du temps.
         L'epsilon ne descend jamais en dessous du minimum spécifié.
         """
-        self.eps = max(self.eps * coef, min)
+        self.eps = self.eps * coef
+        if self.eps < min:
+            self.eps = min
 
     
