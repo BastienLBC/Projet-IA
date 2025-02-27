@@ -15,7 +15,7 @@ class GameModel:
         displayable (bool): active/désactive l'affichage dans la console
         current_player: Joueur dont c'est le tour
     """
-    def __init__(self, nb_torch:int, players:list[str], displayable: bool=True)->None:
+    def __init__(self, nb_torch:int, players:list[str], display: bool=True)->None:
         """
         Initialise une partie.
 
@@ -27,7 +27,7 @@ class GameModel:
         self.original_nb = nb_torch
         self.nb = nb_torch
         self.players = players
-        self.displayable = displayable
+        self.displayable = display
         self.current_player = None
 
         for player in self.players:
@@ -53,7 +53,7 @@ class GameModel:
         """
         affiche le nombre d'alumettes restantes dans la console
         """
-        if self.displayable:
+        if self.display:
             print(f"Allumettes restantes: {self.nb}")
 
     def step(self, action:int)->None:
