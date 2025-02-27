@@ -116,7 +116,7 @@ class ia_player(Player):
         current_state = self.get_nb_torchs()
 
         if self.previous_state is not None:
-            self.historique.append((self.previous_state, self.get_nb_torchs()))
+            self.historique.append((self.previous_state, current_state))
 
         if random.uniform(0,1.0) < self.eps:
             move = random.randint(1,3)
