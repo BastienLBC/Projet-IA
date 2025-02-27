@@ -64,10 +64,11 @@ if __name__ == "__main__":
     
     training(bob, alice, 1000, 10)
     training(randy,joueur, 1000, 10)
-    bob.win = 0
+    bob.wins = 0
     bob.losses = 0
+    
     training(bob,joueur, 1000, 10)
-    compare_ai(bob, alice, randy, joueur)
+    compare_ai(bob, alice, randy)
     
     
     
