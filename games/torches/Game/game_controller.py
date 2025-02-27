@@ -15,7 +15,7 @@ class GameControler:
         model : instance de game_model
         view : instance de game_view
     """
-    def __init__(self, players: list[str], nb_torchs:int=15):
+    def __init__(self, players1, players2, nb_torchs:int=15):
         """
         Initialise le controleur
         
@@ -26,10 +26,10 @@ class GameControler:
             ValueError : si il n'y a pas au moins un joueur humain
         """
         """
-        if not isinstance(players[0], Human) and not isinstance(players[1], Human):
+        if not isinstance(players1, Human) and not isinstance(players2, Human):
             raise ValueError("Il doit y avoir au moins un joueur humain.")
         """
-        self.model = GameModel(nb_torchs, players)
+        self.model = GameModel(nb_torchs, players1, players2)
         self.view = GameView(self)
 
         if self.is_ai_player():
