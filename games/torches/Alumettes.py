@@ -18,6 +18,31 @@ def training(ai1, ai2, nb_games, nb_epsilon):
 
             training_game.reset()
 
+def compare_ai(*ais):
+    # Print a comparison between the @ais
+    names = f"{'':4}"
+    stats1 = f"{'':4}"
+    stats2 = f"{'':4}"
+
+    for ai in ais :
+        names += f"{ai.name:^15}"
+        stats1 += f"{str(ai.nb_wins)+'/'+str(ai.nb_games):^15}"
+        stats2 += f"{f'{ai.nb_wins/ai.nb_games*100:4.4}'+'%':^15}"
+
+    print(names)
+    print(stats1)
+    print(stats2)
+    print(f"{'-'*4}{'-'*len(ais)*15}")
+
+    all_v_dict = {key : [ai.V.get(key,0) for ai in ais] for key in ais[0].V.keys()}
+    sorted_v = lambda v_dict : sorted(filter(lambda x : type(x[0])==int ,v_dict.items()))
+    for state, values in sorted_v(all_v_dict):
+        print(f"{state:2} :", end='')
+        for value in values:
+            print(f"{value:^15.3}", end='')
+        print()
+
+
 if __name__ == "__main__":
     
     """
@@ -38,7 +63,11 @@ if __name__ == "__main__":
 
     
     training(bob, alice, 1000, 10)
-
+    training(randy,joueur, 1000, 10)
+    bob.win = 0
+    bob.losses = 0
+    training(bob,joueur, 1000, 10)
+    compare_ai(bob, alice, randy, joueur)
     
     
     
