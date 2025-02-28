@@ -154,7 +154,7 @@ class ia_player(Player):
             if previous_state not in self.v_function:
                 self.v_function[previous_state] = 0
     
-            self.v_function[previous_state] += self.lr * (self.v_function.get(current_state, 0) - self.v_function[previous_state])
+            self.v_function[previous_state] += self.lr * (self.v_function.get(current_state) - self.v_function[previous_state])
             
     def next_epsilon(self, coef: float = 0.95, min: float = 0.05) -> None:
         """
