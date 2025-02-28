@@ -68,12 +68,12 @@ if __name__ == "__main__":
 
     compare_ai (test)
     
+    
     GameControler(jsp, test).start()
 
     compare_ai(test)
+    
     """
-    
-    
     training(bob, alice, 1000, 10)
     training(randy,joueur, 1000, 10)
 
