@@ -74,15 +74,15 @@ if __name__ == "__main__":
     compare_ai(test)
     
     """
-    training(bob, alice, 100000, 10)
-    training(randy,joueur, 100000, 10)
+    training(bob, alice, 1000000, 10)
+    training(randy,joueur, 1000000, 10)
 
     bob.wins = 0
     bob.losses = 0
     
     print("test1")
 
-    training(bob,joueur, 100000, 10)
+    training(bob,joueur, 1000000, 10)
     compare_ai(bob, alice, randy)
 
     """"
