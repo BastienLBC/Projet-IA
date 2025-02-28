@@ -58,17 +58,58 @@ if __name__ == "__main__":
     alice = ia_player('Alice')
     bob = ia_player('Bob')
     randy = ia_player('Randy')
+    
+    test= ia_player('test')
+    jsp = Human('jsp')
 
+    """
+
+    training(joueur, test, 1000, 10)
+
+    compare_ai (test)
+    
+    GameControler(jsp, test).start()
+
+    compare_ai(test)
+    """
     
 
-    
     training(bob, alice, 1000, 10)
     training(randy,joueur, 1000, 10)
+
+    compare_ai(bob, alice, randy)
+
     bob.wins = 0
     bob.losses = 0
     
+    print("test1")
+
     training(bob,joueur, 1000, 10)
     compare_ai(bob, alice, randy)
+
     
+    print("test2")
+    training(bob,joueur, 1000000, 10)
+    training(alice,joueur, 1000000, 10)
+    training(randy,joueur, 1000000, 10)
+
+    compare_ai(bob, alice, randy)
+    print("test3")
     
-    
+    bob.wins = 0
+    bob.losses = 0
+    alice.wins = 0
+    alice.losses = 0    
+    training(bob, alice, 1000000, 10)
+
+    compare_ai(bob, alice, randy)
+    print("test4")
+    training(bob,joueur, 1000000,10)
+    training(alice,joueur, 1000000,10)
+    training(randy,joueur, 1000000,10)
+
+    compare_ai(bob, alice, randy)
+    """
+    GameControler(bob,jsp).start()
+    GameControler(alice,jsp).start()
+    """
