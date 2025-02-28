@@ -78,7 +78,7 @@ class ia_player(Player):
         self.lr = learning_rate
         self.historique =  historique if historique is not None else []
         self.previous_state = previous_state
-        self.v_function = {}
+        self.v_function = {"lose":-10, "win":10}
     def get_nb_torchs(self) -> int:
         """
         Retourne le nombre actuel d'allumettes en jeu.
@@ -131,7 +131,7 @@ class ia_player(Player):
         Ajoute une victoire à l'ia, et met à jour la transition
         """
         super().win()
-        self.historique.append((self.previous_state, self.v_function[10]))
+        self.historique.append((self.previous_state, self.v_function["win"]))
         self.previous_state = None
         self.train()
 
@@ -140,7 +140,7 @@ class ia_player(Player):
         Ajoute une défaite à l'ia, et met à jour la transition
         """
         super().lose()
-        self.historique.append((self.previous_state, self.v_function[-10]))
+        self.historique.append((self.previous_state, self.v_function["lose"]))
         self.previous_state = None
         self.train()
 
