@@ -131,7 +131,7 @@ class ia_player(Player):
         Ajoute une victoire à l'ia, et met à jour la transition
         """
         super().win()
-        self.historique.append((self.previous_state, self.v_function["win"]))
+        self.historique.append((self.previous_state,"win"))
         self.previous_state = None
         self.train()
 
@@ -140,7 +140,7 @@ class ia_player(Player):
         Ajoute une défaite à l'ia, et met à jour la transition
         """
         super().lose()
-        self.historique.append((self.previous_state, self.v_function["lose"]))
+        self.historique.append((self.previous_state, "lose"))
         self.previous_state = None
         self.train()
 
