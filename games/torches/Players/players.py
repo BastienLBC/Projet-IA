@@ -152,10 +152,7 @@ class ia_player(Player):
         while self.historique:
             previous_state, current_state = self.historique.pop()
             if current_state not in self.v_function:
-                if self.wins > self.losses:
-                    self.v_function[current_state] = 0.5
-                else:
-                    self.v_function[current_state] = -0.5  
+                self.v_function[current_state] = 0
             if previous_state not in self.v_function:
                 self.v_function[previous_state] = 0
     
