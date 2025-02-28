@@ -72,8 +72,10 @@ if __name__ == "__main__":
 
     compare_ai(test)
     """
+    training(bob, alice, 3, 10)
+    compare_ai(bob, alice) 
     
-
+    """
     training(bob, alice, 1000, 10)
     training(randy,joueur, 1000, 10)
 
@@ -109,7 +111,7 @@ if __name__ == "__main__":
     training(randy,joueur, 1000000,10)
 
     compare_ai(bob, alice, randy)
-    """
+    
     GameControler(bob,jsp).start()
     GameControler(alice,jsp).start()
     """
