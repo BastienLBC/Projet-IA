@@ -1,8 +1,10 @@
 from Game.game_controller import *
 
 if __name__ == "__main__":
-    p1 = Human('test')
-    p2 = Human("zigzze")
-    
-    game = GameControler([p1, p2])
-    game.start()
+    noob = Player("noob")
+    alice = Ai_player("Alice")
+    bob = Ai_player("Bob")
+    randy = Ai_player("Randy")
+
+    GameController.training(alice,randy,100000,10)
+    GameController.compare_ai(alice,randy)
