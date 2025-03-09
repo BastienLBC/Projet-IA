@@ -2,8 +2,8 @@
 Module qui gère les actions du joueur,
 et fait les liens entre les deux modèles game_view et game_model
 """
-from Players.players import *
-from Game.game_model import *
+from games.torches.Game.game_model.players import *
+from games.torches.Game.game_model.game_model import *
 from Game.game_view import *
 
 class GameControler:
