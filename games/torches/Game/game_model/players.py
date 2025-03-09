@@ -165,25 +165,3 @@ class ia_player(Player):
         if self.eps < min:
             self.eps = min
 
-    def enregistrer_etat_ia(self):
-        """
-        Cette fonction enregistre l'état des IA dans un fichier texte. 
-        Elle suppose que chaque élément dans 'ais' a un attribut 'v_function' qui est un dictionnaire.
-
-        :param ais: Liste d'objets IA ayant un attribut 'v_function'.
-        """
-        # Créer un dictionnaire avec les valeurs
-        all_v_dict = {key: [ia_player.v_function.get(key, 0) for ia_player in self] for key in self[0].v_function.keys()}
-
-        # Fonction pour trier les valeurs
-        sorted_v = lambda v_dict: sorted(filter(lambda x: isinstance(x[0], int), v_dict.items()))
-
-        # Ouvrir un fichier texte en mode écriture (créera le fichier s'il n'existe pas)
-        with open('etat_ia.txt', 'w') as file:
-            # Parcourir les états et valeurs triées
-            for state, values in sorted_v(all_v_dict):
-                # Écrire l'état et les valeurs dans le fichier
-                file.write(f"{state:2} :")
-                for value in values:
-                    file.write(f"{value:^15.3f}")
-                file.write('\n')
