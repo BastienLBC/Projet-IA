@@ -1,4 +1,4 @@
-from Game.game_controller import *
+from games.torches.Game.game_controller import *
 from games.torches.Game.game_model.players import *
 
 
