@@ -1,6 +1,6 @@
 from games.torches.Game.game_controller import *
 from games.torches.Game.game_model.players import *
-
+from games.torches.Game.game_model.game_model import *
 
 if __name__ == "__main__":
     
