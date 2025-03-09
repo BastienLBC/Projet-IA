@@ -1,6 +1,7 @@
 """
 Module qui gère les différents types de joueurs
 """
+from Game.game_model.game_model import *
 import random
 # --- Player Classes ---
 class Player:
