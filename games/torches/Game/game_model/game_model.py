@@ -15,23 +15,24 @@ class GameModel:
         displayable (bool): active/désactive l'affichage dans la console
         current_player: Joueur dont c'est le tour
     """
-    def __init__(self, nb_torch:int, players:list[str], display: bool=True)->None:
+    def __init__(self, nb_torch:int, players1, players2, display: bool=True)->None:
         """
         Initialise une partie.
 
         Args:
             nb_torch (int): nombre d'alumettes au départ
             players (list): liste des joueurs
-            display (bool): active/désactive l'affichage dans la console (true par défaut)
+            displayable (bool): active/désactive l'affichage dans la console (true par défaut)
         """
         self.original_nb = nb_torch
         self.nb = nb_torch
-        self.players = players
+        self.players1 = players1
+        self.players2 = players2
         self.displayable = display
         self.current_player = None
 
-        for player in self.players:
-            player.game = self
+        self.players1.game = self
+        self.players2.game = self
 
         self.shuffle()
 
@@ -39,7 +40,7 @@ class GameModel:
         """
         Selecte aléatoirement un joueur pour commencer
         """
-        self.current_player = random.choice(self.players)
+        self.current_player = random.choice([self.players1, self.players2])
 
     def reset(self)->None:
         """
@@ -91,10 +92,7 @@ class GameModel:
         """
         Inverse le joueur courant
         """
-        if self.current_player == self.players[1]:
-            self.current_player = self.players[0]
-        else:
-            self.current_player = self.players[1]
+        self.current_player = self.players1 if self.current_player == self.players2 else self.players2
 
     def get_current_player(self)->str:
         """
@@ -105,22 +103,20 @@ class GameModel:
         """
         return self.current_player
 
-    def get_winner(self)->str:
+    def get_loser(self)->str:
         """
         Retourne le gagnant de la partie
 
         Returns: 
             Player: joueur gagnant
         """
-        if self.is_game_over():
-            return self.players[0] if self.current_player == self.players[1] else self.players[1]
-        return None
+        return self.current_player if self.is_game_over() else None
 
-    def get_loser(self)->str:
+    def get_winner(self)->str:
         """
         Retourne le perdant de la partie
 
         Returns:
             Player: joueur perdant
         """
-        return self.current_player if self.is_game_over() else None
+        return self.players1 if self.get_loser() == self.players2 else self.players2
