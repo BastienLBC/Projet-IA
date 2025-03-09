@@ -42,7 +42,9 @@ if __name__ == "__main__":
     training(bob,joueur, 100000 , 10)
     compare_ai(bob, alice, randy)
 
-  
+    toi = Human("toi")
+    game = GameControler(bob, toi)
+    game.start()
     
 
     """"
