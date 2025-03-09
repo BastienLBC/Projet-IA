@@ -2,7 +2,6 @@
 Module qui gère les différents types de joueurs
 """
 import random
-import json
 # --- Player Classes ---
 class Player:
     """
