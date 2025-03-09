@@ -165,13 +165,4 @@ class ia_player(Player):
         if self.eps < min:
             self.eps = min
 
-    def upload(self, filename: str) -> None:
-        """Sérialise et sauvegarde l'IA dans un fichier."""
-        with open(filename, "wb") as f:
-            pickle.dump(self, f)
-
-    @staticmethod
-    def download(filename: str):
-        """Charge et désérialise une IA depuis un fichier."""
-        with open(filename, "rb") as f:
-            return pickle.load(f)
+    
