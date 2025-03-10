@@ -15,7 +15,8 @@ if __name__ == "__main__":
     alice = ia_player('Alice')
     bob = ia_player('Bob')
     randy = ia_player('Randy')
-    
+    ui = ia_player('ui')
+
     test= ia_player('test')
     jsp = Human('jsp')
 
@@ -42,7 +43,9 @@ if __name__ == "__main__":
     training(bob,joueur, 100000 , 10)
     compare_ai(bob, alice, randy)
 
-    
+    alice.download(alice)
+    ui.upload(ui)
+
     
 
     """"
