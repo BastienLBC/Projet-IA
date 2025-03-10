@@ -214,3 +214,19 @@ class ia_player(Player):
             for value in values:
                 print(f"{value:^15.3f}", end='')
             print()
+    def upload(self, filename="ai_state.txt"):
+        """Enregistre les valeurs de l'état"""
+        with open(filename, "w") as file:
+            sorted_v = sorted(filter(lambda x: isinstance(x[0], int), self.v_function.items()))
+            for state, value in sorted_v:
+                file.write(f"{state}: {value:.10f}\n")
+
+    def download(self, filename="ai_state.txt"):
+        """
+        Charge les valeurs de l'état
+        """ 
+        with open(filename, "r") as file:
+            for line in file:
+                state, value = line.strip().split(": ")
+                self.v_function[int(state)] = float(value)
+            self.eps = 0.05
