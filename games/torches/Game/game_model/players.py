@@ -165,24 +165,18 @@ class ia_player(Player):
         if self.eps < min:
             self.eps = min
 
-    def upload(self) -> None:
-        """
-        Enregistre les valeurs de la fonction de valeur d'une IA dans un fichier.
-        
-        Args:
-            filename (str): Nom du fichier où enregistrer les données.
-        """
-        with open("state.txt", "w") as file:
-            for state, value in sorted(self.v_function.items()):
-                if isinstance(state, int):  # Vérifie que la clé est un entier
-                    file.write(f"{state}: {value:.3f}\n")
-        print(f"Les données ont été enregistrées")
+    def upload(self, filename="ai_state.txt"):
+        """Enregistre les valeurs de la fonction de valeur d'une IA dans un fichier et les affiche."""
+        with open(filename, "w") as file:
+            sorted_v = sorted(filter(lambda x: isinstance(x[0], int), self.v_function.items()))
+            for state, value in sorted_v:
+                file.write(f"{state}: {value:.10f}\n")
 
-    def download(self):
+    def download(self, filename="ai_state.txt"):
         """
         Charge les valeurs de la fonction de valeur d'un fichier dans l'IA.
         """
-        with open("state.txt", "r") as file:
+        with open(filename, "r") as file:
             for line in file:
                 state, value = line.strip().split(": ")
                 self.v_function[int(state)] = float(value)
