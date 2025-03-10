@@ -33,7 +33,7 @@ if __name__ == "__main__":
     """
     alice.upload()
     """
-    # After 10,000,000 games, the states have been saved with upload, so please don't touch it. You can use download to recover the states.
+    # After 10.000.000 games, the states have been saved with upload, so please don't touch it. You can use download to recover the states.
     test.download()
     GameControler(test, jsp).start()
 
