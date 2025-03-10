@@ -166,7 +166,7 @@ class ia_player(Player):
             self.eps = min
 
     def upload(self, filename="ai_state.txt"):
-        """Enregistre les valeurs de la fonction de valeur d'une IA dans un fichier et les affiche."""
+        """Enregistre les valeurs de l'état"""
         with open(filename, "w") as file:
             sorted_v = sorted(filter(lambda x: isinstance(x[0], int), self.v_function.items()))
             for state, value in sorted_v:
@@ -174,7 +174,7 @@ class ia_player(Player):
 
     def download(self, filename="ai_state.txt"):
         """
-        Charge les valeurs de la fonction de valeur d'un fichier dans l'IA.
+        Charge les valeurs de l'état
         """
         with open(filename, "r") as file:
             for line in file:

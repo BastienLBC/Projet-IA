@@ -15,24 +15,13 @@ if __name__ == "__main__":
     alice = ia_player('Alice')
     bob = ia_player('Bob')
     randy = ia_player('Randy')
-    ui = ia_player('ui')
 
-    test= ia_player('test')
+    ui = ia_player('ui')
     jsp = Human('jsp')
 
-    """
 
-    training(joueur, test, 1000, 10)
-
-    compare_ai (test)
     
-    
-    GameControler(jsp, test).start()
-
-    compare_ai(test)
-    
-    """
-    training(bob, alice, 100000 , 10)
+    training(bob, alice, 10000000 , 10)
     training(randy,joueur, 100000 , 10)
 
     bob.wins = 0
@@ -44,21 +33,11 @@ if __name__ == "__main__":
     compare_ai(bob, alice, randy)
 
     alice.upload()
-    ui.download()
+    
+    """"
+    ui.upload()
 
     GameControler(ui,jsp).start()
     
-
-    """"
-    print("test2")
-    training(bob,joueur, 1000000, 10)
-    training(alice,joueur, 1000000, 10)
-    training(randy,joueur, 1000000, 10)
-
-   
-    
-    GameControler(bob,jsp).start()
-    GameControler(alice,jsp).start()
     """
-    
     
