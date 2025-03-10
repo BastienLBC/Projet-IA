@@ -19,7 +19,7 @@ if __name__ == "__main__":
     test= ia_player('test')
     jsp = Human('jsp')
     """
-    training(bob, alice, 10000000 , 10)
+    training(bob, alice, 100000 , 10)
     training(randy,joueur, 100000 , 10)
 
     bob.wins = 0
@@ -33,7 +33,7 @@ if __name__ == "__main__":
     """
     alice.upload()
     """
-
+    # After 10,000,000 games, the states have been saved with upload, so please don't touch it. You can use download to recover the states.
     test.download()
     GameControler(test, jsp).start()
 
