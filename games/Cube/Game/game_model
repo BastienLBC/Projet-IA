@@ -37,17 +37,58 @@ class GameModel:
     
     def moove(self, event):
         if event.keysym == 'UP' or event.keysym == 'Z':
-            moove_up()
+            self.moove_up()
         elif event.keysym == 'DOWN' or event.keysym == 'S':
-            moove_down()
+            self.moove_down()
         elif event.keysym == 'LEFT' or event.keysym == 'Q':
-            moove_left()
+            self.moove_left()
         elif event.keysym == 'RIGHT' or event.keysym == 'D':
-            moove_right()
+            self.moove_right()
 
     def moove_up(self):
-        if(self.current_player.y > 0 and self.current_plauer.y < 4):
+        if self.current_player.y > 0 and self.current_player.y < 4:
             self.current_player.y += 1
         else:
-            moove()
+            self.moove()
+
+    def moove_down(self):
+        if self.current_player.y > 0 and self.current_player.y < 4:
+            self.current_player.y -= 1
+        else:
+            self.moove()
+
+    def moove_left(self):
+        if self.current_player.x > 0 and self.current_player.x < 4:
+            self.current_player.x -= 1
+        else:
+            self.moove()
+
+    def moove_right(self):
+        if self.current_player.x > 0 and self.current_player.x < 4:
+            self.current_player.x += 1
+        else:
+            self.moove()
     
+    def check_color_case(self, x, y):
+        """
+        Vérifie si la case est de la couleur du joueur actuel ou blanche
+
+        Args:
+            x (int): position x de la case
+            y (int): position y de la case
+
+        Returns:
+            bool: True si la case est de la couleur du joueur actuel ou blanche, False sinon
+        """
+        current_color = self.current_player.color
+        case_color = self.get_case_color(x, y)  # Assuming you have a method to get the color of a case
+        return case_color == current_color or case_color == 'white'
+
+    def get_case_color(self, x, y):
+        """
+        Retourne la couleur de la case"
+        """
+        return case.color
+    
+        
+        

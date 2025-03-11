@@ -1,3 +1,4 @@
+from games.Cube.Game.game_model import *  
 
 class Case:
 	def __init__(self, color: str = "white"):
