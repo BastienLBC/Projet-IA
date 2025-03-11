@@ -1,8 +1,0 @@
-from games.Cube.Game.game_model import *  
-
-class Case:
-	def __init__(self, color: str = "white"):
-		self.color = color
-		
-		self.x = None
-		self.y = None

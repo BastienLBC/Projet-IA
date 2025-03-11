@@ -12,6 +12,9 @@ class GameModel:
         self.players1.game = self
         self.players2.game = self
 
+        self.x_Max = 5
+        self.y_Max = 5
+
         self.shuffle()
 
     def shuffle(self)->None:
@@ -46,25 +49,25 @@ class GameModel:
             self.moove_right()
 
     def moove_up(self):
-        if self.current_player.y > 0 and self.current_player.y < 4:
+        if self.current_player.y > 0 and self.current_player.y < 4 and self.check_color_case(self.current_player.x+1, self.current_player.y):
             self.current_player.y += 1
         else:
             self.moove()
 
     def moove_down(self):
-        if self.current_player.y > 0 and self.current_player.y < 4:
+        if self.current_player.y > 0 and self.current_player.y < 4 and self.check_color_case(self.current_player.x-1, self.current_player.y):
             self.current_player.y -= 1
         else:
             self.moove()
 
     def moove_left(self):
-        if self.current_player.x > 0 and self.current_player.x < 4:
+        if self.current_player.x > 0 and self.current_player.x < 4 and self.check_color_case(self.current_player.x, self.current_player.y-1):
             self.current_player.x -= 1
         else:
             self.moove()
 
     def moove_right(self):
-        if self.current_player.x > 0 and self.current_player.x < 4:
+        if self.current_player.x > 0 and self.current_player.x < 4 and self.check_color_case(self.current_player.x, self.current_player.y+1):
             self.current_player.x += 1
         else:
             self.moove()
@@ -73,22 +76,22 @@ class GameModel:
         """
         Vérifie si la case est de la couleur du joueur actuel ou blanche
 
-        Args:
-            x (int): position x de la case
-            y (int): position y de la case
-
         Returns:
             bool: True si la case est de la couleur du joueur actuel ou blanche, False sinon
         """
         current_color = self.current_player.color
-        case_color = self.get_case_color(x, y)  # Assuming you have a method to get the color of a case
+        case_color = self.get_case_color(x, y)  
         return case_color == current_color or case_color == 'white'
 
-    def get_case_color(self, x, y):
+    def get_case_color(x, y):
         """
         Retourne la couleur de la case"
         """
-        return case.color
+        return board[x][y].color  
     
-        
+    def create_board(self):
+        """
+        Crée le plateau de jeu avec des cases blanches
+        """
+    
         
