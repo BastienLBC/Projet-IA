@@ -1,0 +1,53 @@
+import random
+
+class GameModel:
+
+    def __init__(self, players1, players2, display: bool=True)-> None:
+
+        self.players1 = players1
+        self.players2 = players2
+        self.display = display
+        self.current_player = None
+
+        self.players1.game = self
+        self.players2.game = self
+
+        self.shuffle()
+
+    def shuffle(self)->None:
+        """
+        Selecte aléatoirement un joueur pour commencer
+        """
+        self.current_player = random.choice([self.players1, self.players2])
+
+    def switch_player(self)->None:
+        """
+        Inverse le joueur courant
+        """
+        self.current_player = self.players1 if self.current_player == self.players2 else self.players2
+
+    def get_current_player(self)->str:
+        """
+        Retourne le joueur actuel
+
+        Returns:
+            Player: joueur actuel
+        """
+        return self.current_player
+    
+    def moove(self, event):
+        if event.keysym == 'UP' or event.keysym == 'Z':
+            moove_up()
+        elif event.keysym == 'DOWN' or event.keysym == 'S':
+            moove_down()
+        elif event.keysym == 'LEFT' or event.keysym == 'Q':
+            moove_left()
+        elif event.keysym == 'RIGHT' or event.keysym == 'D':
+            moove_right()
+
+    def moove_up(self):
+        if(self.current_player.y > 0 and self.current_plauer.y < 4):
+            self.current_player.y += 1
+        else:
+            moove()
+    
