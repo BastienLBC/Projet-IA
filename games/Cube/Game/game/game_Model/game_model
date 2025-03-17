@@ -82,16 +82,22 @@ class GameModel:
         case_color = self.get_case_color(x, y)  
         return case_color == current_color or case_color == 'white'
 
-    def get_case_color(x, y):
+    def get_case_color(self, x, y):
         """
         Retourne la couleur de la case"
         """
-        return board[x][y].color  
+        return self.board[x][y].color  
     
-    def create_board(self):
+    def create_board(self)->None:
         """
         Crée le plateau de jeu avec des cases blanches
         """
+        board_limit = self.board - 1
+
+        for x in range(board_limit):
+            for y in range(board_limit):
+                self.board[x][y] = 'white'
+
 
 
         
