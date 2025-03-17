@@ -4,3 +4,5 @@ __pycache__/
 games/torches/Game/.DS_Store
 .DS_Store
 .ropeproject/
+venv/
+.venv/
