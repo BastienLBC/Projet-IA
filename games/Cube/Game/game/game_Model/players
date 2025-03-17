@@ -8,3 +8,5 @@ class Player:
 
         self.x = None
         self.y = None
+
+        self.score = 1
