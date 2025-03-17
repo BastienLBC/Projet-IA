@@ -12,8 +12,7 @@ class GameModel:
         self.players1.game = self
         self.players2.game = self
 
-        self.x_Max = 5
-        self.y_Max = 5
+        self.board = 5
 
         self.shuffle()
 
@@ -49,25 +48,25 @@ class GameModel:
             self.moove_right()
 
     def moove_up(self):
-        if self.current_player.y > 0 and self.current_player.y < 4 and self.check_color_case(self.current_player.x+1, self.current_player.y):
+        if self.current_player.y > 0 and self.current_player.y < self.board - 1 and self.check_color_case(self.current_player.x, self.current_player.y+1):
             self.current_player.y += 1
         else:
             self.moove()
 
     def moove_down(self):
-        if self.current_player.y > 0 and self.current_player.y < 4 and self.check_color_case(self.current_player.x-1, self.current_player.y):
+        if self.current_player.y > 0 and self.current_player.y < self.board - 1  and self.check_color_case(self.current_player.x, self.current_player.y-1):
             self.current_player.y -= 1
         else:
             self.moove()
 
     def moove_left(self):
-        if self.current_player.x > 0 and self.current_player.x < 4 and self.check_color_case(self.current_player.x, self.current_player.y-1):
+        if self.current_player.x > 0 and self.current_player.x < self.board - 1  and self.check_color_case(self.current_player.x-1, self.current_player.y):
             self.current_player.x -= 1
         else:
             self.moove()
 
     def moove_right(self):
-        if self.current_player.x > 0 and self.current_player.x < 4 and self.check_color_case(self.current_player.x, self.current_player.y+1):
+        if self.current_player.x > 0 and self.current_player.x < self.board - 1  and self.check_color_case(self.current_player.x+1, self.current_player.y):
             self.current_player.x += 1
         else:
             self.moove()
@@ -93,5 +92,6 @@ class GameModel:
         """
         Crée le plateau de jeu avec des cases blanches
         """
-    
+
+
         
