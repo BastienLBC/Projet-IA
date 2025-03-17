@@ -122,12 +122,21 @@ class GameModel:
             return self.players1
         else:
             return self.players2
+    
+    def is_finished(self)->bool:
+        """
+        Vérifie si la partie est terminée
+
+        Returns:
+            bool: True si la partie est terminée, False sinon
+        """
+        return self.players1.score + self.players2.score == self.board-1 * self.board-1
         
     def play(self)->None:
         """
         Lance le jeu
         """
-        
+
         
 
         
