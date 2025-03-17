@@ -119,7 +119,6 @@ class GameModel:
         Returns:
             Player: joueur gagnant
         """
-
         
     def get_looser(self)->str:
         """
