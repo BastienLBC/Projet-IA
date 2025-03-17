@@ -98,19 +98,6 @@ class GameModel:
             for y in range(board_limit):
                 self.board[x][y] = 'white'
 
-    def compt_color(self, color):
-        """
-        Compte le nombre de cases de la couleur donnée
-
-        Returns:
-            int: nombre de cases de la couleur donnée
-        """
-        count = 0
-        for x in range(self.board -1):
-            for y in range(self.board -1):
-                if self.board[x][y] == color:
-                    count += 1
-        return count
     
     def get_winner(self)->str:
         """
@@ -119,6 +106,10 @@ class GameModel:
         Returns:
             Player: joueur gagnant
         """
+        if self.players1.score > self.players2.score:
+            return self.players1
+        else:
+            return self.players2
         
     def get_looser(self)->str:
         """
@@ -127,11 +118,16 @@ class GameModel:
         Returns:
             Player: joueur perdant
         """
-
+        if self.players1.score < self.players2.score:
+            return self.players1
+        else:
+            return self.players2
+        
     def play(self)->None:
         """
         Lance le jeu
         """
+        
         
 
         
