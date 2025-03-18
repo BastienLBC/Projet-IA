@@ -55,32 +55,25 @@ class GameModel:
             Player: joueur actuel
         """
         return self.current_player
+    
+    def moove(self, event):
+        while True:
+            if (event == 'Up' or event == 'Z') and not self.can_move(self.current_player.x, self.current_player.y + 1):
+                self.move_up()
+            elif (event == 'Down' or event == 'S') and not self.can_move(self.current_player.x, self.current_player.y - 1):
+                self.move_down()
+            elif (event == 'Left' or event == 'Q') and not self.can_move(self.current_player.x - 1, self.current_player.y):
+                self.move_left()
+            elif (event == 'Right' or event == 'D') and not self.can_move(self.current_player.x + 1, self.current_player.y):
+                self.move_right()
+            else:
+                event = self.current_player.play()
+        
+    def move_up(self):
+        self.current_player.y += 1
 
-    def moove(self, bind):
-        player = self.get_current_player()
-        if bind == 'Z':
-            self.move_up(player)
-            print("z")
-        elif bind == 'S':
-            self.move_down(player)
-            print("s")
-        elif bind == 'Q':
-            self.move_left(player)
-            print("q")
-        elif bind == 'D':
-            self.move_right(player)
-            print("d")
-        else:
-            return
-
-    def move_up(self, player):
-        # Vérifier si la case est autorisée
-        if self.can_move(player.x, player.y - 1):
-            player.y -= 1
-
-    def move_down(self, player):
-        if self.can_move(player.x, player.y + 1):
-            player.y += 1
+    def move_down(self):
+        self.current_player.y -= 1
 
     def move_left(self, player):
         if self.can_move(player.x - 1, player.y):
@@ -91,7 +84,7 @@ class GameModel:
             player.x += 1
 
     def can_move(self, x, y):
-        return (0 <= x < self.board and 0 <= y < self.board and self.check_color_case(x, y))
+        return (0 >= x < self.board and 0 >= y < self.board and self.check_color_case(x, y))
 
     def check_color_case(self, x, y):
         """
