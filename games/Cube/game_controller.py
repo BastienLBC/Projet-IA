@@ -70,7 +70,7 @@ class GameController:
         qui déplace le joueur de case
 
         """
-        if isinstance(self.model.get_current_player(), Player): #à retirer si pas de classe ia
+        if isinstance(self.model.get_current_player(), HumanPlayer): #à retirer si pas de classe ia
             self.model.moove(bind)
             if self.model.is_finished():
                 self.handle_end_game()

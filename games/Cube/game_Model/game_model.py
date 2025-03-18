@@ -57,17 +57,18 @@ class GameModel:
         return self.current_player
     
     def moove(self, event):
-        if event == 'Up' or event == 'Z':
-            self.move_up()
-        elif event == 'Down' or event == 'S':
-            self.move_down()
-        elif event == 'Left' or event == 'Q':
-            self.move_left()
-        elif event == 'Right' or event == 'D':
-            self.move_right()
-        else:
-            self.moove(event)
-
+        while True:
+            if (event == 'Up' or event == 'Z') and not self.can_move(self.current_player.x, self.current_player.y + 1):
+                self.move_up()
+            elif (event == 'Down' or event == 'S') and not self.can_move(self.current_player.x, self.current_player.y - 1):
+                self.move_down()
+            elif (event == 'Left' or event == 'Q') and not self.can_move(self.current_player.x - 1, self.current_player.y):
+                self.move_left()
+            elif (event == 'Right' or event == 'D') and not self.can_move(self.current_player.x + 1, self.current_player.y):
+                self.move_right()
+            else:
+                event = self.current_player.play()
+        
     def move_up(self):
         self.current_player.y += 1
 
@@ -81,7 +82,7 @@ class GameModel:
         self.current_player.x += 1
 
     def can_move(self, x, y):
-        return (0 <= x < self.board and 0 <= y < self.board and self.check_color_case(x, y))
+        return (0 >= x < self.board and 0 >= y < self.board and self.check_color_case(x, y))
 
     def check_color_case(self, x, y):
         """
