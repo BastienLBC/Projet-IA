@@ -71,7 +71,10 @@ class GameController:
 
         """
         if isinstance(self.model.get_current_player(), HumanPlayer): #à retirer si pas de classe ia
-            self.model.moove(bind)
+            human_player = self.model.get_current_player()
+            human_player.Event = bind  # Stocke la touche
+
+            self.model.moove(bind)  # Déplace selon la touche reçue
             if self.model.is_finished():
                 self.handle_end_game()
             else:
@@ -79,19 +82,19 @@ class GameController:
                 if self.is_random_player():
                     self.handle_random_moove()
             self.view.update_view()
-            
+
     def handle_random_moove(self)->None:
-        """
-        Fais le moove de l'ia avec un bind random
-        qui déplace le random player de case
-        """
-        moove = self.model.get_current_player().play() #choisi un bind random
-        self.model.moove(moove)
-        if self.model.is_finished():
-            self.handle_end_game()
-        else:
-            self.model.switch_player()
-        self.view.update_view()
+            """
+            Fais le moove de l'ia avec un bind random
+            qui déplace le random player de case
+            """
+            moove = self.model.get_current_player().play() #choisi un bind random
+            self.model.moove(moove)
+            if self.model.is_finished():
+                self.handle_end_game()
+            else:
+                self.model.switch_player()
+            self.view.update_view()
 
     def handle_end_game(self)->None:
         """

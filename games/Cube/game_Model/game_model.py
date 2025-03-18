@@ -55,34 +55,40 @@ class GameModel:
             Player: joueur actuel
         """
         return self.current_player
-    
-    def moove(self, event):
-            if event == 'Up' or event == 'Z': 
-                if self.can_move(self.current_player.x, self.current_player.y + 1):
-                    self.move_up()
-            elif event == 'Down' or event == 'S': 
-                if self.can_move(self.current_player.x, self.current_player.y - 1):
-                    self.move_down()
-            elif event == 'Left' or event == 'Q':
-                if self.can_move(self.current_player.x - 1, self.current_player.y):
-                    self.move_left()
-            elif event == 'Right' or event == 'D': 
-                if self.can_move(self.current_player.x + 1, self.current_player.y):
-                    self.move_right()
-            else:
-                event = self.current_player.play()
-        
-    def move_up(self):
-        self.current_player.y += 1
 
-    def move_down(self):
-        self.current_player.y -= 1
+    def moove(self, bind):
+        player = self.get_current_player()
+        if bind == 'Z':
+            self.move_up(player)
+            print("z")
+        elif bind == 'S':
+            self.move_down(player)
+            print("s")
+        elif bind == 'Q':
+            self.move_left(player)
+            print("q")
+        elif bind == 'D':
+            self.move_right(player)
+            print("d")
+        else:
+            return
 
-    def move_left(self):
-        self.current_player.x -= 1
+    def move_up(self, player):
+        # Vérifier si la case est autorisée
+        if self.can_move(player.x, player.y - 1):
+            player.y -= 1
 
-    def move_right(self):
-        self.current_player.x += 1
+    def move_down(self, player):
+        if self.can_move(player.x, player.y + 1):
+            player.y += 1
+
+    def move_left(self, player):
+        if self.can_move(player.x - 1, player.y):
+            player.x -= 1
+
+    def move_right(self, player):
+        if self.can_move(player.x + 1, player.y):
+            player.x += 1
 
     def can_move(self, x, y):
         return (0 <= x < self.board and 0 <= y < self.board and self.check_color_case(x, y))
@@ -102,8 +108,10 @@ class GameModel:
         """
         Retourne la couleur de la case"
         """
-        return self.matrix[x][y].color  
-    
+        if self.matrix[x][y] is None:
+            return None
+        return self.matrix[x][y].color
+
     def get_winner(self)->str:
         """
         Retourne le joueur gagnant

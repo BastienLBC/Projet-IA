@@ -28,7 +28,21 @@ class GameView(ctk.CTk):
         self.canvas = ctk.CTkCanvas(self, width=725, height=325, bg="#323232")
         self.canvas.pack()
 
+        self.bind_all("<Key>", self.on_key_press)
+
         self.update_view()
+
+    def on_key_press(self, event):
+        """
+        Récupère la touche pressée au clavier,
+        et appelle la fonction de déplacement du contrôleur
+        """
+        # event.keysym est la touche, exemple "z", "y", "Right" etc.
+        # On convertit en majuscule pour comparer à Z, S, Q, D
+        touche = event.keysym.upper()
+        # On demande au contrôleur de gérer ce mouvement
+        self.controller.handle_player_moove(touche)
+
 
     def draw_board(self) -> None:
         """
