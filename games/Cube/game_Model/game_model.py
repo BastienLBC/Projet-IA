@@ -13,6 +13,8 @@ class GameModel:
         self.players2.game = self
 
         self.board = 5
+        self.matrix = [[None for i in range(self.board-1)] for j in range(self.board-1)]
+        
 
         self.shuffle()
 
@@ -21,6 +23,14 @@ class GameModel:
         Selecte aléatoirement un joueur pour commencer
         """
         self.current_player = random.choice([self.players1, self.players2])
+
+    def reset(self)->None:
+        """
+        Réinitialise le jeu
+        """
+        self.shuffle()
+        self.players1.score = 1
+        self.players2.score = 1
 
     def switch_player(self)->None:
         """
@@ -48,25 +58,25 @@ class GameModel:
             self.moove_right()
 
     def moove_up(self):
-        if self.current_player.y > 0 and self.current_player.y < self.board - 1 and self.check_color_case(self.current_player.x, self.current_player.y+1):
+        if self.current_player.y >= 0 and self.current_player.y < self.board - 1 and self.check_color_case(self.current_player.x, self.current_player.y+1):
             self.current_player.y += 1
         else:
             self.moove()
 
     def moove_down(self):
-        if self.current_player.y > 0 and self.current_player.y < self.board - 1  and self.check_color_case(self.current_player.x, self.current_player.y-1):
+        if self.current_player.y >= 0 and self.current_player.y < self.board - 1  and self.check_color_case(self.current_player.x, self.current_player.y-1):
             self.current_player.y -= 1
         else:
             self.moove()
 
     def moove_left(self):
-        if self.current_player.x > 0 and self.current_player.x < self.board - 1  and self.check_color_case(self.current_player.x-1, self.current_player.y):
+        if self.current_player.x >= 0 and self.current_player.x < self.board - 1  and self.check_color_case(self.current_player.x-1, self.current_player.y):
             self.current_player.x -= 1
         else:
             self.moove()
 
     def moove_right(self):
-        if self.current_player.x > 0 and self.current_player.x < self.board - 1  and self.check_color_case(self.current_player.x+1, self.current_player.y):
+        if self.current_player.x >= 0 and self.current_player.x < self.board - 1  and self.check_color_case(self.current_player.x+1, self.current_player.y):
             self.current_player.x += 1
         else:
             self.moove()
@@ -86,18 +96,7 @@ class GameModel:
         """
         Retourne la couleur de la case"
         """
-        return self.board[x][y].color  
-    
-    def create_board(self)->None:
-        """
-        Crée le plateau de jeu avec des cases blanches
-        """
-        board_limit = self.board - 1
-
-        for x in range(board_limit):
-            for y in range(board_limit):
-                self.board[x][y] = 'white'
-
+        return self.matrix[x][y].color  
     
     def get_winner(self)->str:
         """
@@ -111,7 +110,7 @@ class GameModel:
         else:
             return self.players2
         
-    def get_looser(self)->str:
+    def get_loser(self)->str:
         """
         Retourne le joueur perdant
 
@@ -130,12 +129,23 @@ class GameModel:
         Returns:
             bool: True si la partie est terminée, False sinon
         """
-        return self.players1.score + self.players2.score == self.board-1 * self.board-1
+        return self.players1.score + self.players2.score == self.board * self.board
         
     def play(self)->None:
         """
         Lance le jeu
         """
+        self.current_player.y = 0
+        self.current_player.x = 0
+
+        if self.current_player == self.players1:
+            self.players2.y = self.board - 1
+            self.players2.x = self.board - 1
+        else:
+            self.players1.y = self.board - 1
+            self.players1.x = self.board - 1
+
+
 
         
 
