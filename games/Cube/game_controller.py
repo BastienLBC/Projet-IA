@@ -79,7 +79,7 @@ class GameController:
                 if self.is_random_player():
                     self.handle_random_moove()
             self.view.update_view()
-
+            
     def handle_random_moove(self)->None:
         """
         Fais le moove de l'ia avec un bind random

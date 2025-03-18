@@ -16,7 +16,7 @@ class GameModel:
         self.matrix = [[None for i in range(self.board)] for j in range(self.board)]
         
 
-        self.shuffle()
+        self.reset()
 
     def shuffle(self)->None:
         """
@@ -29,6 +29,15 @@ class GameModel:
         Réinitialise le jeu
         """
         self.shuffle()
+        self.current_player.y = 0
+        self.current_player.x = 0
+
+        if self.current_player == self.players1:
+            self.players2.y = self.board - 1
+            self.players2.x = self.board - 1
+        else:
+            self.players1.y = self.board - 1
+            self.players1.x = self.board - 1
         self.players1.score = 1
         self.players2.score = 1
 
@@ -56,31 +65,36 @@ class GameModel:
             self.moove_left()
         elif event.keysym == 'RIGHT' or event.keysym == 'D':
             self.moove_right()
+        else:
+            self.moove(event)
 
-    def moove_up(self):
-        if self.current_player.y >= 0 and self.current_player.y < self.board - 1 and self.check_color_case(self.current_player.x, self.current_player.y+1):
+    def move_up(self):
+        if self.can_move(self.current_player.x, self.current_player.y + 1):
             self.current_player.y += 1
-        else:
+        else :
             self.moove()
 
-    def moove_down(self):
-        if self.current_player.y >= 0 and self.current_player.y < self.board - 1  and self.check_color_case(self.current_player.x, self.current_player.y-1):
+    def move_down(self):
+        if self.can_move(self.current_player.x, self.current_player.y - 1):
             self.current_player.y -= 1
-        else:
+        else :
             self.moove()
 
-    def moove_left(self):
-        if self.current_player.x >= 0 and self.current_player.x < self.board - 1  and self.check_color_case(self.current_player.x-1, self.current_player.y):
+    def move_left(self):
+        if self.can_move(self.current_player.x - 1, self.current_player.y):
             self.current_player.x -= 1
-        else:
+        else :
             self.moove()
 
-    def moove_right(self):
-        if self.current_player.x >= 0 and self.current_player.x < self.board - 1  and self.check_color_case(self.current_player.x+1, self.current_player.y):
+    def move_right(self):
+        if self.can_move(self.current_player.x + 1, self.current_player.y):
             self.current_player.x += 1
-        else:
+        else :
             self.moove()
-    
+
+    def can_move(self, x, y):
+        return (0 <= x < self.board and 0 <= y < self.board and self.check_color_case(x, y))
+
     def check_color_case(self, x, y):
         """
         Vérifie si la case est de la couleur du joueur actuel ou blanche
@@ -131,22 +145,12 @@ class GameModel:
         """
         return self.players1.score + self.players2.score == self.board * self.board
         
-    def play(self)->None:
+    def play(self) -> None:
         """
-        Lance le jeu
+        Lance le jeu et gère le déroulement du tour.
         """
-        self.current_player.y = 0
-        self.current_player.x = 0
+        while not self.is_finished():
+            
+            self.moove(self.current_player.play())            
+            self.switch_player()
 
-        if self.current_player == self.players1:
-            self.players2.y = self.board - 1
-            self.players2.x = self.board - 1
-        else:
-            self.players1.y = self.board - 1
-            self.players1.x = self.board - 1
-
-
-
-        
-
-        
