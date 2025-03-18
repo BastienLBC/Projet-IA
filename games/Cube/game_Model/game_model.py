@@ -62,7 +62,6 @@ class GameModel:
     def moove(self, bind):
         if (bind == 'Up' or bind == 'Z' or bind == 'z') and self.can_move(self.current_player.x, self.current_player.y - 1):
             self.move_up()
-            print("up")
         elif (bind == 'Down' or bind == 'S' or bind == 's') and self.can_move(self.current_player.x, self.current_player.y + 1):
             self.move_down()
         elif (bind == 'Left' or bind == 'Q' or bind == 'q') and self.can_move(self.current_player.x - 1, self.current_player.y):
@@ -123,9 +122,9 @@ class GameModel:
             Player: joueur perdant
         """
         if self.players1.score < self.players2.score:
-            return self.players1
-        else:
             return self.players2
+        else:
+            return self.players1
     
     def is_finished(self)->bool:
         """
