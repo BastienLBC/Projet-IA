@@ -13,7 +13,7 @@ class GameModel:
         self.players2.game = self
 
         self.board = 5
-        self.matrix = [[None for i in range(self.board-1)] for j in range(self.board-1)]
+        self.matrix = [[None for i in range(self.board)] for j in range(self.board)]
         
 
         self.shuffle()
@@ -144,6 +144,7 @@ class GameModel:
         else:
             self.players1.y = self.board - 1
             self.players1.x = self.board - 1
+
 
 
 
