@@ -49,7 +49,7 @@ class GameController:
         returns :
             -bool: true : le joueur est un bot
         """
-        return isinstance(self.model.get_current_player(), random)
+        return not isinstance(self.model.get_current_player(), HumanPlayer)
 
     def get_status_message(self)-> str:
         """
@@ -87,7 +87,7 @@ class GameController:
         """
         moove = self.model.get_current_player().play() #choisi un bind random
         self.model.moove(moove)
-        if self.model.is_game_over():
+        if self.model.is_finished():
             self.handle_end_game()
         else:
             self.model.switch_player()

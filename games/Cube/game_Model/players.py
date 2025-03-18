@@ -13,12 +13,12 @@ class Player:
 
         self.score = 1
 
-        @staticmethod
-        def play():
-            """
-            Retourne un bind random
-            """
-            return random.choice(["UP", "DOWN", "LEFT", "RIGHT"])
+    @staticmethod
+    def play():
+        """
+        Retourne un bind random
+        """
+        return random.choice(["UP", "DOWN", "LEFT", "RIGHT"])
         
 class HumanPlayer(Player):
     def __init__(self, name:str, color:str)-> None:

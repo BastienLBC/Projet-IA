@@ -58,13 +58,13 @@ class GameModel:
     
     def moove(self, event):
         if event.keysym == 'UP' or event.keysym == 'Z':
-            self.moove_up()
+            self.move_up()
         elif event.keysym == 'DOWN' or event.keysym == 'S':
-            self.moove_down()
+            self.move_down()
         elif event.keysym == 'LEFT' or event.keysym == 'Q':
-            self.moove_left()
+            self.move_left()
         elif event.keysym == 'RIGHT' or event.keysym == 'D':
-            self.moove_right()
+            self.move_right()
         else:
             self.moove(event)
 
