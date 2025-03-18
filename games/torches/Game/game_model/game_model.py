@@ -11,7 +11,7 @@ class GameModel:
     Attributes:
         original_nb (int): nombre d'alumettes au départ
         nb (int): nombre d'alumette actuellement
-        players (list): liste des joueurs
+        players.py (list): liste des joueurs
         displayable (bool): active/désactive l'affichage dans la console
         current_player: Joueur dont c'est le tour
     """
@@ -21,7 +21,7 @@ class GameModel:
 
         Args:
             nb_torch (int): nombre d'alumettes au départ
-            players (list): liste des joueurs
+            players.py (list): liste des joueurs
             displayable (bool): active/désactive l'affichage dans la console (true par défaut)
         """
         self.original_nb = nb_torch
