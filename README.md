@@ -23,16 +23,32 @@ pip install -r requirements.txt
 ```
 
 ## Utilisation 
-Une fois le projet installé, vous pouvez lancer le jeu en exécutant le fichier Alumettes.py. Une fenêtre va alors s'ouvrir et vous pourrez jouer au jeu. Si vous voulez jouer contre l'ordinateur, il vous suffit de modifier la classe `Human` de `p1` en `Player`.
-Ou exécutez le dans votre terminal via :
+Une fois le projet installé, vous pouvez lancer les jeux en exécutant la commande suivante :
 ```
-python games\torches\Alumettes.py
+python launcher.py
 ```
-Si vous voulez jouer a cubee, vous pouvez lancer le jeu en exécutant le fichier main.py dans le dossier Cube. Une fenêtre va alors s'ouvrir et vous pourrez jouer au jeu. Par défaut vous jouer contre un bot qui joue en aléatoire, si vous voulez jouer contre un autre joueur il vous suffit de modifier la classe `HumanPlayer` en `Player`.
-Ou exécutez le dans votre terminal via :
+
+Une fenêtre va s'ouvrir et vous pourrez choisir le jeu auquel vous souhaitez jouer : Cubee ou Allumettes.
+
+### Cubee
+
+Par défaut, Cubee se joue contre un bot qui joue des coups aléatoires.
+
+Pour jouer contre un autre joueur, modifiez la classe Player en HumanPlayer pour player1 dans le fichier :
+
 ```
-python games\Cube\main.py
+games/Cube/main.py
 ```
+### Allumettes
+
+Par défaut, vous jouez contre une IA.
+
+Pour jouer contre un autre joueur, modifiez la classe Human en Player pour p1 dans le fichier :
+```
+
+games/Allumettes/main.py
+```
+
 ## Comment contribuer 
 Pour contribuer au projet, vous pouvez nous aider à résoudre le problème que nous rencontrons avec l'animation des torches, dans les [`game_view.py`](./games/torches/Game/game_view.py).
 
