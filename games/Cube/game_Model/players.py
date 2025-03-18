@@ -1,3 +1,7 @@
+
+import random
+from tkinter import *
+
 class Player:
 
     def __init__(self,name:str, color:str)-> None:
@@ -9,6 +13,20 @@ class Player:
 
         self.score = 1
 
-class Random(Player):
-    def __init__(self)->None:
-        super().__init__("Random", "grey")
+        @staticmethod
+        def play():
+            """
+            Retourne un bind random
+            """
+            return random.choice(["UP", "DOWN", "LEFT", "RIGHT"])
+        
+class HumanPlayer(Player):
+    def __init__(self, name:str, color:str)-> None:
+        super().__init__(name, color)
+
+    def play(self):
+        """
+        Retourne un bind reçu par l'utilisateur
+        """
+        return self.Event
+        

@@ -49,7 +49,7 @@ class GameController:
         returns :
             -bool: true : le joueur est un bot
         """
-        return isinstance(self.model.get_current_player(), Random)
+        return isinstance(self.model.get_current_player(), random)
 
     def get_status_message(self)-> str:
         """
@@ -79,7 +79,7 @@ class GameController:
                 if self.is_random_player():
                     self.handle_random_moove()
             self.view.update_view()
-
+            
     def handle_random_moove(self)->None:
         """
         Fais le moove de l'ia avec un bind random
