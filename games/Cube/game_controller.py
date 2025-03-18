@@ -1,8 +1,9 @@
 """
 Module qui gère les actions du joueur,
-et fait les liens entre les deux modèles game_view et game_model
+et fait les liens entre les deux modèles game_view et game_model.py
 """
-from game_model import *
+from game_Model.game_model import *
+from game_Model.players import *
 from game_view import *
 
 class GameController:
@@ -10,15 +11,15 @@ class GameController:
     Controleur de Cubee, gère la logique
 
     Attributes :
-        model : instance de game_model
+        model : instance de game_model.py
         view : instance de game_view
     """
     def __init__(self, player1, player2)->None:
         """
         Initialise le constructeur
         """
-        self.view = GameView(self)
         self.model = GameModel(player1, player2)
+        self.view = GameView(self)
 
         if self.is_random_player():
             self.handle_random_moove()

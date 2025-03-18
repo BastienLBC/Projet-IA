@@ -1,0 +1,12 @@
+
+
+class Player:
+
+    def __init__(self,name:str, color:str)-> None:
+        self.name = name
+        self.color = color
+
+        self.x = None
+        self.y = None
+
+        self.score = 1

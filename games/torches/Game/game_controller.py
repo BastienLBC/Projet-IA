@@ -1,6 +1,6 @@
 """
 Module qui gère les actions du joueur,
-et fait les liens entre les deux modèles game_view et game_model
+et fait les liens entre les deux modèles game_view et game_model.py
 """
 from Game.game_model.players import *
 from Game.game_model.game_model import *
@@ -11,7 +11,7 @@ class GameControler:
     Controleur des alumettes, gère la logique 
 
     Attributes : 
-        model : instance de game_model
+        model : instance de game_model.py
         view : instance de game_view
     """
     def __init__(self, players1, players2, nb_torchs:int=15):
@@ -19,7 +19,7 @@ class GameControler:
         Initialise le controleur
         
         Args:
-            players (list): liste des joueurs
+            players.py (list): liste des joueurs
             nb_matchs (int): nombres d'alumettes
         Raise: 
             ValueError : si il n'y a pas au moins un joueur humain
