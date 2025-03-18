@@ -38,6 +38,13 @@ class GameView(ctk.CTk):
         self.canvas.delete("all")
         board = self.controller.model.matrix
         cell_size = 50
+        board_width = len(board) * cell_size  # Largeur totale du plateau
+        board_height = len(board[0]) * cell_size  # Hauteur totale du plateau
+
+        # Calcul des offsets pour centrer le plateau dans le canvas
+        offset_x = (725 - board_width) // 2  # 725 = largeur du canvas
+        offset_y = (325 - board_height) // 2  # 325 = hauteur du canvas
+
         for x in range(len(board)):
             for y in range(len(board[x])):
                 if board[x][y] is None:
@@ -45,28 +52,28 @@ class GameView(ctk.CTk):
                 else:
                     color = board[x][y].color
                 self.canvas.create_rectangle(
-                    x * cell_size, y * cell_size,
-                    (x + 1) * cell_size, (y + 1) * cell_size,
+                    offset_x + x * cell_size, offset_y + y * cell_size,
+                    offset_x + (x + 1) * cell_size, offset_y + (y + 1) * cell_size,
                     fill=color, outline="black"
                 )
-        self.draw_players()
+        self.draw_players(offset_x, offset_y)
 
-    def draw_players(self) -> None:
+    def draw_players(self, offset_x, offset_y) -> None:
         """
-        Dessine les joueurs sur le plateau
+        Dessine les joueurs sur le plateau avec un décalage pour le centrage
         """
         cell_size = 50
         player1 = self.controller.model.players1
         player2 = self.controller.model.players2
 
         self.canvas.create_oval(
-            player1.x * cell_size, player1.y * cell_size,
-            (player1.x + 1) * cell_size, (player1.y + 1) * cell_size,
+            offset_x + player1.x * cell_size, offset_y + player1.y * cell_size,
+            offset_x + (player1.x + 1) * cell_size, offset_y + (player1.y + 1) * cell_size,
             fill=player1.color
         )
         self.canvas.create_oval(
-            player2.x * cell_size, player2.y * cell_size,
-            (player2.x + 1) * cell_size, (player2.y + 1) * cell_size,
+            offset_x + player2.x * cell_size, offset_y + player2.y * cell_size,
+            offset_x + (player2.x + 1) * cell_size, offset_y + (player2.y + 1) * cell_size,
             fill=player2.color
         )
 
