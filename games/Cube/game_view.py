@@ -6,9 +6,9 @@ ctk.set_default_color_theme("green")
 class GameView(ctk.CTk):
     def __init__(self, controller) -> None:
         """
-        initialisation de gameView
+        Initialisation de GameView
         Args:
-            controller:
+            controller: Instance du contrôleur du jeu
         """
         super().__init__()
         self.controller = controller
@@ -32,32 +32,28 @@ class GameView(ctk.CTk):
 
         self.update_view()
 
+        self.reset_button = ctk.CTkButton(self, text="Recommencer", command=self.controller.reset_game)
+        self.reset_button.pack_forget()
+
     def on_key_press(self, event):
         """
-        Récupère la touche pressée au clavier,
-        et appelle la fonction de déplacement du contrôleur
+        Récupère la touche pressée au clavier et appelle la fonction de déplacement du contrôleur
         """
-        # event.keysym est la touche, exemple "z", "y", "Right" etc.
-        # On convertit en majuscule pour comparer à Z, S, Q, D
         touche = event.keysym.upper()
-        # On demande au contrôleur de gérer ce mouvement
         self.controller.handle_player_moove(touche)
-
 
     def draw_board(self) -> None:
         """
-        Créateur du tableau en colorant les cases du plateau où les joueurs sont passés
-        (dans la couleur du joueur)
+        Dessine le plateau en colorant les cases selon les joueurs
         """
         self.canvas.delete("all")
         board = self.controller.model.matrix
         cell_size = 50
-        board_width = len(board) * cell_size  # Largeur totale du plateau
-        board_height = len(board[0]) * cell_size  # Hauteur totale du plateau
+        board_width = len(board) * cell_size
+        board_height = len(board[0]) * cell_size
 
-        # Calcul des offsets pour centrer le plateau dans le canvas
-        offset_x = (725 - board_width) // 2  # 725 = largeur du canvas
-        offset_y = (325 - board_height) // 2  # 325 = hauteur du canvas
+        offset_x = (725 - board_width) // 2
+        offset_y = (325 - board_height) // 2
 
         for x in range(len(board)):
             for y in range(len(board[x])):
@@ -96,7 +92,15 @@ class GameView(ctk.CTk):
         self.message_label.configure(text=self.controller.get_status_message())
 
     def reset(self):
+        """
+        Réinitialise la vue
+        """
         self.update_view()
+        self.reset_button.pack_forget()
 
     def end_game(self):
+        """
+        Affiche le message de fin de jeu et recommencer
+        """
         self.message_label.configure(text="Fin du jeu !")
+        self.reset_button.pack(pady=10)

@@ -28,19 +28,22 @@ class GameModel:
         """
         Réinitialise le jeu
         """
+        self.matrix = [[{"color": "white"} for i in range(self.board)] for j in range(self.board)]
+
         self.shuffle()
+
         self.current_player.y = 0
         self.current_player.x = 0
-        self.matrix[self.current_player.x][self.current_player.y]["color"] = self.current_player.color
+        self.matrix[0][0]["color"] = self.current_player.color
 
         if self.current_player == self.players1:
-            self.players2.y = self.board - 1
-            self.players2.x = self.board - 1
-            self.matrix[self.players2.x][self.players2.y]["color"] = self.players2.color
+            other_player = self.players2
         else:
-            self.players1.y = self.board - 1
-            self.players1.x = self.board - 1
-            self.matrix[self.players1.x][self.players1.y]["color"] = self.players1.color
+            other_player = self.players1
+        other_player.y = self.board - 1
+        other_player.x = self.board - 1
+        self.matrix[self.board - 1][self.board - 1]["color"] = other_player.color
+
         self.players1.score = 1
         self.players2.score = 1
 
