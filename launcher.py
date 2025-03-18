@@ -3,7 +3,7 @@ import os
 
 def launch_game(game):
     if game == "cube":
-        os.system("python games/Cube/main.py")
+        os.system("python games/Cube/test.py")
     elif game == "alumettes":
         os.system("python games/torches/Alumettes.py")
 
