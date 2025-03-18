@@ -5,7 +5,7 @@ from game_Model.players import *
 
 def test_display():
     # Créez deux joueurs
-    player1 = HumanPlayer(name="Player 1", color="red")
+    player1 = Player(name="Player 1", color="red")
     player2 = HumanPlayer(name="Player 2", color="green")
 
     # Initialisez le contrôleur avec les joueurs

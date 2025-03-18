@@ -89,7 +89,7 @@ class GameModel:
         self.current_player.x += 1
         if self.get_case_color(self.current_player.x, self.current_player.y) == 'white':
             self.current_player.score += 1
-            self.matrix[self.current_player.x][self.current_player.y]["color"] = self.current_player
+            self.matrix[self.current_player.x][self.current_player.y]["color"] = self.current_player.color
 
     def can_move(self, x, y):
         return (0 <= x < self.board and 0 <= y < self.board and self.get_case_color(x, y) == 'white' or self.get_case_color(x, y) == self.current_player.color)
