@@ -49,7 +49,7 @@ class GameController:
         returns :
             -bool: true : le joueur est un bot
         """
-        return isinstance(self.model.get_current_player(), Random)
+        return isinstance(self.model.get_current_player(), random)
 
     def get_status_message(self)-> str:
         """
