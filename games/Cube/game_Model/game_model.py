@@ -13,7 +13,7 @@ class GameModel:
         self.players2.game = self
 
         self.board = 5
-        self.matrix = [[None for i in range(self.board)] for j in range(self.board)]
+        self.matrix = [[{"color": "white"} for i in range(self.board)] for j in range(self.board)]
         
 
         self.reset()
@@ -69,19 +69,30 @@ class GameModel:
 
     def move_up(self):
         self.current_player.y -= 1
+        if self.get_case_color(self.current_player.x, self.current_player.y) == 'white':
+            self.current_player.score += 1
+            self.matrix[self.current_player.x][self.current_player.y]["color"] = self.current_player.color
 
     def move_down(self):
         self.current_player.y += 1
+        if self.get_case_color(self.current_player.x, self.current_player.y) == 'white':
+            self.current_player.score += 1
+            self.matrix[self.current_player.x][self.current_player.y]["color"] = self.current_player.color
 
     def move_left(self):
         self.current_player.x -= 1
+        if self.get_case_color(self.current_player.x, self.current_player.y) == 'white':
+            self.current_player.score += 1     
+            self.matrix[self.current_player.x][self.current_player.y]["color"] = self.current_player.color
 
     def move_right(self):
         self.current_player.x += 1
+        if self.get_case_color(self.current_player.x, self.current_player.y) == 'white':
+            self.current_player.score += 1
+            self.matrix[self.current_player.x][self.current_player.y]["color"] = self.current_player
 
     def can_move(self, x, y):
-        return (0 <= x < self.board and 0 <= y < self.board )
-                #and self.check_color_case(x, y))
+        return (0 <= x < self.board and 0 <= y < self.board and self.get_case_color(x, y) == 'white' or self.get_case_color(x, y) == self.current_player.color)
 
     def check_color_case(self, x, y):
         """
@@ -96,11 +107,9 @@ class GameModel:
 
     def get_case_color(self, x, y):
         """
-        Retourne la couleur de la case"
+        Retourne la couleur de la case
         """
-        if self.matrix[x][y] is None:
-            return None
-        return self.matrix[x][y].color
+        return self.matrix[x][y]["color"]
 
     def get_winner(self)->str:
         """

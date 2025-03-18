@@ -61,10 +61,7 @@ class GameView(ctk.CTk):
 
         for x in range(len(board)):
             for y in range(len(board[x])):
-                if board[x][y] is None:
-                    color = "white"
-                else:
-                    color = board[x][y].color
+                color = board[x][y]["color"]
                 self.canvas.create_rectangle(
                     offset_x + x * cell_size, offset_y + y * cell_size,
                     offset_x + (x + 1) * cell_size, offset_y + (y + 1) * cell_size,
