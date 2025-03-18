@@ -2,9 +2,9 @@
 Module qui gère les actions du joueur,
 et fait les liens entre les deux modèles game_view et game_model.py
 """
-from game_Model.game_model import *
-from game_Model.players import *
-from game_view import *
+from Game.game_Model.game_model import *
+from Game.game_Model.players import *
+from Game.game_view import *
 
 import random
 

@@ -1,11 +1,8 @@
-from game_Model.game_model import *
-from game_controller import *
-from game_view import *
-from game_Model.players import *
+from Game.game_controller import *
 
 def test_display():
     # Créez deux joueurs
-    player1 = HumanPlayer(name="Player 1", color="red")
+    player1 = Player(name="Player 1", color="red")
     player2 = HumanPlayer(name="Player 2", color="green")
 
     # Initialisez le contrôleur avec les joueurs
