@@ -57,40 +57,28 @@ class GameModel:
         return self.current_player
     
     def moove(self, event):
-        if event.keysym == 'UP' or event.keysym == 'Z':
+        if event == 'Up' or event == 'Z':
             self.move_up()
-        elif event.keysym == 'DOWN' or event.keysym == 'S':
+        elif event == 'Down' or event == 'S':
             self.move_down()
-        elif event.keysym == 'LEFT' or event.keysym == 'Q':
+        elif event == 'Left' or event == 'Q':
             self.move_left()
-        elif event.keysym == 'RIGHT' or event.keysym == 'D':
+        elif event == 'Right' or event == 'D':
             self.move_right()
         else:
             self.moove(event)
 
     def move_up(self):
-        if self.can_move(self.current_player.x, self.current_player.y + 1):
-            self.current_player.y += 1
-        else :
-            self.moove()
+        self.current_player.y += 1
 
     def move_down(self):
-        if self.can_move(self.current_player.x, self.current_player.y - 1):
-            self.current_player.y -= 1
-        else :
-            self.moove()
+        self.current_player.y -= 1
 
     def move_left(self):
-        if self.can_move(self.current_player.x - 1, self.current_player.y):
-            self.current_player.x -= 1
-        else :
-            self.moove()
+        self.current_player.x -= 1
 
     def move_right(self):
-        if self.can_move(self.current_player.x + 1, self.current_player.y):
-            self.current_player.x += 1
-        else :
-            self.moove()
+        self.current_player.x += 1
 
     def can_move(self, x, y):
         return (0 <= x < self.board and 0 <= y < self.board and self.check_color_case(x, y))
