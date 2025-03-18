@@ -1,7 +1,7 @@
-from games.Cube.game_Model.game_model import GameModel
-from games.Cube.game_controller import GameController
-from games.Cube.game_view import GameView
-from games.Cube.game_Model.players import Player
+from game_Model.game_model import *
+from game_controller import *
+from game_view import *
+from game_Model.players import *
 
 def test_display():
     # Créez deux joueurs
