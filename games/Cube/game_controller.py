@@ -49,7 +49,7 @@ class GameController:
         returns :
             -bool: true : le joueur est un bot
         """
-        return isinstance(self.model.get_current_player(), random)
+        return isinstance(self.model.get_current_player(), Random)
 
     def get_status_message(self)-> str:
         """
@@ -60,7 +60,7 @@ class GameController:
                 -"{joueur} a gagné", si la partie est terminée
                 -"Au tour du grand {joueur}" sinon
         """
-        if self.model.is_game_over():
+        if self.model.is_finished():
             return f"{self.model.get_winner().name} a gagné !"
         return f"Au tour du grand : {self.model.get_current_player().name}"
 
