@@ -28,5 +28,5 @@ class HumanPlayer(Player):
         """
         Retourne un bind reçu par l'utilisateur
         """
-        return self.event
+        return self.Event
         
