@@ -1,6 +1,6 @@
 
 import random
-from tkinter import event
+from tkinter import *
 
 class Player:
 
@@ -14,7 +14,7 @@ class Player:
         self.score = 1
 
         @staticmethod
-        def play() -> event:
+        def play():
             """
             Retourne un bind random
             """
@@ -24,7 +24,7 @@ class HumanPlayer(Player):
     def __init__(self, name:str, color:str)-> None:
         super().__init__(name, color)
 
-    def play(self)->event:
+    def play(self):
         """
         Retourne un bind reçu par l'utilisateur
         """
