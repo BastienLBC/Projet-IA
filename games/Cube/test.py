@@ -1,7 +1,4 @@
-from game_Model.game_model import *
-from game_controller import *
-from game_view import *
-from game_Model.players import *
+from Game.game_controller import *
 
 def test_display():
     # Créez deux joueurs
