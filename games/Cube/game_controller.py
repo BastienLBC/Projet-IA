@@ -6,6 +6,8 @@ from game_Model.game_model import *
 from game_Model.players import *
 from game_view import *
 
+import random
+
 class GameController:
     """
     Controleur de Cubee, gère la logique
@@ -47,7 +49,7 @@ class GameController:
         returns :
             -bool: true : le joueur est un bot
         """
-        return isinstance(self.model.get_current_player(), Random)
+        return isinstance(self.model.get_current_player(), random)
 
     def get_status_message(self)-> str:
         """
