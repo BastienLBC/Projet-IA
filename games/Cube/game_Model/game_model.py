@@ -65,22 +65,32 @@ class GameModel:
             self.moove_left()
         elif event.keysym == 'RIGHT' or event.keysym == 'D':
             self.moove_right()
+        else:
+            self.moove(event)
 
     def move_up(self):
         if self.can_move(self.current_player.x, self.current_player.y + 1):
             self.current_player.y += 1
+        else :
+            self.moove()
 
     def move_down(self):
         if self.can_move(self.current_player.x, self.current_player.y - 1):
             self.current_player.y -= 1
+        else :
+            self.moove()
 
     def move_left(self):
         if self.can_move(self.current_player.x - 1, self.current_player.y):
             self.current_player.x -= 1
+        else :
+            self.moove()
 
     def move_right(self):
         if self.can_move(self.current_player.x + 1, self.current_player.y):
             self.current_player.x += 1
+        else :
+            self.moove()
 
     def can_move(self, x, y):
         return (0 <= x < self.board and 0 <= y < self.board and self.check_color_case(x, y))
