@@ -31,13 +31,16 @@ class GameModel:
         self.shuffle()
         self.current_player.y = 0
         self.current_player.x = 0
+        self.matrix[self.current_player.x][self.current_player.y]["color"] = self.current_player.color
 
         if self.current_player == self.players1:
             self.players2.y = self.board - 1
             self.players2.x = self.board - 1
+            self.matrix[self.players2.x][self.players2.y]["color"] = self.players2.color
         else:
             self.players1.y = self.board - 1
             self.players1.x = self.board - 1
+            self.matrix[self.players1.x][self.players1.y]["color"] = self.players1.color
         self.players1.score = 1
         self.players2.score = 1
 
@@ -93,17 +96,6 @@ class GameModel:
 
     def can_move(self, x, y):
         return (0 <= x < self.board and 0 <= y < self.board and self.get_case_color(x, y) == 'white' or self.get_case_color(x, y) == self.current_player.color)
-
-    def check_color_case(self, x, y):
-        """
-        Vérifie si la case est de la couleur du joueur actuel ou blanche
-
-        Returns:
-            bool: True si la case est de la couleur du joueur actuel ou blanche, False sinon
-        """
-        current_color = self.current_player.color
-        case_color = self.get_case_color(x, y)  
-        return case_color == current_color or case_color == 'white'
 
     def get_case_color(self, x, y):
         """

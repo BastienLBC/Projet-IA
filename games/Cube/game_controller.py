@@ -101,7 +101,7 @@ class GameController:
         Fin du jeu, assigne le gagnant et le perdant
         """
         winner = self.model.get_winner()
-        winner.win()
         loser = self.model.get_loser()
-        loser.lose()
         self.view.end_game()
+
+    
