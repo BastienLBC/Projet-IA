@@ -106,7 +106,7 @@ class GameView(ctk.CTk):
         cell_size = 50
         for x in range(len(board)):
             for y in range(len(board[x])):
-                color = "white" if board[x][y] == "white" else board[x][y].color
+                color = "white" if self.martix[x][y] == "white" else self.matrix[x][y].color
                 self.canvas.create_rectangle(
                     x * cell_size, y * cell_size,
                     (x + 1) * cell_size, (y + 1) * cell_size,
