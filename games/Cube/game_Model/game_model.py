@@ -58,13 +58,13 @@ class GameModel:
     
     def moove(self, event):
         while True:
-            if (event == 'Up' or event == 'Z') and not self.can_move(self.current_player.x, self.current_player.y + 1):
+            if (event == 'Up' or event == 'Z') and self.can_move(self.current_player.x, self.current_player.y + 1):
                 self.move_up()
-            elif (event == 'Down' or event == 'S') and not self.can_move(self.current_player.x, self.current_player.y - 1):
+            elif (event == 'Down' or event == 'S') and self.can_move(self.current_player.x, self.current_player.y - 1):
                 self.move_down()
-            elif (event == 'Left' or event == 'Q') and not self.can_move(self.current_player.x - 1, self.current_player.y):
+            elif (event == 'Left' or event == 'Q') and self.can_move(self.current_player.x - 1, self.current_player.y):
                 self.move_left()
-            elif (event == 'Right' or event == 'D') and not self.can_move(self.current_player.x + 1, self.current_player.y):
+            elif (event == 'Right' or event == 'D') and self.can_move(self.current_player.x + 1, self.current_player.y):
                 self.move_right()
             else:
                 event = self.current_player.play()
@@ -76,11 +76,9 @@ class GameModel:
         self.current_player.y -= 1
 
     def move_left(self, player):
-        if self.can_move(player.x - 1, player.y):
             player.x -= 1
 
-    def move_right(self, player):
-        if self.can_move(player.x + 1, player.y):
+    def move_right(self, player):   
             player.x += 1
 
     def can_move(self, x, y):
