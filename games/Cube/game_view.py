@@ -102,7 +102,7 @@ class GameView(ctk.CTk):
         (dans la couleur du joueur (Un des joueurs a le vert et l'autre gris clair))
         """
         self.canvas.delete("all")
-        board = self.controller.model.board
+        board = self.controller.model.create_board()
         cell_size = 50
         for x in range(len(board)):
             for y in range(len(board[x])):

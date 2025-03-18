@@ -97,7 +97,6 @@ class GameModel:
         for x in range(board_limit):
             for y in range(board_limit):
                 self.board[x][y] = 'white'
-
     
     def get_winner(self)->str:
         """
