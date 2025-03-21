@@ -6,7 +6,7 @@ def test_check_enclosure_empty_board():
     game.matrix = [[0,0,0],
                   [0,0,0],
                   [0,0,2]]
-    game.player_turn = 1
+    game.switch_player = 1
     game.check_enclosure()
     assert game.matrix == [[0,0,0],
                          [0,0,0],
@@ -17,7 +17,7 @@ def test_check_enclosure_simple_case():
     game.matrix = [[1,1,0],
                   [1,1,1],
                   [1,2,2]]
-    game.player_turn = 1
+    game.switch_player = 1
     game.check_enclosure()
     assert game.matrix == [[1,1,1],
                          [1,1,1],
@@ -28,7 +28,7 @@ def test_check_enclosure_no_enclosed_area():
     game.matrix = [[1,1,1],
                   [1,0,0],
                   [1,1,2]]
-    game.player_turn = 1
+    game.switch_player = 1
     game.check_enclosure()
     assert game.matrix == [[1,1,1],
                          [1,0,0],
@@ -40,7 +40,7 @@ def test_check_enclosure_multiple_spaces():
                   [1,0,0,1],
                   [1,0,1,1],
                   [1,1,2,2]]
-    game.player_turn = 1
+    game.switch_player = 1
     game.check_enclosure()
     assert game.matrix == [[1,1,1,1],
                          [1,1,1,1],
@@ -53,7 +53,7 @@ def test_check_enclosure_multiple_enclosure():
                   [1,1,0,1],
                   [0,1,1,2],
                   [1,1,2,2]]
-    game.player_turn = 1
+    game.switch_player = 1
     game.check_enclosure()
     assert game.matrix == [[1,1,1,1],
                          [1,1,1,1],
@@ -95,6 +95,6 @@ tests = [
 def test_enclosure(board, turn, expected):
 		game = GameModel("P1", "P2", size=len(board))
 		game.board = board
-		game.player_turn = turn
+		game.switch_player = turn
 		game.check_enclosure()
 		assert game.board == expected, f"{board} =({turn})=> {game.board}. But expected : {expected} "
