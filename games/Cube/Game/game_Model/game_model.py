@@ -2,17 +2,18 @@ import random
 
 class GameModel:
 
-    def __init__(self, players1, players2, display: bool=True, board: int = 5) -> None:
+    def __init__(self, players1, players2,board, display: bool=True) -> None:
 
         self.players1 = players1
         self.players2 = players2
         self.display = display
         self.current_player = None
+        self.board = board
 
         self.players1.game = self
         self.players2.game = self
 
-        self.board = board
+    
         self.matrix = [[{"color": "white"} for i in range(self.board)] for j in range(self.board)]
         
 
