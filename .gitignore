@@ -6,3 +6,4 @@ games/torches/Game/.DS_Store
 .ropeproject/
 venv/
 .venv/
+test.py

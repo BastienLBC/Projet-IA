@@ -39,8 +39,16 @@ class GameView(ctk.CTk):
         """
         Récupère la touche pressée au clavier et appelle la fonction de déplacement du contrôleur
         """
-        touche = event.keysym.upper()
-        self.controller.handle_player_moove(touche)
+        bind = event.keysym.upper()
+        if bind == "Z":
+            bind = "UP"
+        elif bind == "S":
+            bind = "DOWN"
+        elif bind == "Q":
+            bind = "LEFT"
+        elif bind == "D":
+            bind = "RIGHT"
+        self.controller.handle_player_moove(bind)
 
     def draw_board(self) -> None:
         """
