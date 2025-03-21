@@ -164,5 +164,3 @@ class GameModel:
                 if self.can_move(x, y) and self.reachable[x][y]:
                     self.reachable[x][y] = True
                     self.queue.push((x, y))
-    
-    
