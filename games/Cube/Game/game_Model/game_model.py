@@ -152,3 +152,17 @@ class GameModel:
             self.moove(self.current_player.play())            
             self.switch_player()
 
+    def enclos(self,get_curent_player):
+        player = get_curent_player
+        self.reachable = [[False for i in range(self.board)] for j in range(self.board)]
+        self.queue = [player.x][player.y] 
+        
+        while self.queue: 
+            todo = self.queue.pop()
+
+            for x, y in [(todo[x] + 1, todo[y]), (todo[x] - 1, todo[y]), (todo[x], todo[y] + 1), (todo[x], todo[y] - 1)]:
+                if self.can_move(x, y) and self.reachable[x][y]:
+                    self.reachable[x][y] = True
+                    self.queue.push((x, y))
+    
+    
