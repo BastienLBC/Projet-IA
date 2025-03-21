@@ -63,7 +63,7 @@ class GameModel:
         return self.current_player
 
     def moove(self, bind):
-        if (bind == 'Up' or bind == 'Z' or bind == 'z') and self.can_move(self.current_player.x, self.current_player.y - 1):
+        if (bind == 'UP' or bind == 'Z' or bind == 'z') and self.can_move(self.current_player.x, self.current_player.y - 1):
             self.move_up()
         elif (bind == 'Down' or bind == 'S' or bind == 's') and self.can_move(self.current_player.x, self.current_player.y + 1):
             self.move_down()
