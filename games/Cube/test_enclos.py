@@ -1,8 +1,9 @@
 import pytest
 from Game.game_Model.game_model import *
+from Game.game_Model.players import *
 
 def test_check_enclosure_empty_board():
-    game = GameModel("P1", "P2", size=3)
+    game = GameModel("P1", "P2", board=3)
     game.matrix = [
         [{"color": "white"}, {"color": "white"}, {"color": "white"}],
         [{"color": "white"}, {"color": "white"}, {"color": "white"}],
@@ -17,7 +18,7 @@ def test_check_enclosure_empty_board():
     ]
 
 def test_check_enclosure_simple_case():
-    game = GameModel("P1", "P2", size=3)
+    game = GameModel("P1", "P2", board=3)
     game.matrix = [
         [{"color": "red"}, {"color": "red"}, {"color": "white"}],
         [{"color": "red"}, {"color": "red"}, {"color": "red"}],
@@ -32,7 +33,7 @@ def test_check_enclosure_simple_case():
     ]
 
 def test_check_enclosure_no_enclosed_area():
-    game = GameModel("P1", "P2", size=3)
+    game = GameModel("P1", "P2", board=3)
     game.matrix = [
         [{"color": "red"}, {"color": "red"}, {"color": "red"}],
         [{"color": "red"}, {"color": "white"}, {"color": "white"}],
@@ -47,7 +48,7 @@ def test_check_enclosure_no_enclosed_area():
     ]
 
 def test_check_enclosure_multiple_spaces():
-    game = GameModel("P1", "P2", size=4)
+    game = GameModel("P1", "P2", board=4)
     game.matrix = [
         [{"color": "red"}, {"color": "red"}, {"color": "red"}, {"color": "red"}],
         [{"color": "red"}, {"color": "white"}, {"color": "white"}, {"color": "red"}],
@@ -64,7 +65,7 @@ def test_check_enclosure_multiple_spaces():
     ]
 
 def test_check_enclosure_multiple_enclosure():
-    game = GameModel("P1", "P2", size=4)
+    game = GameModel("P1", "P2", board=4)
     game.board = [
         [{"color": "red"}, {"color": "red"}, {"color": "white"}, {"color": "white"}],
         [{"color": "red"}, {"color": "red"}, {"color": "white"}, {"color": "red"}],
@@ -148,8 +149,10 @@ tests = [
 
 @pytest.mark.parametrize("board,turn,expected", tests)
 def test_enclosure(board, turn, expected):
-		game = GameModel("P1", "P2", size=len(board))
-		game.board = board
-		game.switch_player = turn
-		game.check_enclosure()
-		assert game.board == expected, f"{board} =({turn})=> {game.board}. But expected : {expected} "
+    player1 = HumanPlayer(name="P1", color="red")  # Attribuer une couleur
+    player2 = HumanPlayer(name="P2", color="green") # Attribuer une couleur
+    game = GameModel(player1, player2, board=len(board))
+    game.board = board
+    game.switch_player = turn
+    game.check_enclosure()
+    assert game.board == expected, f"{board} =({turn})=> {game.board}. But expected : {expected} "
