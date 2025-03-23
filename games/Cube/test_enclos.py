@@ -3,7 +3,9 @@ from Game.game_Model.game_model import *
 from Game.game_Model.players import *
 
 def test_check_enclosure_empty_board():
-    game = GameModel("P1", "P2", board=3)
+    player1 = Player("P1", "red")  # Create a Player object
+    player2 = Player("P2", "green")  # Create a Player object
+    game = GameModel(player1, player2, board=3)
     game.matrix = [
         [{"color": "white"}, {"color": "white"}, {"color": "white"}],
         [{"color": "white"}, {"color": "white"}, {"color": "white"}],
@@ -18,7 +20,9 @@ def test_check_enclosure_empty_board():
     ]
 
 def test_check_enclosure_simple_case():
-    game = GameModel("P1", "P2", board=3)
+    player1 = Player("P1", "red")  # Create a Player object
+    player2 = Player("P2", "green")  # Create a Player object
+    game = GameModel(player1, player2, board=3)
     game.matrix = [
         [{"color": "red"}, {"color": "red"}, {"color": "white"}],
         [{"color": "red"}, {"color": "red"}, {"color": "red"}],
@@ -33,7 +37,9 @@ def test_check_enclosure_simple_case():
     ]
 
 def test_check_enclosure_no_enclosed_area():
-    game = GameModel("P1", "P2", board=3)
+    player1 = Player("P1", "red")  # Create a Player object
+    player2 = Player("P2", "green")  # Create a Player object
+    game = GameModel(player1, player2, board=3)
     game.matrix = [
         [{"color": "red"}, {"color": "red"}, {"color": "red"}],
         [{"color": "red"}, {"color": "white"}, {"color": "white"}],
@@ -48,7 +54,9 @@ def test_check_enclosure_no_enclosed_area():
     ]
 
 def test_check_enclosure_multiple_spaces():
-    game = GameModel("P1", "P2", board=4)
+    player1 = Player("P1", "red")  # Create a Player object
+    player2 = Player("P2", "green")  # Create a Player object
+    game = GameModel(player1, player2, board=4)
     game.matrix = [
         [{"color": "red"}, {"color": "red"}, {"color": "red"}, {"color": "red"}],
         [{"color": "red"}, {"color": "white"}, {"color": "white"}, {"color": "red"}],
@@ -65,7 +73,9 @@ def test_check_enclosure_multiple_spaces():
     ]
 
 def test_check_enclosure_multiple_enclosure():
-    game = GameModel("P1", "P2", board=4)
+    player1 = Player("P1", "red")  # Create a Player object
+    player2 = Player("P2", "green")  # Create a Player object
+    game = GameModel(player1, player2, board=4)
     game.matrix = [
         [{"color": "red"}, {"color": "red"}, {"color": "white"}, {"color": "white"}],
         [{"color": "red"}, {"color": "red"}, {"color": "white"}, {"color": "red"}],
@@ -168,12 +178,22 @@ tests = [
     ]
 
 
-@pytest.mark.parametrize("board,turn,expected", tests)
-def test_enclosure(board, turn, expected):
-    player1 = HumanPlayer(name="P1", color="red")  # Attribuer une couleur
-    player2 = HumanPlayer(name="P2", color="green") # Attribuer une couleur
-    game = GameModel(player1, player2, board=len(board))
-    game.board = board
-    game.switch_player = turn
+@pytest.mark.parametrize("board_matrix,turn,expected", tests)
+def test_enclosure(board_matrix, turn, expected):
+    player1 = HumanPlayer(name="P1", color="red")  
+    player2 = HumanPlayer(name="P2", color="green")  
+    game = GameModel(player1, player2, board=len(board_matrix))
+    game.matrix = board_matrix  # Set the board correctly
+    game.current_player = game.players1 if turn == 1 else game.players2
+
+    print("Before:")
+    for row in game.matrix:
+        print(row)
+
     game.check_enclosure()
-    assert game.matrix == expected, f"{board} =({turn})=> {game.board}. But expected : {expected} "
+
+    print("After:")
+    for row in game.matrix:
+        print(row)
+
+    assert game.matrix == expected, f"{board_matrix} =({turn})=> {game.matrix}. But expected : {expected}"

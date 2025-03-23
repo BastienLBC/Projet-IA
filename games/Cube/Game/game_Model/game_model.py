@@ -152,6 +152,7 @@ class GameModel:
             
             self.moove(self.current_player.play())            
             self.switch_player()
+            self.check_enclosure
 
     def check_enclosure(self):
         """
@@ -160,26 +161,23 @@ class GameModel:
         """
         player = self.current_player
         self.reachable = [[False for _ in range(self.board)] for _ in range(self.board)]
-        
+
         # File pour BFS
         queue = [(player.x, player.y)]
-        self.reachable[player.y][player.x] = True
+        self.reachable[player.x][player.y] = True
 
         while queue:
             x, y = queue.pop(0)  # BFS: on traite les éléments dans l'ordre FIFO
-
             for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
                 nx, ny = x + dx, y + dy
-
-                if 0 <= nx < self.board and 0 <= ny < self.board:
-                    if not self.reachable[ny][nx] and self.can_move(nx, ny):
-                        self.reachable[ny][nx] = True
+                if self.can_move(nx,ny) and not self.reachable[nx][ny]:
+                        self.reachable[nx][ny] = True
                         queue.append((nx, ny))
 
-        # Si une case blanche n'a pas été marquée comme atteignable, elle est enfermée
-        for y in range(self.board):
-            for x in range(self.board):
-                if self.matrix[y][x]["color"] == "white" and not self.reachable[y][x]:
-                    self.matrix[y][x]["color"] = player.color
+        # Marquer les zones enfermées
+        for x in range(self.board):
+            for y in range(self.board):
+                self.other_players = self.players1 if self.current_player == self.players2 else self.players2
+                if not self.reachable[x][y] and self.matrix[x][y]["color"] == "white":
+                    self.matrix[x][y]["color"] = self.other_players.color
                     player.score += 1
-

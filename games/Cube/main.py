@@ -6,7 +6,7 @@ def test_display():
     player2 = HumanPlayer(name="P2", color="green")
 
     # Initialisez le contrôleur avec les joueurs
-    controller = GameController(player1, player2)
+    controller = GameController(player1, player2,6)
 
     # Démarrez le jeu pour tester l'affichage
     controller.start()
