@@ -151,7 +151,7 @@ class GameModel:
         while not self.is_finished():
             
             self.moove(self.current_player.play())  
-            self.check_enclosure          
+            self.check_enclosure()          
             self.switch_player()
             
 
@@ -160,26 +160,34 @@ class GameModel:
         Vérifie si un joueur a enfermé des cases blanches.
         Convertit toutes les cases blanches inaccessibles en couleur du joueur actuel.
         """
+        print("\n=== Checking Enclosure ===") 
         player = self.current_player
-        self.other_players = self.players1 if self.current_player == self.players2 else self.players2
+        self.opponent = self.players1 if self.current_player == self.players2 else self.players2
         
         self.reachable = [[False for _ in range(self.board)] for _ in range(self.board)]
-
+        print("Starting BFS from:", (player.x, player.y))
         # File pour BFS
         queue = [(player.x, player.y)]
         self.reachable[player.x][player.y] = True
 
         while queue:
             x, y = queue.pop(0)  # BFS: on traite les éléments dans l'ordre FIFO
+            print(f"Visiting: ({x}, {y})")
             for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
                 nx, ny = x + dx, y + dy
                 if self.can_move(nx,ny) and not self.reachable[nx][ny]:
                         self.reachable[nx][ny] = True
                         queue.append((nx, ny))
+                        print(f"Marking reachable: ({nx}, {ny})")
+
+
+        print("\nReachable matrix:")
+        for row in self.reachable:
+            print(row)
 
         # Marquer les zones enfermées
         for x in range(self.board):
             for y in range(self.board):
                 if not self.reachable[x][y] and self.matrix[x][y]["color"] == "white":
-                    self.matrix[x][y]["color"] = self.other_players.color
-                    player.score += 1
+                    self.matrix[x][y]["color"] = self.opponent.color
+                   
