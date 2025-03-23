@@ -150,9 +150,10 @@ class GameModel:
         """
         while not self.is_finished():
             
-            self.moove(self.current_player.play())            
+            self.moove(self.current_player.play())  
+            self.check_enclosure          
             self.switch_player()
-            self.check_enclosure
+            
 
     def check_enclosure(self):
         """
@@ -160,6 +161,8 @@ class GameModel:
         Convertit toutes les cases blanches inaccessibles en couleur du joueur actuel.
         """
         player = self.current_player
+        self.other_players = self.players1 if self.current_player == self.players2 else self.players2
+        
         self.reachable = [[False for _ in range(self.board)] for _ in range(self.board)]
 
         # File pour BFS
@@ -177,7 +180,6 @@ class GameModel:
         # Marquer les zones enfermées
         for x in range(self.board):
             for y in range(self.board):
-                self.other_players = self.players1 if self.current_player == self.players2 else self.players2
                 if not self.reachable[x][y] and self.matrix[x][y]["color"] == "white":
                     self.matrix[x][y]["color"] = self.other_players.color
                     player.score += 1
