@@ -162,21 +162,26 @@ class GameModel:
         """
         player = self.current_player
         opponent = self.players1 if self.current_player == self.players2 else self.players2
-        
+
+        # Initialize reachable matrix
         reachable = [[False for _ in range(self.board)] for _ in range(self.board)]
-        queue = [(player.x, player.y)]
-        reachable[player.x][player.y] = True
+
+        # Start BFS from the opponent's position
+        queue = [(opponent.x, opponent.y)]
+        reachable[opponent.x][opponent.y] = True
 
         while queue:
-            x, y = queue.pop(0) 
+            x, y = queue.pop(0)
             for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
                 nx, ny = x + dx, y + dy
-                if (0 <= nx < self.board and 
-                   0 <= ny < self.board and 
-                   self.matrix[nx][ny]["color"] != opponent.color):
-                        reachable[nx][ny] = True
-                        queue.append((nx, ny))
+                if (0 <= nx < self.board and
+                    0 <= ny < self.board and
+                    not reachable[nx][ny] and
+                    self.matrix[nx][ny]["color"] != player.color):
+                    reachable[nx][ny] = True
+                    queue.append((nx, ny))
 
+        # Convert enclosed white cells to the opponent's color
         for x in range(self.board):
             for y in range(self.board):
                 if not reachable[x][y] and self.matrix[x][y]["color"] == "white":
