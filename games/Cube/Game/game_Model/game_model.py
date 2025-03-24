@@ -120,10 +120,7 @@ class GameModel:
         Returns:
             Player: joueur gagnant
         """
-        if self.players1.score > self.players2.score:
-            return self.players1
-        else:
-            return self.players2
+        return self.players1 if self.players1.score > self.players2.score else self.players2
         
     def get_loser(self)->str:
         """
@@ -132,10 +129,7 @@ class GameModel:
         Returns:
             Player: joueur perdant
         """
-        if self.players1.score < self.players2.score:
-            return self.players2
-        else:
-            return self.players1
+        return self.players2 if self.players1.score > self.players2.score else self.players1
     
     def is_finished(self)->bool:
         """
@@ -154,6 +148,11 @@ class GameModel:
             
             self.moove(self.current_player.play())          
             self.switch_player()
+            
+        winner = self.get_winner()
+        loser = self.get_loser()
+        winner.win_game()
+        loser.lose_game()
             
             
 
