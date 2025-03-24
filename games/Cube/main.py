@@ -3,8 +3,6 @@ from Game.game_controller import *
 def test_display():
     # Créez deux joueurs
 
-  
-
     player1 = Player(name="P1", color="red")
     player2 = HumanPlayer(name="P2", color="green")
 
