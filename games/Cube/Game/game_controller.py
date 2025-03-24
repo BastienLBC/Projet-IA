@@ -16,11 +16,11 @@ class GameController:
         model : instance de game_model.py
         view : instance de game_view
     """
-    def __init__(self, player1, player2)->None:
+    def __init__(self, player1, player2,board)->None:
         """
         Initialise le constructeur
         """
-        self.model = GameModel(player1, player2)
+        self.model = GameModel(player1, player2,board)
         self.view = GameView(self)
 
         if self.is_random_player():

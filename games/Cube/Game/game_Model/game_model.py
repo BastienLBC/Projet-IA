@@ -1,18 +1,20 @@
 import random
+import queue
 
 class GameModel:
 
-    def __init__(self, players1, players2, display: bool=True)-> None:
+    def __init__(self, players1, players2,board, display: bool=True) -> None:
 
         self.players1 = players1
         self.players2 = players2
         self.display = display
         self.current_player = None
+        self.board = board
 
         self.players1.game = self
         self.players2.game = self
 
-        self.board = 5
+    
         self.matrix = [[{"color": "white"} for i in range(self.board)] for j in range(self.board)]
         
 
@@ -71,6 +73,7 @@ class GameModel:
             self.move_left()
         elif (bind == 'RIGHT') and self.can_move(self.current_player.x + 1, self.current_player.y):
             self.move_right()
+        self.check_enclosure()
 
     def move_up(self):
         self.current_player.y -= 1
@@ -149,6 +152,35 @@ class GameModel:
         """
         while not self.is_finished():
             
-            self.moove(self.current_player.play())            
+            self.moove(self.current_player.play())          
             self.switch_player()
+            
+            
+
+    def check_enclosure(self):
+        """
+        Vérifie si un joueur a enfermé des cases blanches.
+        Convertit toutes les cases blanches inaccessibles en couleur du joueur actuel.
+        """
+        player = self.current_player
+        opponent = self.players1 if self.current_player == self.players2 else self.players2
+
+        reachable = [[False for _ in range(self.board)] for _ in range(self.board)]
+        queue = [(player.x, player.y)]
+
+        while queue:
+            x, y = queue.pop(0)  
+            for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+                nx, ny = x + dx, y + dy
+                if (0 <= nx < self.board and 0 <= ny < self.board and
+                    not reachable[nx][ny] and 
+                    (self.matrix[nx][ny]["color"] == "white" or self.matrix[nx][ny]["color"] == player.color)):
+                    reachable[nx][ny] = True
+                    queue.append((nx, ny))  
+
+        for x in range(self.board):
+            for y in range(self.board):
+                if self.matrix[x][y]["color"] == "white" and not reachable[x][y]:
+                    self.matrix[x][y]["color"] = opponent.color  
+                    opponent.score += 1  
 
