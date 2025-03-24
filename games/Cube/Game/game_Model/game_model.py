@@ -150,9 +150,9 @@ class GameModel:
         """
         while not self.is_finished():
             
-            self.moove(self.current_player.play())  
-            self.check_enclosure()          
+            self.moove(self.current_player.play())            
             self.switch_player()
+            self.check_enclosure()
             
 
     def check_enclosure(self):
@@ -160,34 +160,25 @@ class GameModel:
         Vérifie si un joueur a enfermé des cases blanches.
         Convertit toutes les cases blanches inaccessibles en couleur du joueur actuel.
         """
-        print("\n=== Checking Enclosure ===") 
         player = self.current_player
-        self.opponent = self.players1 if self.current_player == self.players2 else self.players2
+        opponent = self.players1 if self.current_player == self.players2 else self.players2
         
-        self.reachable = [[False for _ in range(self.board)] for _ in range(self.board)]
-        print("Starting BFS from:", (player.x, player.y))
-        # File pour BFS
+        reachable = [[False for _ in range(self.board)] for _ in range(self.board)]
         queue = [(player.x, player.y)]
-        self.reachable[player.x][player.y] = True
+        reachable[player.x][player.y] = True
 
         while queue:
-            x, y = queue.pop(0)  # BFS: on traite les éléments dans l'ordre FIFO
-            print(f"Visiting: ({x}, {y})")
+            x, y = queue.pop(0) 
             for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
                 nx, ny = x + dx, y + dy
-                if self.can_move(nx,ny) and not self.reachable[nx][ny]:
-                        self.reachable[nx][ny] = True
+                if (0 <= nx < self.board and 
+                   0 <= ny < self.board and 
+                   self.matrix[nx][ny]["color"] != opponent.color):
+                        reachable[nx][ny] = True
                         queue.append((nx, ny))
-                        print(f"Marking reachable: ({nx}, {ny})")
 
-
-        print("\nReachable matrix:")
-        for row in self.reachable:
-            print(row)
-
-        # Marquer les zones enfermées
         for x in range(self.board):
             for y in range(self.board):
-                if not self.reachable[x][y] and self.matrix[x][y]["color"] == "white":
-                    self.matrix[x][y]["color"] = self.opponent.color
-                   
+                if not reachable[x][y] and self.matrix[x][y]["color"] == "white":
+                    self.matrix[x][y]["color"] = opponent.color
+                    opponent.score += 1
