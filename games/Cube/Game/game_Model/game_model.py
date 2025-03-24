@@ -65,13 +65,13 @@ class GameModel:
         return self.current_player
 
     def moove(self, bind):
-        if (bind == 'Up' or bind == 'Z' or bind == 'z') and self.can_move(self.current_player.x, self.current_player.y - 1):
+        if (bind == 'UP') and self.can_move(self.current_player.x, self.current_player.y - 1):
             self.move_up()
-        elif (bind == 'Down' or bind == 'S' or bind == 's') and self.can_move(self.current_player.x, self.current_player.y + 1):
+        elif (bind == 'DOWN') and self.can_move(self.current_player.x, self.current_player.y + 1):
             self.move_down()
-        elif (bind == 'Left' or bind == 'Q' or bind == 'q') and self.can_move(self.current_player.x - 1, self.current_player.y):
+        elif (bind == 'LEFT') and self.can_move(self.current_player.x - 1, self.current_player.y):
             self.move_left()
-        elif (bind == 'Right' or bind == 'D' or bind == 'd') and self.can_move(self.current_player.x + 1, self.current_player.y):
+        elif (bind == 'RIGHT') and self.can_move(self.current_player.x + 1, self.current_player.y):
             self.move_right()
         self.check_enclosure()
 

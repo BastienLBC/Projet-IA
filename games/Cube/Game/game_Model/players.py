@@ -18,7 +18,7 @@ class Player:
         """
         Retourne un bind random
         """
-        return random.choice(['Z', 'S', 'Q', 'D'])
+        return random.choice(['UP', 'DOWN', 'LEFT', 'RIGHT'])
         
 class HumanPlayer(Player):
     def __init__(self, name:str, color:str)-> None:
