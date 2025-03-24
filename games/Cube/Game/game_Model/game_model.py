@@ -73,6 +73,7 @@ class GameModel:
             self.move_left()
         elif (bind == 'Right' or bind == 'D' or bind == 'd') and self.can_move(self.current_player.x + 1, self.current_player.y):
             self.move_right()
+        self.check_enclosure()
 
     def move_up(self):
         self.current_player.y -= 1
@@ -151,9 +152,9 @@ class GameModel:
         """
         while not self.is_finished():
             
-            self.moove(self.current_player.play())            
+            self.moove(self.current_player.play())          
             self.switch_player()
-            self.check_enclosure()
+            
             
 
     def check_enclosure(self):
@@ -164,33 +165,22 @@ class GameModel:
         player = self.current_player
         opponent = self.players1 if self.current_player == self.players2 else self.players2
 
-        # Initialisation de la matrice des cases atteignables
         reachable = [[False for _ in range(self.board)] for _ in range(self.board)]
-
-        # File d'attente (FIFO) avec une liste simple
         queue = [(player.x, player.y)]
-        reachable[player.x][player.y] = True  # La position du joueur est atteignable
 
-        # BFS avec pop(0) pour simuler une file d'attente
         while queue:
-            x, y = queue.pop(0)  # Récupérer et supprimer le premier élément (FIFO)
-
-            # Explorer les 4 directions (haut, bas, gauche, droite)
+            x, y = queue.pop(0)  
             for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
                 nx, ny = x + dx, y + dy
-
-                # Vérifier que la case est dans les limites et non encore visitée
                 if (0 <= nx < self.board and 0 <= ny < self.board and
                     not reachable[nx][ny] and 
                     (self.matrix[nx][ny]["color"] == "white" or self.matrix[nx][ny]["color"] == player.color)):
-                
-                    reachable[nx][ny] = True  # Marquer comme atteignable
-                    queue.append((nx, ny))  # Ajouter à la liste (FIFO)
+                    reachable[nx][ny] = True
+                    queue.append((nx, ny))  
 
-        # Vérifier quelles cases blanches sont enfermées
         for x in range(self.board):
             for y in range(self.board):
                 if self.matrix[x][y]["color"] == "white" and not reachable[x][y]:
-                    self.matrix[x][y]["color"] = opponent.color  # Remplir avec la couleur adverse
-                    opponent.score += 1  # Augmenter le score de l'adversaire
+                    self.matrix[x][y]["color"] = opponent.color  
+                    opponent.score += 1  
 
