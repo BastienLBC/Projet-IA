@@ -1,6 +1,6 @@
 import pytest
-from Game.game_model.game_model import *
-from Game.game_model.players import *
+from Game.game_models.game_model import *
+from Game.game_models.players import *
 
 def test_check_enclosure_empty_board():
     player1 = Player("P1", "red")  # Create a Player object
