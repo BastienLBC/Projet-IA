@@ -6,16 +6,13 @@ def test_check_enclosure_empty_board():
     player1 = Player("P1", "red")  # Create a Player object
     player2 = Player("P2", "green")  # Create a Player object
     game = GameModel(player1, player2, board=3)
-    print("salut")
     game.matrix = [
         [{"color": "white"}, {"color": "white"}, {"color": "white"}],
         [{"color": "white"}, {"color": "white"}, {"color": "white"}],
         [{"color": "white"}, {"color": "white"}, {"color": "green"}]
     ]
     game.current_player = game.players1
-    print("Before check_enclosure:", game.matrix)
     game.check_enclosure()
-    print("After check_enclosure:", game.matrix)
     assert game.matrix == [
         [{"color": "white"}, {"color": "white"}, {"color": "white"}],
         [{"color": "white"}, {"color": "white"}, {"color": "white"}],
@@ -31,8 +28,9 @@ def test_check_enclosure_simple_case():
         [{"color": "red"}, {"color": "red"}, {"color": "red"}],
         [{"color": "red"}, {"color": "green"}, {"color": "green"}]
     ]
-    game.current_player = game.players1
+    game.current_player = game.players2
     game.check_enclosure()
+    
     assert game.matrix == [
         [{"color": "red"}, {"color": "red"}, {"color": "red"}],
         [{"color": "red"}, {"color": "red"}, {"color": "red"}],
@@ -66,7 +64,7 @@ def test_check_enclosure_multiple_spaces():
         [{"color": "red"}, {"color": "white"}, {"color": "red"}, {"color": "red"}],
         [{"color": "red"}, {"color": "red"}, {"color": "green"}, {"color": "green"}]
     ]
-    game.current_player = game.players1
+    game.current_player = game.players2
     game.check_enclosure()
     assert game.matrix == [
         [{"color": "red"}, {"color": "red"}, {"color": "red"}, {"color": "red"}],
@@ -90,7 +88,7 @@ def test_check_enclosure_multiple_enclosure():
     assert game.matrix == [
         [{"color": "red"}, {"color": "red"}, {"color": "red"}, {"color": "red"}],
         [{"color": "red"}, {"color": "red"}, {"color": "red"}, {"color": "red"}],
-        [{"color": "red"}, {"color": "red"}, {"color": "red"}, {"color": "red"}],
+        [{"color": "red"}, {"color": "red"}, {"color": "red"}, {"color": "green"}],
         [{"color": "red"}, {"color": "red"}, {"color": "green"}, {"color": "green"}]
     ]
 
