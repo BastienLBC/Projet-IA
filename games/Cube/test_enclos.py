@@ -98,7 +98,7 @@ tests = [
       [{"color": "red"}, {"color": "green"}, {"color": "red"}],
       [{"color": "red"}, {"color": "green"}, {"color": "green"}]
       ],
-     1,
+     2,
      [[{"color": "red"}, {"color": "red"}, {"color": "red"}],
       [{"color": "red"}, {"color": "green"}, {"color": "red"}],
       [{"color": "red"}, {"color": "green"}, {"color": "green"}]
@@ -109,7 +109,7 @@ tests = [
       [{"color": "red"}, {"color": "red"}, {"color": "red"}],
       [{"color": "red"}, {"color": "green"}, {"color": "green"}]
       ],
-     1,
+     2,
      [[{"color": "red"}, {"color": "red"}, {"color": "red"}],
       [{"color": "red"}, {"color": "red"}, {"color": "red"}],
       [{"color": "red"}, {"color": "green"}, {"color": "green"}]
@@ -120,7 +120,7 @@ tests = [
       [{"color": "red"}, {"color": "white"}, {"color": "green"}],
       [{"color": "red"}, {"color": "red"}, {"color": "green"}]
       ],
-     1,
+     2,
      [[{"color": "red"}, {"color": "red"}, {"color": "red"}],
       [{"color": "red"}, {"color": "white"}, {"color": "green"}],
       [{"color": "red"}, {"color": "red"}, {"color": "green"}]
@@ -131,7 +131,7 @@ tests = [
       [{"color": "red"}, {"color": "green"}, {"color": "white"}],
       [{"color": "red"}, {"color": "green"}, {"color": "green"}]
       ],
-     2,
+     1,
      [[{"color": "red"}, {"color": "green"}, {"color": "green"}],
       [{"color": "red"}, {"color": "green"}, {"color": "green"}],
       [{"color": "red"}, {"color": "green"}, {"color": "green"}]
@@ -143,7 +143,7 @@ tests = [
       [{"color": "red"}, {"color": "red"}, {"color": "red"}, {"color": "green"}],
       [{"color": "red"}, {"color": "red"}, {"color": "red"}, {"color": "green"}]
       ],
-     1,
+     2,
      [[{"color": "red"}, {"color": "red"}, {"color": "red"}, {"color": "red"}],
       [{"color": "red"}, {"color": "red"}, {"color": "red"}, {"color": "red"}],
       [{"color": "red"}, {"color": "red"}, {"color": "red"}, {"color": "green"}],
@@ -156,7 +156,7 @@ tests = [
       [{"color": "red"}, {"color": "red"}, {"color": "white"}, {"color": "red"}],
       [{"color": "red"}, {"color": "red"}, {"color": "green"}, {"color": "green"}]
       ],
-     2,
+     1,
      [[{"color": "red"}, {"color": "white"}, {"color": "red"}, {"color": "red"}],
       [{"color": "red"}, {"color": "white"}, {"color": "white"}, {"color": "red"}],
       [{"color": "red"}, {"color": "red"}, {"color": "white"}, {"color": "red"}],
@@ -169,7 +169,7 @@ tests = [
       [{"color": "white"}, {"color": "red"}, {"color": "green"}, {"color": "green"}],
       [{"color": "red"}, {"color": "red"}, {"color": "green"}, {"color": "green"}]
       ],
-     1,
+     2,
      [[{"color": "red"}, {"color": "red"}, {"color": "white"}, {"color": "white"}],
       [{"color": "red"}, {"color": "red"}, {"color": "white"}, {"color": "red"}],
       [{"color": "red"}, {"color": "red"}, {"color": "green"}, {"color": "green"}],
