@@ -83,7 +83,7 @@ def test_check_enclosure_multiple_enclosure():
         [{"color": "white"}, {"color": "red"}, {"color": "red"}, {"color": "green"}],
         [{"color": "red"}, {"color": "red"}, {"color": "green"}, {"color": "green"}]
     ]
-    game.current_player = game.players1
+    game.current_player = game.players2
     game.check_enclosure()
     assert game.matrix == [
         [{"color": "red"}, {"color": "red"}, {"color": "red"}, {"color": "red"}],
