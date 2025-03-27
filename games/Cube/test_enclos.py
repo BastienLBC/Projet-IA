@@ -6,13 +6,16 @@ def test_check_enclosure_empty_board():
     player1 = Player("P1", "red")  # Create a Player object
     player2 = Player("P2", "green")  # Create a Player object
     game = GameModel(player1, player2, board=3)
+    print("salut")
     game.matrix = [
         [{"color": "white"}, {"color": "white"}, {"color": "white"}],
         [{"color": "white"}, {"color": "white"}, {"color": "white"}],
         [{"color": "white"}, {"color": "white"}, {"color": "green"}]
     ]
     game.current_player = game.players1
+    print("Before check_enclosure:", game.matrix)
     game.check_enclosure()
+    print("After check_enclosure:", game.matrix)
     assert game.matrix == [
         [{"color": "white"}, {"color": "white"}, {"color": "white"}],
         [{"color": "white"}, {"color": "white"}, {"color": "white"}],
@@ -185,15 +188,9 @@ def test_enclosure(board_matrix, turn, expected):
     game = GameModel(player1, player2, board=len(board_matrix))
     game.matrix = board_matrix  # Set the board correctly
     game.current_player = game.players1 if turn == 1 else game.players2
-
-    print("Before:")
-    for row in game.matrix:
-        print(row)
+    
 
     game.check_enclosure()
 
-    print("After:")
-    for row in game.matrix:
-        print(row)
 
     assert game.matrix == expected, f"{board_matrix} =({turn})=> {game.matrix}. But expected : {expected}"
