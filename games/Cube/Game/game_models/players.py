@@ -43,4 +43,22 @@ class HumanPlayer(Player):
         Retourne un bind reçu par l'utilisateur
         """
         return self.Event
-        
+
+class AiPlayer(Player):
+    """
+    Classe qui représente un player AI (qui hérite de player)
+    """
+    def __init__(self, name: str, color:str,learning_rate : float=0.01, gamma:float = 0.9, epsilon: float = 0.9) -> None:
+        super().__init__(name,color)
+        self.lr = learning_rate
+        self.gamma = gamma
+        self.eps = epsilon
+        self.q_table = {}
+
+    def get_state(self):
+        """
+        retourne l'état (des deux joueurs)
+        à utiliser dans le dict pour la bsd
+        """
+        ennemy = self.game.players1 if self == self.game.players2 else self.game.players2
+        return (self.x, self.y, ennemy.x, ennemy.y)
