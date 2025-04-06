@@ -7,7 +7,7 @@ class Player:
     def __init__(self,name:str, color:str)-> None:
         self.name = name
         self.color = color
-        self.win = 0
+        self.wins = 0
         self.losses = 0
         self.x = 0
         self.y = 0
@@ -64,15 +64,7 @@ class AiPlayer(Player):
             self.reward -= 1
             ennemy.reward += 1
         return self.reward, ennemy.reward
-    
-    def get_state(self):
-        """
-        retourne l'état (des deux joueurs) et du plataeu
-        à utiliser dans le dict pour la bsd
-        """
-        ennemy = self.game.players1 if self == self.game.players2 else self.game.players2
-        return (self.x, self.y, ennemy.x, ennemy.y, self.reward, ennemy.reward, self.game.matrix, self.game.board)
-    
+
     def exploit(self):
         best_move = None
         best_value = float('-inf')
@@ -86,8 +78,3 @@ class AiPlayer(Player):
                     best_value = reward
                     best_move = (nx, ny)
         return best_move
-
-    def train(self):
-
-
-    
