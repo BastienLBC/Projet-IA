@@ -51,11 +51,29 @@ def find_entry_by_key(unique_key):
 
 def save_entry(entry_dto):
     """
-    Save an entry to the database
+    Save or update an entry in the database.
     @param entry_dto: dict
     """
-    SESSION.add(QTable.from_dto(entry_dto))
-    SESSION.commit()
+    # Check if the entry with the unique_key already exists
+    existing_entry = SESSION.query(QTable).filter(QTable.unique_key == entry_dto['unique_key']).first()
+
+    if existing_entry:
+        # If the entry exists, update the reward value
+        existing_entry.reward = entry_dto['reward']
+        print(f"Updated entry with unique_key: {entry_dto['unique_key']} to reward: {entry_dto['reward']}")
+    else:
+        # If the entry doesn't exist, insert a new record
+        new_entry = QTable.from_dto(entry_dto)
+        SESSION.add(new_entry)
+        print(f"Saved new entry with unique_key: {entry_dto['unique_key']} and reward: {entry_dto['reward']}")
+
+    # Commit the transaction
+    try:
+        SESSION.commit()
+    except Exception as e:
+        SESSION.rollback()  # Rollback the transaction in case of error
+        print(f"Error saving entry: {e}")
+
 
 if __name__ == "__main__":
     init_db()
