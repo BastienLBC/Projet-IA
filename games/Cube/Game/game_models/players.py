@@ -127,44 +127,14 @@ class AiPlayer(Player):
         else:
             return 0.0
         
-    def next_epsilon(self):
+    def next_epsilon(self, coef: float = 0.95, min: float = 0.05) -> None:
         """
-        Réduit la valeur de epsilon (exploration vs exploitation).
-        Cela fait en sorte que l'IA explore moins au fil du temps.
+        Réduit l'epsilon pour favoriser l'exploitation au fil du temps.
+        L'epsilon ne descend jamais en dessous du minimum spécifié.
         """
-        self.eps = max(self.eps * 0.99, 0.1)
-
-    def train_ai(ai1, ai2, nb_games, nb_epsilon):
-        """
-        Entraîne deux IA (ai1 et ai2) en jouant @nb_games parties.
-        L'epsilon est réduit tous les @nb_epsilon jeux.
-
-        @ai1 : Premier joueur IA
-        @ai2 : Deuxième joueur IA
-        @nb_games : Nombre de parties d'entraînement
-        @nb_epsilon : Nombre de jeux avant la réduction de l'epsilon
-        """
-        training_game = GameModel(3, ai1, ai2, display=False)  # Crée une instance du jeu avec un plateau de 15x15 et les deux IA
-    
-        for i in range(nb_games):
-            # Réduction de l'epsilon tous les @nb_epsilon jeux
-            if i % nb_epsilon == 0:
-                if isinstance(ai1, AiPlayer):
-                    ai1.next_epsilon()
-                if isinstance(ai2, AiPlayer):
-                    ai2.next_epsilon()
-
-            # Lancement de la partie
-            training_game.play()
-
-            # Entraînement de chaque IA après chaque partie
-            if isinstance(ai1, AiPlayer):
-                ai1.train()
-            if isinstance(ai2, AiPlayer):
-                ai2.train()
-
-            # Réinitialisation du jeu pour la partie suivante
-            training_game.reset()
+        self.eps = self.eps * coef
+        if self.eps < min:
+            self.eps = min
 
 
     @property
