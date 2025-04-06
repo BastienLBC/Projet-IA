@@ -3,7 +3,7 @@ import random
 from tkinter import *
 from Game.dico import generate_key
 from Game.dao import find_entry_by_key, save_entry
-
+from Game.game_models.game_model import GameModel
 class Player:
 
     def __init__(self,name:str, color:str)-> None:
@@ -124,42 +124,45 @@ class AiPlayer(Player):
             return -1.0
         else:
             return 0.0
+        
+    def next_epsilon(self):
+        """
+        Réduit la valeur de epsilon (exploration vs exploitation).
+        Cela fait en sorte que l'IA explore moins au fil du temps.
+        """
+        self.eps = max(self.eps * 0.99, 0.1)
 
-def train_ai(ai_player, opponent, game, episodes=1000, epsilon_decay=0.995, min_epsilon=0.1):
-    """
-    Entraîne une IA contre un adversaire sur un certain nombre de parties.
+    def train_ai(ai1, ai2, nb_games, nb_epsilon):
+        """
+        Entraîne deux IA (ai1 et ai2) en jouant @nb_games parties.
+        L'epsilon est réduit tous les @nb_epsilon jeux.
 
-    :param ai_player: instance de AiPlayer
-    :param opponent: adversaire (peut être un autre AiPlayer ou un joueur aléatoire)
-    :param game: instance du jeu
-    :param episodes: nombre de parties
-    :param epsilon_decay: facteur de réduction de epsilon par épisode
-    :param min_epsilon: epsilon minimum (exploration minimale)
-    """
-    for episode in range(episodes):
-        game.reset()  # Remet le plateau et les positions à zéro
-        current_player = game.players1  # ou une logique pour alterner entre les joueurs
+        @ai1 : Premier joueur IA
+        @ai2 : Deuxième joueur IA
+        @nb_games : Nombre de parties d'entraînement
+        @nb_epsilon : Nombre de jeux avant la réduction de l'epsilon
+        """
+        training_game = GameModel(3, ai1, ai2, display=False)  # Crée une instance du jeu avec un plateau de 15x15 et les deux IA
+    
+        for i in range(nb_games):
+            # Réduction de l'epsilon tous les @nb_epsilon jeux
+            if i % nb_epsilon == 0:
+                if isinstance(ai1, AiPlayer):
+                    ai1.next_epsilon()
+                if isinstance(ai2, AiPlayer):
+                    ai2.next_epsilon()
 
-        # Joue jusqu'à ce que la partie soit finie
-        while not game.is_finished():
-            # L'IA choisit son action et la joue
-            if isinstance(current_player, AiPlayer):
-                current_player.play_turn()
+            # Lancement de la partie
+            training_game.play()
 
-            # L'adversaire joue son tour (si c'est un joueur aléatoire ou un autre IA)
-            else:
-                current_player.play()  # L'adversaire fait un coup aléatoire
+            # Entraînement de chaque IA après chaque partie
+            if isinstance(ai1, AiPlayer):
+                ai1.train()
+            if isinstance(ai2, AiPlayer):
+                ai2.train()
 
-            # Après chaque tour, on change de joueur
-            game.switch_player()
-
-        # Réduction progressive de l'exploration (epsilon)
-        if ai_player.eps > min_epsilon:
-            ai_player.eps *= epsilon_decay
-
-        # Affichage tous les 100 épisodes
-        if (episode + 1) % 100 == 0 or episode == 0:
-            print(f"Épisode {episode + 1}/{episodes} - Epsilon: {ai_player.eps:.4f}")
+            # Réinitialisation du jeu pour la partie suivante
+            training_game.reset()
 
 
     @property

@@ -6,9 +6,9 @@ if __name__ == "__main__":
     player1 = Player(name="P1", color="red")
     player2 = HumanPlayer(name="P2", color="green")
     player3 = AiPlayer(name="P3", color="blue")
-
+    player4 = AiPlayer(name="P4", color="yellow")
     # Initialisez le contrôleur avec les joueurs
-    game = GameController(player1, player3,3)
+    game = GameController(player3,player4,3)
 
     # Démarrez le jeu pour tester l'affichage
-    train_ai(player1,player3,game,episodes=1000)
+    train_ai(player3,player4,10000,10)
