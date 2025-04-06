@@ -104,4 +104,6 @@ class GameController:
         loser = self.model.get_loser()
         self.view.end_game()
 
+
+
     
