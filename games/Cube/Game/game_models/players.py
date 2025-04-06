@@ -3,7 +3,9 @@ import random
 from tkinter import *
 from Game.dico import generate_key
 from Game.dao import find_entry_by_key, save_entry
+
 from Game.game_models.game_model import GameModel
+
 class Player:
 
     def __init__(self,name:str, color:str)-> None:
