@@ -1,5 +1,6 @@
 from Game.game_controller import *
 from Game.game_models.players import train_ai
+
 if __name__ == "__main__":
     # Créez deux joueurs
 
