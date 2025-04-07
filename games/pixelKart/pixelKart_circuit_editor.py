@@ -160,7 +160,7 @@ class CircuitEditor(tk.Toplevel):
         self.grid_frame.rows = rows
         self.grid_frame.cols = cols
         self.grid_frame.clear()
-        self.grid_frame.init_grid()
+        self.grid_frame.init_cells()
     
 
 if __name__ == "__main__":
