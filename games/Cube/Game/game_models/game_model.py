@@ -151,8 +151,8 @@ class GameModel:
             
         winner = self.get_winner()
         loser = self.get_loser()
-        winner.win_game()
-        loser.lose_game()
+        winner.win()
+        loser.lose()
             
             
 
