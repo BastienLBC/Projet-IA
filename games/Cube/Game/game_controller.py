@@ -8,6 +8,9 @@ from Game.game_view import *
 
 import random
 
+from games.Cube.Game.game_models.players import AiPlayer
+
+
 class GameController:
     """
     Controleur de Cubee, gère la logique
@@ -104,6 +107,31 @@ class GameController:
         loser = self.model.get_loser()
         self.view.end_game()
 
+    def training(ai1:AiPlayer, ai2:AiPlayer, board:int, nb_games:int, epsilon:int)->None:
+        """
+        Entraine les ia
+        """
+        training = GameModel(ai1, ai2, board)
+        for i in range(nb_games):
+            if i % epsilon == 0:
+                ai1.next_epsilon()
+                ai2.next_epsilon()
 
+            update_frequency = nb_games // 50
+            if i % update_frequency == 0: #voir où on en est
+                progress = (i / nb_games) * 100
+                print(f"Progression : {progress:.0f}%")
 
+            training.play()
+            training.reset()
+
+    def compare_ai(*ais: AiPlayer):
+        """Compare les performances des IA"""
+        print(f"{'Nom':15} {'Victoires':12} {'Taux':8}")
+        print("-" * 35)
+
+        for ai in ais:
+            total_games = ai.wins + ai.losses
+            win_rate = (ai.wins / total_games * 100) if total_games > 0 else 0
+            print(f"{ai.name:15} {ai.wins:4}/{total_games:<7} {win_rate:6.2f}%")
     
