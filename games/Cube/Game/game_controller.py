@@ -106,7 +106,8 @@ class GameController:
         winner = self.model.get_winner()
         loser = self.model.get_loser()
         self.view.end_game()
-
+    
+    
     def training(ai1:AiPlayer, ai2:AiPlayer, board:int, nb_games:int, epsilon:int)->None:
         """
         Entraine les ia
@@ -114,8 +115,8 @@ class GameController:
         training = GameModel(ai1, ai2, board)
         for i in range(nb_games):
             if i % epsilon == 0:
-                ai1.next_epsilon()
-                ai2.next_epsilon()
+                if type(ai1)==AiPlayer : ai1.next_epsilon()
+                if type(ai2)==AiPlayer : ai2.next_epsilon()
 
             update_frequency = nb_games // 50
             if i % update_frequency == 0: #voir où on en est
