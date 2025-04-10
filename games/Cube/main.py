@@ -11,8 +11,13 @@ if __name__ == "__main__":
     random = Player("Random", "black")
 
     board_size = 3
-    game_controller = GameController(human, ai2, board_size)
     
-    game_controller.training(ai1, ai2, board_size, 1000, 10)
+    
+    GameController.training(ai1, ai2, board_size, 500000, 10)
     GameController.compare_ai(ai2)
     
+    ai2.losses = 0
+    ai2.wins = 0
+
+    GameController.training(random,ai2,board_size, 1000, 0.05)
+    GameController.compare_ai(ai2)

@@ -107,7 +107,7 @@ class GameController:
         loser = self.model.get_loser()
         self.view.end_game()
     
-    
+    @staticmethod
     def training(ai1:AiPlayer, ai2:AiPlayer, board:int, nb_games:int, nb_epsilon:int)->None:
         """
         Entraine les ia
