@@ -108,13 +108,13 @@ class GameController:
         self.view.end_game()
     
     
-    def training(ai1:AiPlayer, ai2:AiPlayer, board:int, nb_games:int, epsilon:int)->None:
+    def training(ai1:AiPlayer, ai2:AiPlayer, board:int, nb_games:int, nb_epsilon:int)->None:
         """
         Entraine les ia
         """
         training = GameModel(ai1, ai2, board)
         for i in range(nb_games):
-            if i % epsilon == 0:
+            if i % nb_epsilon == 0:
                 if type(ai1)==AiPlayer : ai1.next_epsilon()
                 if type(ai2)==AiPlayer : ai2.next_epsilon()
 
