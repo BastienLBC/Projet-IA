@@ -105,6 +105,9 @@ class AiPlayer(Player):
 
     def play_turn(self):
         # Sauvegarde l'état actuel
+        self.previous_score = self.score
+        self.enemy.previous_score = self.enemy.score
+        
         old_state = (self.x, self.y, self.enemy.x, self.enemy.y,
                      self.board.get_matrix_state(), self.board.get_board_state())
 
@@ -129,7 +132,7 @@ class AiPlayer(Player):
         elif self.point < self.enemy.point:
             return -1.0
         else:
-            return 0.0
+            return -0.01
 
     def next_epsilon(self, coef: float = 0.95, min: float = 0.05) -> None:
         """

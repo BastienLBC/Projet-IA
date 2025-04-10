@@ -19,7 +19,7 @@ if __name__ == "__main__":
     ai2.losses = 0
     ai2.wins = 0
     ai2.eps = 0.0
-    
+        
     GameController.training(random,ai2,board_size, 1000)
     GameController.compare_ai(ai2)
     
