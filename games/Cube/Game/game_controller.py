@@ -108,7 +108,7 @@ class GameController:
         self.view.end_game()
     
     @staticmethod
-    def training(ai1:AiPlayer, ai2:AiPlayer, board:int, nb_games:int, nb_epsilon:int)->None:
+    def training(ai1:AiPlayer, ai2:AiPlayer, board:int, nb_games:int, nb_epsilon:int = 200)->None:
         """
         Entraine les ia
         """
@@ -122,6 +122,11 @@ class GameController:
             if i % update_frequency == 0: #voir où on en est
                 progress = (i / nb_games) * 100
                 print(f"Progression : {progress:.0f}%")
+
+            if isinstance(ai1, AiPlayer):
+                print(f"Game {i} - ai1.epsilon: {ai1.eps:.4f}")
+            if isinstance(ai2, AiPlayer):
+                print(f"Game {i} - ai2.epsilon: {ai2.eps:.4f}")
 
             training.play()
             training.reset()
