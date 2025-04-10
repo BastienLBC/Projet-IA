@@ -8,7 +8,7 @@ from Game.game_view import *
 
 import random
 
-from games.Cube.Game.game_models.players import AiPlayer
+from Game.game_models.players import AiPlayer
 
 
 class GameController:
