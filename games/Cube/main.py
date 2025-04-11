@@ -24,4 +24,4 @@ if __name__ == "__main__":
     GameController.compare_ai(ai2)
     
     
-    GameController(ai2, human, board_size).play()
+    
