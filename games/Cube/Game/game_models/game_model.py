@@ -1,6 +1,8 @@
 import random
 import queue
 
+from Game.game_models.players import AiPlayer,enemy
+
 class GameModel:
 
     def __init__(self, players1, players2,board, display: bool=True) -> None:
@@ -80,6 +82,10 @@ class GameModel:
         if self.get_case_color(self.current_player.x, self.current_player.y) == 'white':
             self.current_player.score += 1
             self.matrix[self.current_player.x][self.current_player.y]["color"] = self.current_player.color
+            if isinstance (self.current_player, AiPlayer):
+                self.reward = 1
+                enemy.reward = -1
+
 
     def move_down(self):
         self.current_player.y += 1
