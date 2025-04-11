@@ -1,7 +1,7 @@
 import random
 import queue
 
-from players import AiPLayer
+from Game.game_models.players import AiPlayer, HumanPlayer, Player
 
 class GameModel:
 

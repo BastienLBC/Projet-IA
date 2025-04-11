@@ -1,5 +1,4 @@
 from Game.dao import init_db
-from Game.game_models.players import AiPlayer, HumanPlayer, Player
 from Game.game_controller import GameController
 
 if __name__ == "__main__":
