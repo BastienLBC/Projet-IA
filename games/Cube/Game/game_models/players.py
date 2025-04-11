@@ -58,6 +58,7 @@ class AiPlayer(Player):
         self.lr = learning_rate
         self.gamma = gamma
         self.eps = epsilon
+        self.board = None
 
     def get_q_value(self, key):
         entry = find_entry_by_key(key)
@@ -89,7 +90,7 @@ class AiPlayer(Player):
                     best_action = (dx, dy)
         return best_action
 
-    def update_q_table(self, old_state, action, reward, new_state):
+    def update_q_table(self, old_state, reward, new_state):
         """
         old_state / new_state: tuple (x, y, ennemy_x, ennemy_y, matrix_state, board_state)
         """
@@ -103,33 +104,50 @@ class AiPlayer(Player):
         self.set_q_value(old_key, updated_q)
         print(f"Updated Q-value for {old_key}: {updated_q}")  # vérifie mises à jour
 
-    def play_turn(self):
+    def play(self):
         # Sauvegarde l'état actuel
-        old_state = (self.x, self.y, self.enemy.x, self.enemy.y,
-                     self.board.get_matrix_state(), self.board.get_board_state())
-
+        from Game.game_models.game_model import GameModel
         action = self.choose_action()
         dx, dy = action
         self.move(dx, dy)
 
         reward = self.calculate_reward()
 
-        new_state = (self.x, self.y, self.enemy.x, self.enemy.y,
+        old_state = (self.x, self.y, self.enemy.x, self.enemy.y,
                      self.board.get_matrix_state(), self.board.get_board_state())
 
-        self.update_q_table(old_state, action, reward, new_state)
+        self.update_q_table(old_state, reward)
         print(f"Reward: {reward}, Action: {action}")
 
     def calculate_reward(self):
         """
         Simple règle de récompense (exemple): +1 si IA gagne un point, -1 si ennemi en gagne.
         """
-        if self.point > self.enemy.point:
-            return 1.0
-        elif self.point < self.enemy.point:
-            return -1.0
-        else:
-            return 0.0
+        reward = 0
+        opponent = self.enemy
+
+        # Vérifie si la case actuelle est blanche
+        if self.board.matrix[self.x][self.y]["color"] == "white":
+            reward += 1
+
+        # Ajoute une pénalité si l'adversaire gagne un point
+        if self.board.matrix[opponent.x][opponent.y]["color"] == "white":
+            reward -= 1
+
+        print(f"Reward calculated: {reward}")
+        return reward
+
+    def move(self, dx, dy):
+        """
+        Met à jour la position du joueur en fonction des décalages dx et dy.
+        """
+        new_x = self.x + dx
+        new_y = self.y + dy
+
+        # Vérifie si le mouvement est valide
+        if 0 <= new_x < self.board.size and 0 <= new_y < self.board.size:
+            self.x = new_x
+            self.y = new_y
 
     def next_epsilon(self, coef: float = 0.95, min: float = 0.05) -> None:
         """
@@ -139,6 +157,8 @@ class AiPlayer(Player):
         self.eps = self.eps * coef
         if self.eps < min:
             self.eps = min
+
+
 
     @property
     def enemy(self):
