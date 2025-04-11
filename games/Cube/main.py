@@ -13,7 +13,7 @@ if __name__ == "__main__":
     board_size = 3
     
     
-    GameController.training(ai1, ai2, board_size, 500000)
+    GameController.training(ai1, ai2, board_size, 500000,1000)
     GameController.compare_ai(ai2)
     
     ai2.losses = 0
@@ -23,3 +23,5 @@ if __name__ == "__main__":
     GameController.training(random,ai2,board_size, 1000)
     GameController.compare_ai(ai2)
     
+    
+    GameController(ai2, human, board_size).play()
