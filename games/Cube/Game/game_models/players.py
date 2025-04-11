@@ -103,25 +103,43 @@ class AiPlayer(Player):
         self.set_q_value(old_key, updated_q)
         print(f"Updated Q-value for {old_key}: {updated_q}")  # vérifie mises à jour
 
-    def play(self):
+    def play_turn(self):
         # Sauvegarde l'état actuel
         self.previous_score = self.score
         self.enemy.previous_score = self.enemy.score
-        
-        old_state = (self.x, self.y, self.enemy.x, self.enemy.y,
-                     self.board.get_matrix_state(), self.board.get_board_state())
 
+        # Récupère l'état actuel
+        old_state = (self.x, self.y, self.enemy.x, self.enemy.y,
+                    self.board.get_matrix_state(), self.board.get_board_state())
+        old_key = generate_key(*old_state)
+
+        # Choix de l'action
         action = self.choose_action()
         dx, dy = action
         self.move(dx, dy)
 
+        # Calcul de la récompense
         reward = self.calculate_reward()
 
+        # Nouvel état après mouvement
         new_state = (self.x, self.y, self.enemy.x, self.enemy.y,
-                     self.board.get_matrix_state(), self.board.get_board_state())
+                 self.board.get_matrix_state(), self.board.get_board_state())
+        new_key = generate_key(*new_state)
 
+        # Logging
+        print("====== TOUR DE L'IA ======")
+        print(f"Ancien état clé: {old_key}")
+        print(f"Nouvel état clé: {new_key}")
+        print(f"Action choisie: dx={dx}, dy={dy}")
+        print(f"Récompense reçue: {reward}")
+        print(f"Ancien Q: {self.get_q_value(old_key)}")
+        print(f"Futur Q: {self.get_q_value(new_key)}")
+        print(f"Epsilon actuel: {self.eps}")
+        print("==========================\n")
+
+        # Mise à jour Q-table
         self.update_q_table(old_state, action, reward, new_state)
-        print(f"Reward: {reward}, Action: {action}")
+
 
     def calculate_reward(self):
         """
