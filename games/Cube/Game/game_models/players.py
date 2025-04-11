@@ -103,7 +103,7 @@ class AiPlayer(Player):
         self.set_q_value(old_key, updated_q)
         print(f"Updated Q-value for {old_key}: {updated_q}")  # vérifie mises à jour
 
-    def play_turn(self):
+    def play(self):
         # Sauvegarde l'état actuel
         self.previous_score = self.score
         self.enemy.previous_score = self.enemy.score
