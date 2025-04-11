@@ -59,6 +59,7 @@ class AiPlayer(Player):
         self.gamma = gamma
         self.eps = epsilon
         self.board = None
+        self.q_table = {}
 
     def get_q_value(self, key):
         entry = find_entry_by_key(key)
@@ -90,52 +91,108 @@ class AiPlayer(Player):
                     best_action = (dx, dy)
         return best_action
 
-    def update_q_table(self, old_state, reward, new_state):
+    def update_q_table(self, state, action, reward, next_state):
         """
-        old_state / new_state: tuple (x, y, ennemy_x, ennemy_y, matrix_state, board_state)
+        Met à jour la table Q avec la nouvelle valeur calculée
         """
-        old_key = generate_key(*old_state)
-        new_key = generate_key(*new_state)
+        # Génère les clés pour l'état actuel et suivant
+        current_key = generate_key(*state)
+        next_key = generate_key(*next_state)
 
-        old_q = self.get_q_value(old_key)
-        future_q = self.get_q_value(new_key)
+        # Obtient les valeurs Q actuelles
+        current_q = self.get_q_value(current_key)
+        next_q = self.get_q_value(next_key)
 
-        updated_q = old_q + self.lr * (reward + self.gamma * future_q - old_q)
-        self.set_q_value(old_key, updated_q)
-        print(f"Updated Q-value for {old_key}: {updated_q}")  # vérifie mises à jour
+        # Calcule la nouvelle valeur Q
+        new_q = current_q + self.lr * (reward + self.gamma * next_q - current_q)
+
+        # Sauvegarde la nouvelle valeur
+        self.set_q_value(current_key, new_q)
+        print(f"Updated Q-value for {current_key}: {new_q}")
+
+    def action_to_direction(self, action):
+        """
+        Convertit une action (dx, dy) en direction (UP, DOWN, LEFT, RIGHT)
+        """
+        dx, dy = action
+        if dx == 0 and dy == -1:
+            return 'UP'
+        elif dx == 0 and dy == 1:
+            return 'DOWN'
+        elif dx == -1 and dy == 0:
+            return 'LEFT'
+        elif dx == 1 and dy == 0:
+            return 'RIGHT'
+        return None
 
     def play(self):
-        # Sauvegarde l'état actuel
-        from Game.game_models.game_model import GameModel
-        action = self.choose_action()
-        dx, dy = action
-        self.move(dx, dy)
-
-        reward = self.calculate_reward()
-
+        old_x, old_y = self.x, self.y
         old_state = (self.x, self.y, self.enemy.x, self.enemy.y,
                      self.board.get_matrix_state(), self.board.get_board_state())
 
-        self.update_q_table(old_state, reward)
-        print(f"Reward: {reward}, Action: {action}")
+        action = self.choose_action()
+        direction = self.action_to_direction(action)
 
-    def calculate_reward(self):
+        # Calcule la nouvelle position sans l'appliquer
+        dx, dy = action
+        new_x, new_y = self.x + dx, self.y + dy
+
+        # Calcule la récompense
+        reward = self.calculate_reward(old_x, old_y, new_x, new_y)
+
+        # Calcule le nouvel état sans l'appliquer
+        new_state = (new_x, new_y, self.enemy.x, self.enemy.y,
+                     self.board.get_matrix_state(), self.board.get_board_state())
+
+        # Met à jour la table Q
+        self.update_q_table(old_state, action, reward, new_state)
+        print(f"Reward: {reward}, Action: {direction}")
+
+        return direction
+
+    def calculate_reward(self, from_x, from_y, to_x, to_y):
         """
-        Simple règle de récompense (exemple): +1 si IA gagne un point, -1 si ennemi en gagne.
+        Calcule la récompense pour un déplacement
+        @param from_x: Position x de départ
+        @param from_y: Position y de départ
+        @param to_x: Position x d'arrivée
+        @param to_y: Position y d'arrivée
+        @return: La récompense calculée
         """
-        reward = 0
-        opponent = self.enemy
+        print(f"Reward calculated: 25 (from {from_x},{from_y} to {to_x},{to_y})")
+        reward = 25  # Récompense de base pour un mouvement valide
 
-        # Vérifie si la case actuelle est blanche
-        if self.board.matrix[self.x][self.y]["color"] == "white":
-            reward += 1
+        # Vérifier si le mouvement est valide
+        if not (0 <= to_x < self.board.size and 0 <= to_y < self.board.size):
+            return -50  # Pénalité pour un mouvement invalide
 
-        # Ajoute une pénalité si l'adversaire gagne un point
-        if self.board.matrix[opponent.x][opponent.y]["color"] == "white":
-            reward -= 1
+        # Vérifier si la case est occupée par l'adversaire
+        if self.board.matrix[to_x][to_y] == self.enemy.color:
+            return -50
 
-        print(f"Reward calculated: {reward}")
+        # Pénalité si on s'éloigne du centre
+        distance_to_center = abs(to_x - self.board.size // 2) + abs(to_y - self.board.size // 2)
+        reward -= distance_to_center * 2
+
+        # Bonus si on s'approche de l'adversaire
+        distance_to_enemy = abs(to_x - self.enemy.x) + abs(to_y - self.enemy.y)
+        if distance_to_enemy < abs(from_x - self.enemy.x) + abs(from_y - self.enemy.y):
+            reward += 10
+
         return reward
+
+    def is_valid_move(self, x, y):
+        """Vérifie si un mouvement est valide"""
+        if x < 0 or y < 0 or x >= len(self.board) or y >= len(self.board):
+            return False
+        if self.board[x][y] == (3 - self.player_turn):  # Case appartient à l'adversaire
+            return False
+        return True
+
+    def count_player_cells(self, player, board_after=None):
+        """Compte le nombre de cases possédées par un joueur"""
+        board = board_after if board_after else self.board
+        return sum(row.count(player) for row in board)
 
     def move(self, dx, dy):
         """
