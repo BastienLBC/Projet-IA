@@ -58,6 +58,7 @@ class AiPlayer(Player):
         self.lr = learning_rate
         self.gamma = gamma
         self.eps = epsilon
+        self.reward = 0
 
     def get_q_value(self, key):
         entry = find_entry_by_key(key)
@@ -118,9 +119,6 @@ class AiPlayer(Player):
         dx, dy = action
         self.move(dx, dy)
 
-        # Calcul de la récompense
-        reward = self.calculate_reward()
-
         # Nouvel état après mouvement
         new_state = (self.x, self.y, self.enemy.x, self.enemy.y,
                  self.board.get_matrix_state(), self.board.get_board_state())
@@ -131,26 +129,14 @@ class AiPlayer(Player):
         print(f"Ancien état clé: {old_key}")
         print(f"Nouvel état clé: {new_key}")
         print(f"Action choisie: dx={dx}, dy={dy}")
-        print(f"Récompense reçue: {reward}")
+        print(f"Récompense reçue: {self.reward}")
         print(f"Ancien Q: {self.get_q_value(old_key)}")
         print(f"Futur Q: {self.get_q_value(new_key)}")
         print(f"Epsilon actuel: {self.eps}")
         print("==========================\n")
 
         # Mise à jour Q-table
-        self.update_q_table(old_state, action, reward, new_state)
-
-
-    def calculate_reward(self):
-        """
-        Simple règle de récompense (exemple): +1 si IA gagne un point, -1 si ennemi en gagne.
-        """
-        if self.point > self.enemy.point:
-            return 1.0
-        elif self.point < self.enemy.point:
-            return -1.0
-        else:
-            return -0.01
+        self.update_q_table(old_state, action, self.reward, new_state)
 
     def next_epsilon(self, coef: float = 0.95, min: float = 0.05) -> None:
         """

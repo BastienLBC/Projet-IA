@@ -1,7 +1,7 @@
 import random
 import queue
 
-from Game.game_models.players import AiPlayer,enemy
+from players import AiPLayer
 
 class GameModel:
 
@@ -82,28 +82,32 @@ class GameModel:
         if self.get_case_color(self.current_player.x, self.current_player.y) == 'white':
             self.current_player.score += 1
             self.matrix[self.current_player.x][self.current_player.y]["color"] = self.current_player.color
-            if isinstance (self.current_player, AiPlayer):
+            if isinstance(self, AiPLayer):
                 self.reward = 1
-                enemy.reward = -1
-
 
     def move_down(self):
         self.current_player.y += 1
         if self.get_case_color(self.current_player.x, self.current_player.y) == 'white':
             self.current_player.score += 1
             self.matrix[self.current_player.x][self.current_player.y]["color"] = self.current_player.color
+            if isinstance(self, AiPLayer):
+                self.reward = 1
 
     def move_left(self):
         self.current_player.x -= 1
         if self.get_case_color(self.current_player.x, self.current_player.y) == 'white':
             self.current_player.score += 1     
             self.matrix[self.current_player.x][self.current_player.y]["color"] = self.current_player.color
+            if isinstance(self, AiPLayer):
+                self.reward = 1
 
     def move_right(self):
         self.current_player.x += 1
         if self.get_case_color(self.current_player.x, self.current_player.y) == 'white':
             self.current_player.score += 1
             self.matrix[self.current_player.x][self.current_player.y]["color"] = self.current_player.color
+            if isinstance(self, AiPLayer):
+                self.reward = 1
 
     def can_move(self, x, y):
         return (
