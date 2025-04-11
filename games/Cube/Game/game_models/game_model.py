@@ -82,7 +82,7 @@ class GameModel:
         if self.get_case_color(self.current_player.x, self.current_player.y) == 'white':
             self.current_player.score += 1
             self.matrix[self.current_player.x][self.current_player.y]["color"] = self.current_player.color
-            if isinstance(self, AiPLayer):
+            if isinstance(self, AiPlayer):
                 self.reward = 1
 
     def move_down(self):
@@ -90,7 +90,7 @@ class GameModel:
         if self.get_case_color(self.current_player.x, self.current_player.y) == 'white':
             self.current_player.score += 1
             self.matrix[self.current_player.x][self.current_player.y]["color"] = self.current_player.color
-            if isinstance(self, AiPLayer):
+            if isinstance(self, AiPlayer):
                 self.reward = 1
 
     def move_left(self):
@@ -98,7 +98,7 @@ class GameModel:
         if self.get_case_color(self.current_player.x, self.current_player.y) == 'white':
             self.current_player.score += 1     
             self.matrix[self.current_player.x][self.current_player.y]["color"] = self.current_player.color
-            if isinstance(self, AiPLayer):
+            if isinstance(self, AiPlayer):
                 self.reward = 1
 
     def move_right(self):
@@ -106,7 +106,7 @@ class GameModel:
         if self.get_case_color(self.current_player.x, self.current_player.y) == 'white':
             self.current_player.score += 1
             self.matrix[self.current_player.x][self.current_player.y]["color"] = self.current_player.color
-            if isinstance(self, AiPLayer):
+            if isinstance(self, AiPlayer):
                 self.reward = 1
 
     def can_move(self, x, y):
