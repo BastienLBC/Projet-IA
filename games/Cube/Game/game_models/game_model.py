@@ -139,14 +139,28 @@ class GameModel:
         """
         return self.players2 if self.players1.score > self.players2.score else self.players1
     
-    def is_finished(self)->bool:
+    def is_finished(self) -> bool:
         """
         Vérifie si la partie est terminée
 
         Returns:
             bool: True si la partie est terminée, False sinon
         """
-        return self.players1.score + self.players2.score == self.board * self.board
+        total_cells = self.board * self.board
+        total_points = self.player1.score + self.player2.score
+        remaining_points = total_cells - total_points
+
+        # Si toutes les cases sont jouées
+        if remaining_points == 0:
+            return True
+
+        # Si un joueur ne peut plus rattraper l'autre
+        score_diff = abs(self.player1.score - self.player2.score)
+        if score_diff > remaining_points:
+            return True
+
+        return False
+
         
     def play(self) -> None:
         """
@@ -202,5 +216,5 @@ class GameModel:
             for y in range(self.board):
                 if self.matrix[x][y]["color"] == "white" and not reachable[x][y]:
                     self.matrix[x][y]["color"] = opponent.color  
-                    opponent.score += 1  
+                    opponent.score += 1
 

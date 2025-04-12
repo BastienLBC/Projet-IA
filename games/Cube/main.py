@@ -11,7 +11,7 @@ if __name__ == "__main__":
     human = HumanPlayer(name="Joueur 1", color="green")
 
     board_size = 3
-    nb_games = 100
+    nb_games = 1000
     eps = 10
 
     GameController.training(ai1, ai2, board_size, nb_games, eps)
