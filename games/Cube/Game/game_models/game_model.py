@@ -147,7 +147,7 @@ class GameModel:
             bool: True si la partie est terminée, False sinon
         """
         total_cells = self.board * self.board
-        total_points = self.player1.score + self.player2.score
+        total_points = self.players1.score + self.players2.score
         remaining_points = total_cells - total_points
 
         # Si toutes les cases sont jouées
@@ -155,7 +155,7 @@ class GameModel:
             return True
 
         # Si un joueur ne peut plus rattraper l'autre
-        score_diff = abs(self.player1.score - self.player2.score)
+        score_diff = abs(self.players1.score - self.players2.score)
         if score_diff > remaining_points:
             return True
 
