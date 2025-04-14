@@ -4,12 +4,12 @@ def on_key_press(self, event):
         """
         bind = event.keysym.upper()
         if bind == "Z":
-            bind = "Nord"
+            bind = "Accelerate"
         elif bind == "S":
-            bind = "Sud"
+            bind = "Decelerate"
         elif bind == "Q":
-            bind = "Ouest"
+            bind = "Left"
         elif bind == "D":
-            bind = "Est"
+            bind = "Right"
 
-        self.kart.direction(bind)
+        self.circuit.one_action(bind)

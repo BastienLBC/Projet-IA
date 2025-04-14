@@ -1,4 +1,5 @@
 from const import * 
+from direction import *
 
 class circuit:
     
@@ -15,29 +16,51 @@ class circuit:
         """
         return self.current_player
 
-    def moove(self, bind):
-        if (bind == 'Nord') and self.can_move(self.current_player.x, self.current_player.y - 1):
-            self.move_up()
-        elif (bind == 'Sud') and self.can_move(self.current_player.x, self.current_player.y + 1):
-            self.move_down()
-        elif (bind == 'Ouest') and self.can_move(self.current_player.x - 1, self.current_player.y):
-            self.move_left()
-        elif (bind == 'Est') and self.can_move(self.current_player.x + 1, self.current_player.y):
-            self.move_right()
-        else:
-            self.current_player.speed = 0
-
-    def move_up(self):
-        self.current_player.y -= 1
+    def moove(self):
+        x = self.current_player.x
+        y = self.current_player.y
+        direction = self.current_player.direction
+        speed = self.current_player.speed
         
-    def move_down(self):
-        self.current_player.y += 1
+        if speed == 2:
+            if (direction == 'Nord') and self.can_move(x, y - 1) :
+                self.move_up(1)
+                speed = 1
+            elif (direction == 'Sud') and self.can_move(x, y + 1) :
+                self.move_down(1)
+                speed = 1
+            elif (direction == 'Ouest') and self.can_move(x - 1, y) :
+                self.move_left(1)
+                speed = 1
+            elif (direction == 'Est') and self.can_move(x + 1, y) :
+                self.move_right(1)
+                speed = 1
+            else:
+                self.current_player.speed = 0
 
-    def move_left(self):
-        self.current_player.x -= 1
+        if speed == 1 or speed == -1:
+            if (direction == 'Nord') and (self.can_move(x, y - 1) or self.can_move(x, y + 1)):
+                self.move_up(speed)
+            elif (direction == 'Sud') and (self.can_move(x, y + 1) or self.can_move(x, y - 1)):
+                self.move_down(speed)
+            elif (direction == 'Ouest') and (self.can_move(x - 1, y) and self.can_move(x +1, y)):
+                self.move_left(speed)
+            elif (direction == 'Est') and (self.can_move(x + 1, y) and self.can_move(x-1, y)):
+                self.move_right(speed)
+            else:
+                self.current_player.speed = 0
 
-    def move_right(self):
-        self.current_player.x += 1
+    def move_up(self,speed:int):
+        self.current_player.y += speed
+        
+    def move_down(self,speed:int):
+        self.current_player.y += speed
+
+    def move_left(self,speed:int):
+        self.current_player.x += speed
+
+    def move_right(self,speed:int):
+        self.current_player.x += speed
       
     def can_move(self, x, y):
         return (
@@ -49,10 +72,63 @@ class circuit:
         """
         Retourne le type de case
         """
+    
+    def accelerate(self):
+        """
+        Accélère la vitesse du joueur
+        """
+        if self.current_player.speed <= 2:
+            self.current_player.speed += 1
 
-    def one_action(self):
+    def decelerate(self):
+        """
+        Ralentit la vitesse du joueur
+        """
+        if self.current_player.speed > -1:
+            self.current_player.speed -= 1
+    
+    def turn_left(self):
+        """
+        Tourne le joueur à gauche
+        """
+        direction = self.current_player.direction 
+
+        if direction == "Nord":
+            self.current_player.direction = "Ouest"
+        elif direction == "Est":
+            self.current_player.direction = "Nord"
+        elif direction == "Sud":
+            self.current_player.direction = "Est"
+        else :
+            self.current_player.direction = "Sud"
+    
+    def turn_right(self):
+        """
+        Tourne le joueur à droite
+        """
+        direction = self.current_player.direction
+
+        if direction == "Nord":
+            self.current_player.direction = "Est"
+        elif direction == "Est":
+            self.current_player.direction = "Sud"
+        elif direction == "Sud":
+            self.current_player.direction = "Ouest"
+        else :
+            self.current_player.direction = "Nord"
+
+    def one_action(self,bind):
         """
         Retourne une action
         """
-
+        if bind == "Accelerate":
+            self.accelerate()
+        elif bind == "Decelerate":
+            self.decelerate()
+        elif bind == "Left":
+            self.turn_left()
+        elif bind == "Right":
+            self.turn_right()
+        elif bind == "Nothing":
+            return None
         
