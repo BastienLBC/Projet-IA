@@ -1,12 +1,13 @@
 
 class kart:
     
-    def __init__(self,name:str, position:tuple[int,int], speed:int):
+    def __init__(self,name:str, x:int, y:int, speed:int):
 
         self.name = name
-        self.position = position 
+        self.x = x
+        self.y = y 
         self.direction = "Est"
-        self.speed = speed
+        self.speed = 0
         self.laps = 0
 
         self.wins = 0

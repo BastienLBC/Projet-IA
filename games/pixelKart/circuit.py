@@ -173,15 +173,13 @@ class circuit:
         x1, y1 = self.start_line[pos1_index]  #pour décomposer le tple
         self.player1.x = x1
         self.player1.y = y1
-        self.player1.direction = 'Est'
-        self.player1.speed = 0
+        
 
         pos2_index = random.randint(0, len(self.start_line) - 1)
         x2, y2 = self.start_line[pos2_index]
         self.player2.x = x2
         self.player2.y = y2
-        self.player2.direction = 'Est'
-        self.player2.speed = 0
+        
 
         # SI PAS TUPLE EN ENTREE :
         #----------------------------------
