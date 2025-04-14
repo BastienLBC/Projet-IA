@@ -6,7 +6,8 @@ class kart:
         self.name = name
         self.position = position 
         self.direction = "Est"
-        self.speed = speed 
+        self.speed = speed
+        self.laps = 0
 
         self.wins = 0
         self.losses = 0
@@ -16,6 +17,7 @@ class kart:
         """
         Retourne une direction reçu par l'utilisateur
         """
+        #commence en direction EST
         return self.event
     
     def win(self) -> None:
