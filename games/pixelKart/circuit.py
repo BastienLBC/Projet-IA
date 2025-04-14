@@ -2,7 +2,7 @@ from const import *
 from direction import *
 import random
 
-class circuit:
+class Circuit:
     
     def __init__(self,rows:int, cols:int, player1:str , player2:str, gp:str=None):
         
@@ -106,7 +106,21 @@ class circuit:
             self.current_player.direction = "Est"
         else :
             self.current_player.direction = "Sud"
-    
+
+    def reset_game(self):
+        """
+        Réinitialise le jeu en repositionnant les joueurs et en réinitialisant les tours.
+        """
+        self.current_player = None
+        self.player1.x, self.player1.y = 0, 0
+        self.player2.x, self.player2.y = 0, 0
+        self.player1.laps = 0
+        self.player2.laps = 0
+        self.player1.speed = 0
+        self.player2.speed = 0
+        self.load_start_line()
+        self.start()
+
     def turn_right(self):
         """
         Tourne le joueur à droite

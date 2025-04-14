@@ -1,46 +1,73 @@
 import customtkinter as ctk
 from pixelKart_circuitFrames import CircuitRaceFrame
 
-
 class GameView(ctk.CTk):
     """Gère la vue du jeu PixelKart"""
 
-    def __init__(self, controller) -> None:
-        """
-        Initialise la fenêtre principale du jeu
-        Args:
-            controller: Instance du contrôleur du jeu
-        """
+    def __init__(self, controller, circuit_rows, circuit_cols) -> None:
         super().__init__()
         self.controller = controller
+
+        cell_size = 20
+        width = circuit_cols * cell_size + 300
+        height = circuit_rows * cell_size
+        self.geometry(f"{width}x{height}")
 
         ctk.set_appearance_mode("dark")
         ctk.set_default_color_theme("green")
         self.title("PixelKart")
-        self.minsize(800, 500)
-        self.maxsize(800, 500)
 
-        self.message_label = ctk.CTkLabel(
-            self,
+        main_frame = ctk.CTkFrame(self)
+        main_frame.pack(fill="both", expand=True)
+
+        self.game_frame = CircuitRaceFrame(main_frame, rows=circuit_rows, cols=circuit_cols)
+        self.game_frame.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
+
+        info_frame = ctk.CTkFrame(main_frame, width=300)
+        info_frame.grid(row=0, column=1, padx=10, pady=10, sticky="nsew")
+
+        self.info_label = ctk.CTkLabel(
+            info_frame,
             text="",
-            font=("OCR A Extended", 20, "bold"),
-            text_color="#32CD32",
-            padx=30
+            font=("OCR A Extended", 14),
+            text_color="white",
+            padx=10
         )
-        self.message_label.pack(pady=20)
+        self.info_label.pack(fill="both", expand=True, padx=10, pady=10)
 
-        self.game_frame = CircuitRaceFrame(self)
-        self.game_frame.configure()
-        self.game_frame.pack(pady=10)
-
+        # Gestion des événements clavier
         self.bind_all("<Key>", self.on_key_press)
 
+        # Bouton pour réinitialiser la partie
         self.reset_button = ctk.CTkButton(
-            self,
+            info_frame,
             text="Recommencer",
             command=self.controller.reset_game
         )
-        self.reset_button.pack_forget()
+        self.reset_button.pack(pady=10)
+
+        main_frame.grid_columnconfigure(0, weight=3)
+        main_frame.grid_columnconfigure(1, weight=1)
+        main_frame.grid_rowconfigure(0, weight=1)
+
+    def update_player_info(self, player1, player2, laps_remaining):
+        """
+        Met à jour les informations des joueurs et les tours restants.
+        """
+        info_text = (
+            f"Nombre de tours restants : {laps_remaining}\n\n"
+            f"Joueur 1 ({player1.name}):\n"
+            f"  Position: ({player1.x}, {player1.y})\n"
+            f"  Direction: {player1.direction}\n"
+            f"  Vitesse: {player1.speed}\n"
+            f"  Tours effectués: {player1.laps}\n\n"
+            f"Joueur 2 ({player2.name}):\n"
+            f"  Position: ({player2.x}, {player2.y})\n"
+            f"  Direction: {player2.direction}\n"
+            f"  Vitesse: {player2.speed}\n"
+            f"  Tours effectués: {player2.laps}"
+        )
+        self.info_label.configure(text=info_text)
 
     def on_key_press(self, event):
         """
@@ -62,57 +89,8 @@ class GameView(ctk.CTk):
     def update_view(self, circuit, karts):
         """
         Met à jour l'affichage du circuit et des karts
-        Args:
-            circuit: État actuel du circuit
-            karts: Dictionnaire des positions et couleurs des karts
         """
         if circuit:
             self.game_frame.dto_to_grid(circuit)
         if karts:
             self.game_frame.update_view(karts)
-
-    def show_message(self, message):
-        """
-        Affiche un message dans le label
-        """
-        self.message_label.configure(text=message)
-
-    def show_reset_button(self):
-        """
-        Affiche le bouton reset
-        """
-        self.reset_button.pack(pady=10)
-
-    def hide_reset_button(self):
-        """
-        Cache le bouton reset
-        """
-        self.reset_button.pack_forget()
-
-#pour tester l'affichage
-# if __name__ == "__main__":
-#     # Classe Mock pour tester l'affichage
-#     class MockController:
-#         def reset_game(self):
-#             pass
-#
-#         def handle_action(self, action):
-#             print(f"Action: {action}")
-#
-#
-#     # Créer la vue avec le mock controller
-#     view = GameView(MockController())
-#
-#     # Exemple de circuit basique
-#     basic_circuit = "GGGGGGGGWGGGGGGGGGGG,GGGRRRRRFRRRRRRRRGGG,GGRRRRRRFRRRRRRRRRGG,GRRRRRRRFRRRRRRRRRRG,GRRRRRGGWGGGGGGRRRRG,GRRRRGWWWWWWWWWGRRRG,GRRRRRGGGGGGGGGRRRRG,GRRRRRRRRRRRRRRRRRRG,GRRRRRRRRRRRRRRRRRRG,GGRRRRRRRRRRRRRRRRGG,GGGRRRRRRRRRRRRRRGGG,GGGGGGGGGGGGGGGGGGGG"
-#
-#     # Exemple de karts sur le circuit
-#     karts = {
-#         (1, 1): "red",  # Position et couleur du kart 1
-#         (2, 2): "blue"  # Position et couleur du kart 2
-#     }
-#     # Mettre à jour la vue avec les données
-#     view.update_view(basic_circuit, karts)
-#
-#     # Lancer l'application
-#     view.mainloop()
