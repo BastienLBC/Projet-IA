@@ -56,13 +56,13 @@ class circuit:
                 self.current_player.speed = 0
 
     def move_up(self,speed:int):
-        self.current_player.y += speed
+        self.current_player.y -= speed
         
     def move_down(self,speed:int):
         self.current_player.y += speed
 
     def move_left(self,speed:int):
-        self.current_player.x += speed
+        self.current_player.x -= speed
 
     def move_right(self,speed:int):
         self.current_player.x += speed
@@ -136,12 +136,13 @@ class circuit:
             self.turn_right()
         elif bind == "Nothing":
             return None
+        self.current_player.moove()
         
-
+    """
     def speed_limiter(self):
-        """
+        
         modifie la vitesse du joueur en fonction de la case
-        """
+        
         if self.type_case() == 'ROAD':
             self.current_player.speed = 2
         if self.type_case() == "GRASS":
@@ -151,6 +152,13 @@ class circuit:
             self.current_player.speed = 0
             self.current_player.losses += 1
             #le faire arrêter  - MORT
+    """
+    def speed_limiter(self):
+
+        if self.type_case() == "GRASS":
+            self.current_player.speed %2
+        if self.type_case() == "WALL":
+            self.current_player.inLife = False
 
     def load_start_line(self):
         """
@@ -194,7 +202,7 @@ class circuit:
         # self.player2.speed = 0
         #----------------------------------
 
-    def finish_line(self):
+    def cpt_laps(self):
         """
         Vérifie si le joueur a franchi la ligne d'arrivée,
         dans le bon sens (vers l'est) et il a fait le bon nombre de tours
@@ -203,9 +211,32 @@ class circuit:
 
         if self.current_player.x in self.start_line :
             if self.current_player.direction == 'Est':
-                if self.current_player.laps == self.nb_laps:
-                    self.current_player.wins += 1
-                    #PARTIE FINIE (jsp encore comment faire)
-                else:
                     self.current_player.laps += 1
 
+    def is_finish(self):
+        """
+        Vérifie si le joueur a gagné
+        """
+        if self.current_player.laps == self.nb_laps:
+            return True
+        else:
+            return False
+        
+
+    def play(self):
+        """
+        Lance la partie
+        """
+        self.load_start_line()
+        self.start()
+        while not self.is_finish():
+            self.current_player = self.player1 if self.current_player == self.player2 else self.player2
+            bind = self.current_player.play()
+            self.one_action(bind)
+            self.speed_limiter()
+            self.cpt_laps()
+
+        if self.player1.laps > self.player2.laps:
+            return self.player1
+        else:
+            return self.player2

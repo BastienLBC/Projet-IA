@@ -9,6 +9,7 @@ class kart:
         self.direction = "Est"
         self.speed = 0
         self.laps = 0
+        self.inLife = True
 
         self.wins = 0
         self.losses = 0
