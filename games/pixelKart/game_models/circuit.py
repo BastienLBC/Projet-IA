@@ -1,6 +1,6 @@
 from random import Random
 
-from const import *
+from games.pixelKart.i.const import *
 from direction import *
 import random
 
