@@ -60,12 +60,14 @@ class GameView(ctk.CTk):
             f"  Position: ({player1.x}, {player1.y})\n"
             f"  Direction: {player1.direction}\n"
             f"  Vitesse: {player1.speed}\n"
-            f"  Tours effectués: {player1.laps}\n\n"
+            f"  Tours effectués: {player1.laps}\n"
+            f"  En vie: {'Oui' if player1.inLife else 'Non'}\n\n"
             f"Joueur 2 ({player2.name}):\n"
             f"  Position: ({player2.x}, {player2.y})\n"
             f"  Direction: {player2.direction}\n"
             f"  Vitesse: {player2.speed}\n"
-            f"  Tours effectués: {player2.laps}"
+            f"  Tours effectués: {player2.laps}\n"
+            f"  En vie: {'Oui' if player2.inLife else 'Non'}"
         )
         self.info_label.configure(text=info_text)
 
@@ -73,6 +75,10 @@ class GameView(ctk.CTk):
         """
         Gère les événements clavier
         """
+        if not self.controller.current_player:
+            print("Erreur : Aucun joueur actuel défini.")
+            return
+
         bind = event.keysym.upper()
         if bind == "Z":
             bind = "Accelerate"
@@ -84,7 +90,12 @@ class GameView(ctk.CTk):
             bind = "Right"
         elif bind == "SPACE":
             bind = "Nothing"
-        self.controller.handle_action(bind)
+        self.controller.one_action(bind)
+
+        karts_data = self.controller.get_karts_positions()
+        self.update_player_info(self.controller.player1, self.controller.player2,
+                                laps_remaining=self.controller.nb_laps)
+        self.update_view(self.controller.circuit, karts_data)
 
     def update_view(self, circuit, karts):
         """

@@ -1,10 +1,12 @@
-from const import * 
+from random import Random
+
+from const import *
 from direction import *
 import random
 
 class Circuit:
     
-    def __init__(self,rows:int, cols:int, player1:str , player2:str, gp:str=None):
+    def __init__(self,rows:int, cols:int, player1, player2, gp:str=None):
         
         self.rows = rows
         self.cols = cols
@@ -13,6 +15,7 @@ class Circuit:
         self.start_line = [] #liste de tuple de positions ex:[(0,0),(0,1),(0,2)]
         self.nb_laps = 1 #nombre de tours à faire
         self.circuit = gp
+        self.grid = [list(row) for row in gp.split(",")] if gp else None
         self.current_player = None
 
     def get_current_player(self)->str:
@@ -68,15 +71,37 @@ class Circuit:
         self.current_player.x += speed
       
     def can_move(self, x, y):
+        # A ameliorer pour qu'il ne puisse pas passer à travers le mur
         return (
                 0 <= x < self.rows and
                 0 <= y < self.cols
                  )
-    
+
+    def speed_limiter(self):
+        """
+        Modifie la vitesse du joueur en fonction de la case sur laquelle il se trouve.
+        """
+        case_type = self.type_case()
+        if case_type == "GRASS":
+            self.current_player.speed = max(0, self.current_player.speed // 2)
+        elif case_type == "WALL":
+            self.current_player.inLife = False
+            self.current_player.speed = 0
+
     def type_case(self):
         """
-        Retourne le type de case
+        Retourne le type de case sur laquelle se trouve le current player
         """
+        case_type = None
+
+        if self.circuit:
+            x, y = self.current_player.x, self.current_player.y
+            if 0 <= y < len(self.grid) and 0 <= x < len(self.grid[y]):
+                case_letter = self.grid[y][x]
+                case_type = next(
+                    (case for case, properties in PIXEL_TYPES.items() if properties["letter"] == case_letter),
+                    None)
+        return case_type
     
     def accelerate(self):
         """
@@ -112,12 +137,12 @@ class Circuit:
         Réinitialise le jeu en repositionnant les joueurs et en réinitialisant les tours.
         """
         self.current_player = None
-        self.player1.x, self.player1.y = 0, 0
-        self.player2.x, self.player2.y = 0, 0
         self.player1.laps = 0
         self.player2.laps = 0
         self.player1.speed = 0
         self.player2.speed = 0
+        self.player1.inLife = True
+        self.player2.inLife = True
         self.load_start_line()
         self.start()
 
@@ -136,10 +161,13 @@ class Circuit:
         else :
             self.current_player.direction = "Nord"
 
-    def one_action(self,bind):
+    def one_action(self, bind):
         """
         Retourne une action
         """
+        if not self.current_player:
+            raise ValueError("joueur = None.")
+
         if bind == "Accelerate":
             self.accelerate()
         elif bind == "Decelerate":
@@ -150,7 +178,10 @@ class Circuit:
             self.turn_right()
         elif bind == "Nothing":
             return None
-        self.current_player.moove()
+
+        self.moove()
+        self.speed_limiter()
+        self.cpt_laps()
         
     """
     def speed_limiter(self):
@@ -167,12 +198,6 @@ class Circuit:
             self.current_player.losses += 1
             #le faire arrêter  - MORT
     """
-    def speed_limiter(self):
-
-        if self.type_case() == "GRASS":
-            self.current_player.speed %2
-        if self.type_case() == "WALL":
-            self.current_player.inLife = False
 
     def load_start_line(self):
         """
@@ -189,20 +214,23 @@ class Circuit:
 
     def start(self):
         """
-        Positionne les joueurs aleatoirement sur la ligne d'arrivée, dirigés vers l'est
+        Positionne les joueurs aléatoirement sur la ligne d'arrivée, dirigés vers l'est.
         """
+        self.load_start_line()
+        if not self.start_line:
+            raise ValueError("La ligne de départ est vide. Assurez-vous que le circuit contient des cases 'F'.")
+
         pos1_index = random.randint(0, len(self.start_line) - 1)
-        x1, y1 = self.start_line[pos1_index]  #pour décomposer le tple
+        x1, y1 = self.start_line[pos1_index]
         self.player1.x = x1
         self.player1.y = y1
-        
 
         pos2_index = random.randint(0, len(self.start_line) - 1)
         x2, y2 = self.start_line[pos2_index]
         self.player2.x = x2
         self.player2.y = y2
-        
 
+        self.current_player = self.player1
         # SI PAS TUPLE EN ENTREE :
         #----------------------------------
         # self.player1.x = self.start_line[random.randint(0,len(self.start_line)-1)]
@@ -223,8 +251,12 @@ class Circuit:
         on lui ajoute une victoire(et fini la partie), sinon on lui ajoute un tour à son compteur
         """
 
-        if self.current_player.x in self.start_line :
-            if self.current_player.direction == 'Est':
+        if (self.current_player.x, self.current_player.y) in self.start_line:
+            if self.current_player.direction == "Est":
+                self.current_player.laps += 1
+                if self.current_player.laps == self.nb_laps:
+                    self.current_player.win()
+                else:
                     self.current_player.laps += 1
 
     def is_finish(self):
@@ -254,3 +286,12 @@ class Circuit:
             return self.player1
         else:
             return self.player2
+
+    def get_karts_positions(self):
+        """
+        Retourne un dictionnaire des positions des karts avec leurs couleurs.
+        """
+        return {
+            (self.player1.y, self.player1.x): "red",
+            (self.player2.y, self.player2.x): "blue"
+        }
