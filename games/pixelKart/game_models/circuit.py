@@ -1,7 +1,7 @@
 from random import Random
 
-from i.pixelKart_circuitFrames import *
-from i.const import *
+from pixelKart_circuitFrames import *
+from const import *
 from direction import *
 import random
 

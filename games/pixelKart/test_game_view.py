@@ -2,7 +2,7 @@ import customtkinter as ctk
 from game_view import GameView
 from game_models.kart import kart
 import game_models.circuit as circuit
-import i.pixelKart_dao as dao
+import pixelKart_dao as dao
 
 def main():
     ctk.set_appearance_mode("dark")

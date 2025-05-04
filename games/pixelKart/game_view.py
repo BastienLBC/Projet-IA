@@ -1,5 +1,5 @@
 import customtkinter as ctk
-from i.pixelKart_circuitFrames import CircuitRaceFrame
+from pixelKart_circuitFrames import CircuitRaceFrame
 
 class GameView(ctk.CTk):
     """Gère la vue du jeu PixelKart"""
