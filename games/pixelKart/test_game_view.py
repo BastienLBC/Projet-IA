@@ -1,6 +1,6 @@
 import customtkinter as ctk
 from game_view import GameView
-from game_models.kart import kart
+from game_models.kart import kart,humanKart
 import game_models.circuit as circuit
 import pixelKart_dao as dao
 
@@ -8,7 +8,7 @@ def main():
     ctk.set_appearance_mode("dark")
     ctk.set_default_color_theme("green")
 
-    player1 = kart(name="Player1")
+    player1 = humanKart(name="Player1")
     player2 = kart(name="Player2")
 
     circuit_data = dao.get_by_name("Petit")
