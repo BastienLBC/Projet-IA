@@ -4,11 +4,22 @@ from game_view import *
 
 class GameController:
 
-    def __init__(self,player1: kart, player2: kart, circuit : Circuit):
+    def __init__(self, player1: kart, player2: kart, circuit_name: str):
         """
         Initialise le contrôleur de jeu avec les joueurs et le circuit.
+        Utilise 'Basic' si le circuit demandé n'existe pas.
         """
-        self.model = circuit(player1, player2, circuit)
+
+        # Charger tous les circuits
+        self.circuits = self.load_circuits("circuits.txt")
+
+        # Choisir le circuit ou utiliser 'Basic' par défaut
+        circuit_info = self.circuits.get(circuit_name, self.circuits.get("Basic"))
+
+        if circuit_info is None:
+            circuit_info = self.circuits.get("Basic")
+
+        self.model = Circuit(player1, player2, circuit_info["data"])
         self.view = GameView(self)
 
     def start(self)->None:
@@ -47,7 +58,6 @@ class GameController:
         """
         if self.model.is_finished():
             return f"{self.model.get_winner().name} a gagné !"
-        return f"Au tour du grand : {self.model.get_current_player().name}"
 
     def handle_player_moove(self, bind:str)->None:
         """

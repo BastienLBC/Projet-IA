@@ -1,6 +1,6 @@
 from random import Random
 
-from i.pixelKart_circuitFrames import rows, cols
+from i.pixelKart_circuitFrames import *
 from i.const import *
 from direction import *
 import random
