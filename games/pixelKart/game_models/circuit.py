@@ -19,6 +19,12 @@ class Circuit:
         self.grid = [list(row) for row in gp.split(",")] if gp else None
         self.current_player = None
 
+    def switch_player(self)->None:
+        """
+        Inverse le joueur courant
+        """
+        self.current_player = self.players1 if self.current_player == self.players2 else self.players2
+
     def get_current_player(self)->str:
         """
         Retourne le joueur actuel
@@ -278,10 +284,14 @@ class Circuit:
         self.start()
         while not self.is_finish():
             self.current_player = self.player1 if self.current_player == self.player2 else self.player2
+            if not self.current_player.inLife:
+                self.switch_player()
+                
             bind = self.current_player.play()
             self.one_action(bind)
             self.speed_limiter()
             self.cpt_laps()
+            self.switch_player()
 
         if self.player1.laps > self.player2.laps:
             return self.player1

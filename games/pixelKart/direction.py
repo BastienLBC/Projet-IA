@@ -11,6 +11,6 @@ def on_key_press(self, event):
             bind = "Left"
         elif bind == "D":
             bind = "Right"
-        elif bind == "SPACE":
+        elif bind == "A":
             bind = "Nothing"
         self.circuit.one_action(bind)

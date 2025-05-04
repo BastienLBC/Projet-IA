@@ -8,14 +8,14 @@ def main():
     ctk.set_appearance_mode("dark")
     ctk.set_default_color_theme("green")
 
-    player1 = kart(name="Player1", x=1, y=1, speed=1)
-    player2 = kart(name="Player2", x=3, y=3, speed=2)
+    player1 = kart(name="Player1")
+    player2 = kart(name="Player2")
 
     circuit_data = dao.get_by_name("Petit")
     if not circuit_data:
         raise ValueError("Le circuit 'Petit' est introuvable dans le fichier circuits.txt.")
 
-    controller = circuit.Circuit(12, 20, player1, player2, gp=circuit_data)
+    controller = circuit.Circuit(player1, player2, gp=circuit_data)
 
     controller.start()
 
