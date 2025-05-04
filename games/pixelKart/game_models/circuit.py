@@ -261,6 +261,10 @@ class Circuit:
         if (self.current_player.x, self.current_player.y) in self.start_line:
             if self.current_player.direction == "Est":
                 self.current_player.laps += 1
+                if self.current_player.laps == self.nb_laps:
+                    self.current_player.win()
+                    print(f"{self.current_player.name} a gagné la partie !")
+                    self.game_over = True
                 
 
     def is_finish(self):
@@ -279,13 +283,18 @@ class Circuit:
         """
         self.load_start_line()
         self.start()
+        self.game_over = False
+
         while not self.is_finish():
             if not self.current_player.inLife:
                 self.switch_player()
 
             bind = self.current_player.play()
             self.one_action(bind)
-            self.switch_player()
+            self.cpt_laps()
+
+            if not self.game_over:
+                self.switch_player()
 
 
     def get_karts_positions(self):
