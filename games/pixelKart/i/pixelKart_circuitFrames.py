@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-import const as const
+import const 
 
 class CircuitFrame(ttk.Frame):
     """
