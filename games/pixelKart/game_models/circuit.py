@@ -1,9 +1,7 @@
-from random import Random
-
-from pixelKart_circuitFrames import *
-from const import *
-from direction import *
-from game_models.kart import *
+from games.pixelKart.pixelKart_circuitFrames import *
+from games.pixelKart.const import *
+from games.pixelKart.direction import *
+from games.pixelKart.game_models.kart import *
 import random
 
 class Circuit:

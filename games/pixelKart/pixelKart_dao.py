@@ -3,14 +3,16 @@ import os
 FILE_PATH = "circuits.txt"
 
 def get_all():
-    """Retrieve all circuits from the file as a dictionary {name: str}."""
+    """Récupère tous les circuits du fichier sous forme de dictionnaire {nom: circuit}."""
     circuits = {}
     if os.path.exists(FILE_PATH):
         with open(FILE_PATH, "r", encoding="utf-8") as file:
             for line in file:
-                name,circuit = line.split(":")
-                if name:
-                    circuits[name] = circuit
+                line = line.strip()
+                if ":" in line:
+                    name, circuit = line.split(":", 1)
+                    if name and circuit:
+                        circuits[name] = circuit
     return circuits
 
 def get_by_name(name):
@@ -41,12 +43,12 @@ def delete_circuit(name):
             file.write(circuit_name + "\n")
 
 def update_circuit(name, string):
-    """Update the name of an existing circuit."""
+    """Met à jour un circuit existant."""
     circuits = get_all()
     if name not in circuits:
-        raise ValueError(f"The circuit '{name}' does not exist.")
-    
+        raise ValueError(f"Le circuit '{name}' n'existe pas.")
+
     circuits[name] = string
     with open(FILE_PATH, "w", encoding="utf-8") as file:
-        for circuit_name in circuits:
-            file.write(circuit_name + "\n")
+        for circuit_name, circuit_data in circuits.items():
+            file.write(f"{circuit_name}:{circuit_data}\n")

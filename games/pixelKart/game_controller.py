@@ -1,6 +1,6 @@
-from game_models.circuit import *
-from game_models.kart import *
-from game_view import *
+from games.pixelKart.game_models.circuit import *
+from games.pixelKart.game_models.kart import *
+from games.pixelKart.game_view import *
 
 class GameController:
 

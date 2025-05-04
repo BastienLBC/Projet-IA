@@ -1,8 +1,7 @@
 import tkinter as tk
 from tkinter import Tk, ttk
-import pixelKart_dao as dao
-from pixelKart_circuitFrames import CircuitEditorFrame
-
+from games.pixelKart.pixelKart_dao import get_all, save_circuit
+from games.pixelKart.pixelKart_circuitFrames import CircuitEditorFrame
 class CircuitEditor(tk.Toplevel):
     """
     CircuitEditor is a graphical user interface (GUI) application for creating and editing circuit grids.
@@ -161,7 +160,44 @@ class CircuitEditor(tk.Toplevel):
         self.grid_frame.cols = cols
         self.grid_frame.clear()
         self.grid_frame.init_cells()
-    
+
+        def reload_circuits(self):
+            """Recharge les circuits et met à jour la liste déroulante."""
+            self.all_circuits = dao.get_all()
+            menu = self.circuit_dropdown['menu']
+            menu.delete(0, 'end')
+            for circuit_name in self.all_circuits.keys():
+                menu.add_command(label=circuit_name, command=tk._setit(self.circuit_var, circuit_name))
+
+        def save_circuit(self):
+            """
+            Opens a popup to ask for the circuit name and saves the circuit using the DAO.
+            """
+
+            def save_action():
+                circuit_name = name_var.get()
+                circuit_data = self.grid_frame.grid_to_dto()
+                try:
+                    save_circuit(circuit_name, circuit_data)  # Utilise la fonction DAO pour sauvegarder
+                    self.reload_circuits()  # Recharge la liste des circuits
+                    self.circuit_var.set(circuit_name)
+                    popup.destroy()
+                except Exception as e:
+                    error_popup = tk.Toplevel(self)
+                    error_popup.title("Error")
+                    ttk.Label(error_popup, text=f"An error occurred: {str(e)}").pack(pady=10)
+                    ttk.Button(error_popup, text="OK", command=error_popup.destroy).pack(pady=5)
+
+            popup = tk.Toplevel(self)
+            popup.title("Save Circuit")
+
+            ttk.Label(popup, text="Circuit Name:").pack(pady=5)
+            name_var = tk.StringVar()
+            name_entry = ttk.Entry(popup, textvariable=name_var)
+            name_entry.pack(pady=5)
+
+            save_popup_button = ttk.Button(popup, text="Save", command=save_action)
+            save_popup_button.pack(pady=5)
 
 if __name__ == "__main__":
     root = Tk()

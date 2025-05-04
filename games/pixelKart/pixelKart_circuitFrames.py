@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-import const as const
+from games.pixelKart.const import PIXEL_TYPES
 
 class CircuitFrame(ttk.Frame):
     """
@@ -51,7 +51,7 @@ class CircuitFrame(ttk.Frame):
             row = []
             for col in range(self.cols):
                 initial_type = "GRASS" if 0 in (line,col) or line == self.rows - 1 or col == self.cols - 1 else "ROAD"
-                initial_color = const.PIXEL_TYPES[initial_type]["color"]
+                initial_color = PIXEL_TYPES[initial_type]["color"]
                 cell = tk.Label(self, bg=initial_color, width=2, height=1, borderwidth=1, relief="solid")
                 cell.grid(row=line, column=col, sticky="nsew")
                 
@@ -78,7 +78,7 @@ class CircuitFrame(ttk.Frame):
         Return the grid as a string look like "rgc,rgc,rgc".
         """
         export_result = []
-        color_map = dict((v["color"], v["letter"]) for v in const.PIXEL_TYPES.values())
+        color_map = dict((v["color"], v["letter"]) for v in PIXEL_TYPES.values())
         for row in self.cells:
             export_result.append("".join(color_map[cell.cget("bg")] for cell in row))
         return ",".join(export_result)
@@ -97,7 +97,7 @@ class CircuitFrame(ttk.Frame):
         self.clear()
         self.init_cells()
 
-        color_map = dict((v["letter"], v["color"]) for v in const.PIXEL_TYPES.values())
+        color_map = dict((v["letter"], v["color"]) for v in PIXEL_TYPES.values())
         for i, row in enumerate(import_data):
             for j, char in enumerate(row):
                 if i < len(self.cells) and j < len(self.cells[i]):
@@ -137,7 +137,7 @@ class CircuitEditorFrame (CircuitFrame):
         Color change in order of PIXEL_TYPES.
         """
         current_color = self.cells[x][y].cget("bg")
-        colors = [pixel["color"] for pixel in const.PIXEL_TYPES.values()]
+        colors = [pixel["color"] for pixel in PIXEL_TYPES.values()]
         new_color = colors[(colors.index(current_color) + 1) % len(colors)]
         self.cells[x][y].config(bg=new_color)
 
