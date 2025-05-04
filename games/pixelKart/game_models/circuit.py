@@ -3,6 +3,7 @@ from random import Random
 from pixelKart_circuitFrames import *
 from const import *
 from direction import *
+from game_models.kart import *
 import random
 
 class Circuit:
