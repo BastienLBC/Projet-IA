@@ -15,7 +15,7 @@ class Circuit:
         self.player1 = player1
         self.player2 = player2
         self.start_line = [] #liste de tuple de positions ex:[(0,0),(0,1),(0,2)]
-        self.nb_laps = 1 #nombre de tours à faire
+        self.nb_laps = 2 #nombre de tours à faire
         self.circuit = gp
         self.grid = [list(row) for row in gp.split(",")] if gp else None
         self.current_player = player1
@@ -24,7 +24,7 @@ class Circuit:
         """
         Inverse le joueur courant
         """
-        self.current_player = self.players1 if self.current_player == self.players2 else self.players2
+        self.current_player = self.player1 if self.current_player == self.player2 else self.player2
 
     def get_current_player(self)->str:
         """
@@ -173,8 +173,9 @@ class Circuit:
         """
         Retourne une action
         """
-        if not self.current_player:
-            raise ValueError("joueur = None.")
+        
+        if self.current_player.inLife == False:
+            return None
 
         if bind == "Accelerate":
             self.accelerate()
@@ -262,10 +263,7 @@ class Circuit:
         if (self.current_player.x, self.current_player.y) in self.start_line:
             if self.current_player.direction == "Est":
                 self.current_player.laps += 1
-                if self.current_player.laps == self.nb_laps:
-                    self.current_player.win()
-                else:
-                    self.current_player.laps += 1
+                
 
     def is_finish(self):
         """
@@ -289,14 +287,8 @@ class Circuit:
 
             bind = self.current_player.play()
             self.one_action(bind)
-            self.speed_limiter()
-            self.cpt_laps()
             self.switch_player()
 
-        if self.player1.laps > self.player2.laps:
-            return self.player1
-        else:
-            return self.player2
 
     def get_karts_positions(self):
         """
