@@ -1,0 +1,215 @@
+# 1.Règles du jeu
+
+But :
+
+Posséder plus de cases que l’adversaire
+
+Déroulement :
+
+Deux joueurs s'affrontent sur un plateau carré d'une taille variable (5x5 cases par défaut).
+
+Un joueur gagne des cases en se déplaçant dessus.
+
+Au début de la partie, les joueurs commencent chacun dans un coin opposé du terrain. Chacun à leur tour, ils vont se déplacer d'une case (vers le haut, le bas, la gauche ou la droite). Un joueur ne peut pas se déplacer sur une case appartenant au joueur adverse ni sortir des limites du plateau.
+
+![image.png](attachment:e671a4cc-4d4b-4d9e-af42-c1ad3ec11a0c:image.png)
+
+Si un joueur arrive à faire un enclos (bloquer l’accès à certaines cases pour l’adversaire), les cases de l'enclos appartiennent automatiquement au joueur qui les a bloquées.
+
+![image.png](attachment:f2960e5e-57a0-44fb-83ec-4ecebc7cfabc:image.png)
+
+Le jeu s’arrête lorsqu’il ne reste plus de case libre.
+
+[](data:image/png;base64,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)
+
+![image.png](attachment:cac253df-f315-45af-8c07-ea7c23bd33d9:image.png)
+
+# 2. Etapes
+
+## 2.1 Jeu de base
+
+Comme toujours, avant de vous plonger dans la programmation, il faut réfléchir et analyser…
+
+1. Faites quelques mockups (des croquis de votre jeu) afin de bien visualiser les éléments et la manière de jouer.
+2. Faites le diagramme UML de votre jeu :
+    - Quelles sont les classes nécessaires ?
+    - Quels sont leurs attributs ?
+    - De quelles méthodes vais-je avoir besoin ?
+3. Ecrivez toutes les spécifications et se répartissez vous le travail.
+4. Il ne vous reste plus qu’à développer le jeu de base (sans les enclos).
+
+<aside>
+💭
+
+Le jeu sera difficile à tester avant que toutes les parties soient implémentées. Dès lors, faire des tests unitaires pourrait vous aider :
+
+[Tests unitaires](https://www.notion.so/Tests-unitaires-1c51fac5e8908152942ac82b77d7f978?pvs=21)
+
+</aside>
+
+## 2.2. Enclos
+
+Pour implémenter les enclos, je vous conseille vivement d’utiliser l’algorithme [BFS](https://fr.wikipedia.org/wiki/Algorithme_de_parcours_en_largeur).
+
+L'algorithme **BFS** (Breadth-First Search, ou **parcours en largeur**) est un algorithme utilisé pour explorer ou parcourir des graphes ou des arbres. Il explore les nœuds d'un graphe en commençant par un nœud source et explore les voisins de chaque nœud avant de passer aux nœuds des niveaux suivants. C'est un algorithme **non-récursif**, souvent implémenté à l'aide d'une **file** (queue).
+
+### Fonctionnement de BFS
+
+1. Point de départ : L'algorithme commence par un nœud de départ appelé "source".
+2. File d'attente (Queue) : Il utilise une file (FIFO) pour garder la trace des nœuds à visiter. On y place d'abord le nœud source.
+3. Visite des voisins : Pour chaque nœud, on explore ses voisins directs (les nœuds adjacents), les marque comme visités et les ajoute à la file d'attente.
+4. Répéter jusqu'à épuisement : L'algorithme continue en traitant chaque nœud de la file d'attente, jusqu'à ce que la file soit vide, ce qui signifie que tous les nœuds accessibles depuis le point de départ ont été visités.
+
+Dans notre cas, il ne s'agit pas d'un arbre mais d'un plateau. Ceci dit, un plateau peut être vu comme un arbre (connexe). Nous allons donc parcourir en BFS le plateau à partir de la case courante et noter tous les nœuds visités (ou plutôt visitable).
+
+Nous prendrons note des nœuds visitables (reachables). Ca permettra de repérer des enclos (zone non atteignable)
+
+```
+┌────────────────────┐
+│ Recherche d'enclos │
+└────────────────────┘
+┌─── *
+│ reachable = board parallèle remplis de False // par défaut, rien n'est atteignable
+│ queue = FIFO init à case actuelle // noeuds à visiter = cases atteignables pas encore traitées
+│
+│╔══ while queue pas vide :
+│║ todo = queue.pop()
+│║
+│║╔══ Pour chaque case voisine de todo :
+│║║┌── if case dans board & pas déjà reachable & libre (ou a lui) :
+│║║│ reachable[case] = True
+│║║│ queue.push(case)
+│║║└──
+│║╙──
+│╙──
+└──────────
+```
+
+### Tests unitaires
+
+Prévoyez une série de tests unitaires pour tester votre algorithme. Voici un exemple qui pourrait vous aider :
+
+- test_enclosure.py
+
+    ```python
+    import pytest
+    from cubee import GameModel
+
+    def test_check_enclosure_empty_board():
+        game = GameModel("P1", "P2", size=3)
+        game.board = [[0,0,0],
+                      [0,0,0],
+                      [0,0,2]]
+        game.player_turn = 1
+        game.check_enclosure()
+        assert game.board == [[0,0,0],
+                             [0,0,0],
+                             [0,0,2]]
+
+    def test_check_enclosure_simple_case():
+        game = GameModel("P1", "P2", size=3)
+        game.board = [[1,1,0],
+                      [1,1,1],
+                      [1,2,2]]
+        game.player_turn = 1
+        game.check_enclosure()
+        assert game.board == [[1,1,1],
+                             [1,1,1],
+                             [1,2,2]]
+
+    def test_check_enclosure_no_enclosed_area():
+        game = GameModel("P1", "P2", size=3)
+        game.board = [[1,1,1],
+                      [1,0,0],
+                      [1,1,2]]
+        game.player_turn = 1
+        game.check_enclosure()
+        assert game.board == [[1,1,1],
+                             [1,0,0],
+                             [1,1,2]]
+
+    def test_check_enclosure_multiple_spaces():
+        game = GameModel("P1", "P2", size=4)
+        game.board = [[1,1,1,1],
+                      [1,0,0,1],
+                      [1,0,1,1],
+                      [1,1,2,2]]
+        game.player_turn = 1
+        game.check_enclosure()
+        assert game.board == [[1,1,1,1],
+                             [1,1,1,1],
+                             [1,1,1,1],
+                             [1,1,2,2]]
+
+    def test_check_enclosure_multiple_enclosure():
+        game = GameModel("P1", "P2", size=4)
+        game.board = [[1,1,0,0],
+                      [1,1,0,1],
+                      [0,1,1,2],
+                      [1,1,2,2]]
+        game.player_turn = 1
+        game.check_enclosure()
+        assert game.board == [[1,1,1,1],
+                             [1,1,1,1],
+                             [1,1,1,2],
+                             [1,1,2,2]]
+
+
+    tests = [
+        ([[1,1,1],[1,2,1],[1,2,2]],
+         1,
+         [[1,1,1],[1,2,1],[1,2,2]]),
+
+        ([[1,0,0],[1,1,1],[1,2,2]],
+         1,
+         [[1,1,1],[1,1,1],[1,2,2]]),
+
+        ([[1,1,1],[1,0,2],[1,1,2]],
+         1,
+         [[1,1,1],[1,0,2],[1,1,2]]),
+
+        ([[1,2,0],[1,2,0],[1,2,2]],
+         2,
+         [[1,2,2],[1,2,2],[1,2,2]]),
+
+        ([[1,0,1,1],[1,0,0,1],[1,1,1,2],[1,1,1,2]],
+         1,
+         [[1,1,1,1],[1,1,1,1],[1,1,1,2],[1,1,1,2]]),
+
+        ([[1,0,1,1],[1,0,0,1],[1,1,0,1],[1,1,2,2]],
+         2,
+         [[1,0,1,1],[1,0,0,1],[1,1,0,1],[1,1,2,2]]),
+
+        ([[1,1,0,0],[1,1,0,1],[0,1,2,2],[1,1,2,2]],
+         1,
+         [[1,1,0,0],[1,1,0,1],[1,1,2,2],[1,1,2,2]]),
+    ]
+
+    @pytest.mark.parametrize("board,turn,expected", tests)
+    def test_enclosure(board, turn, expected):
+    		game = GameModel("P1", "P2", size=len(board))
+    		game.board = board
+    		game.player_turn = turn
+    		game.check_enclosure()
+    		assert game.board == expected, f"{board} =({turn})=> {game.board}. But expected : {expected} "
+    ```
+
+
+## 2.3. IA
+
+Pour cette étape, implémentez l’apprentissage de l’IA : à chaque mouvement qu’elle fait, l’IA apprend. A ce stade, nous ne parlons pas encore d’entrainement intensif (il s’agit de la prochaine étape).
+
+- Il vous est demandé d’implémenter votre IA via la Q-function, à votre avis, quelle est la raison de ce choix ?
+- Réfléchissez aux informations nécessaires pour implémenter votre IA :
+    - A quoi va ressembler votre Q-table ? Qu’est ce qu’un état ? Quelles sont les actions ?
+    - Quels sont les différents paramètres et à la récompense ?
+    - Quelles sont les étapes à suivre lorsque votre IA joue pour qu’elle apprenne en même temps?
+- Il est conseillé de pouvoir sauver en mémoire l’état des connaissances de votre IA quand vous souhaitez fermer le jeu. Quelle solution vous semble la meilleure ?
+
+## 2.4. Entrainement
+
+Il est maintenant temps de mettre en place un entrainement intensif. Et, à moins que vous ayez du temps à perdre, je vous conseille de permettre à l’IA de s’entrainer contre une autre IA et de ne pas afficher ces parties intensives.
+
+Prévoyez les changements nécessaires dans votre projet.
+
+Lancez vos premières séries d’entrainement sur de petits plateaux. Comparez ensuite les résultats en fonction des paramètres. Une fois que vous pensez avoir trouvez les paramètres optimaux, pourquoi ne pas essayer sur un grand plateau ?

@@ -10,15 +10,23 @@ class GameModel:
         self.display = display
         self.current_player = None
         self.board = board
+        self.size = board
 
         self.players1.game = self
         self.players2.game = self
 
     
         self.matrix = [[{"color": "white"} for i in range(self.board)] for j in range(self.board)]
-        
+        if self.is_ai(players1):
+            players1.board = self
+        if self.is_ai(players2):
+            players2.board = self
 
         self.reset()
+
+    def is_ai(self, player):
+        from Game.game_models.players import AiPlayer  # Importation différée
+        return isinstance(player, AiPlayer)
 
     def shuffle(self)->None:
         """
@@ -131,14 +139,28 @@ class GameModel:
         """
         return self.players2 if self.players1.score > self.players2.score else self.players1
     
-    def is_finished(self)->bool:
+    def is_finished(self) -> bool:
         """
         Vérifie si la partie est terminée
 
         Returns:
             bool: True si la partie est terminée, False sinon
         """
-        return self.players1.score + self.players2.score == self.board * self.board
+        total_cells = self.board * self.board
+        total_points = self.players1.score + self.players2.score
+        remaining_points = total_cells - total_points
+
+        # Si toutes les cases sont jouées
+        if remaining_points == 0:
+            return True
+
+        # Si un joueur ne peut plus rattraper l'autre
+        score_diff = abs(self.players1.score - self.players2.score)
+        if score_diff > remaining_points:
+            return True
+
+        return False
+
         
     def play(self) -> None:
         """
@@ -154,7 +176,20 @@ class GameModel:
         winner.win()
         loser.lose()
             
-            
+    def get_matrix_state(self):
+        """
+        Retourne une représentation de l'état actuel de la matrice.
+        """
+        return [[cell["color"] for cell in row] for row in self.matrix]
+
+    def get_board_state(self):
+        """
+        Retourne une représentation de l'état actuel du plateau.
+        """
+        return {
+            "players1": {"x": self.players1.x, "y": self.players1.y, "score": self.players1.score},
+            "players2": {"x": self.players2.x, "y": self.players2.y, "score": self.players2.score},
+        }
 
     def check_enclosure(self):
         """
@@ -181,5 +216,5 @@ class GameModel:
             for y in range(self.board):
                 if self.matrix[x][y]["color"] == "white" and not reachable[x][y]:
                     self.matrix[x][y]["color"] = opponent.color  
-                    opponent.score += 1  
+                    opponent.score += 1
 
