@@ -2,11 +2,11 @@ import random
 
 class kart:
     
-    def __init__(self,name:str, x:int, y:int):
+    def __init__(self,name:str):
 
         self.name = name
-        self.x = x
-        self.y = y 
+        self.x = 0
+        self.y = 0 
         self.direction = "Est"
         self.speed = 0
         self.laps = 0
@@ -35,9 +35,9 @@ class kart:
         """
         self.losses += 1
 
-class humanKart:
-    def __init__(self, name:str, x:int, y:int):
-        super().__init__(name, x, y)
+class humanKart(kart):
+    def __init__(self, name:str):
+        super().__init__(name)
         
     def play(self):
         """

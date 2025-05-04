@@ -5,9 +5,9 @@ from game_controller import GameController
 if __name__ == "__main__":
    
 
-    human = humanKart ("Humain", 12, 20)
-    human2 = humanKart ("Bob", 12, 20)
-    random = kart("BipBoup", 12, 20)
+    human = humanKart ("Humain")
+    human2 = humanKart ("Bob")
+    random = kart("BipBoup")
 
     game_controller = GameController(human, human2, 'Large')
     game_controller.start()
