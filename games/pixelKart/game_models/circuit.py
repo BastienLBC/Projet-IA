@@ -1,7 +1,7 @@
 from random import Random
 
-from pixelKart.i.pixelKart_circuitFrames import rows, cols
-from pixelKart.i.const import *
+from i.pixelKart_circuitFrames import rows, cols
+from i.const import *
 from direction import *
 import random
 
@@ -9,8 +9,8 @@ class Circuit:
     
     def __init__(self, player1, player2, gp:str=None):
         
-        self.rows = rows
-        self.cols = cols
+        self.rows = 20
+        self.cols = 30
         self.player1 = player1
         self.player2 = player2
         self.start_line = [] #liste de tuple de positions ex:[(0,0),(0,1),(0,2)]

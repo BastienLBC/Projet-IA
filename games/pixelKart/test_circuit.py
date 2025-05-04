@@ -1,11 +1,11 @@
 import unittest
-from games.pixelKart.game_models.circuit import Circuit
-from games.pixelKart.game_models.kart import kart
+from game_models.circuit import Circuit
+from game_models.kart import kart, humanKart
 
 class TestCircuit(unittest.TestCase):
     def test_cpt_laps(self):
-        player1 = kart(name="Player1", x=0, y=0, speed=1)
-        player2 = kart(name="Player2", x=0, y=0, speed=1)
+        player1 = humanKart(name="Player1", x=0, y=0, speed=1)
+        player2 = humanKart(name="Player2", x=0, y=0, speed=1)
         circuit = Circuit(10, 10, player1, player2)
         circuit.start_line = [(0, 0)]
         circuit.current_player = player1
