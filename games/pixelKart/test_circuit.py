@@ -1,6 +1,6 @@
 import unittest
-from circuit import Circuit
-from kart import kart
+from games.pixelKart.game_models.circuit import Circuit
+from games.pixelKart.game_models.kart import kart
 
 class TestCircuit(unittest.TestCase):
     def test_cpt_laps(self):

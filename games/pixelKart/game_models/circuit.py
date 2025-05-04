@@ -1,12 +1,13 @@
 from random import Random
 
+from pixelKart.i.pixelKart_circuitFrames import rows, cols
 from pixelKart.i.const import *
 from direction import *
 import random
 
 class Circuit:
     
-    def __init__(self,rows:int, cols:int, player1, player2, gp:str=None):
+    def __init__(self, player1, player2, gp:str=None):
         
         self.rows = rows
         self.cols = cols
