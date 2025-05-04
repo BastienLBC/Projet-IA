@@ -17,7 +17,7 @@ class Circuit:
         self.nb_laps = 1 #nombre de tours à faire
         self.circuit = gp
         self.grid = [list(row) for row in gp.split(",")] if gp else None
-        self.current_player = None
+        self.current_player = player1
 
     def switch_player(self)->None:
         """
@@ -114,7 +114,7 @@ class Circuit:
         """
         Accélère la vitesse du joueur
         """
-        if self.current_player.speed <= 2:
+        if self.current_player.speed < 2:
             self.current_player.speed += 1
 
     def decelerate(self):
@@ -283,10 +283,9 @@ class Circuit:
         self.load_start_line()
         self.start()
         while not self.is_finish():
-            self.current_player = self.player1 if self.current_player == self.player2 else self.player2
             if not self.current_player.inLife:
                 self.switch_player()
-                
+
             bind = self.current_player.play()
             self.one_action(bind)
             self.speed_limiter()
