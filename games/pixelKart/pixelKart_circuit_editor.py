@@ -1,8 +1,15 @@
+# import tkinter as tk
+# from tkinter import Tk, ttk
+# from games.pixelKart.pixelKart_dao import get_all, save_circuit
+# from games.pixelKart.pixelKart_circuitFrames import CircuitEditorFrame
 import tkinter as tk
 from tkinter import Tk, ttk
 from games.pixelKart.pixelKart_dao import get_all, save_circuit
 from games.pixelKart.pixelKart_circuitFrames import CircuitEditorFrame
+
+
 class CircuitEditor(tk.Toplevel):
+
     """
     CircuitEditor is a graphical user interface (GUI) application for creating and editing circuit grids.
     It inherits from Toplevel to be used as a secondary window.
@@ -37,7 +44,7 @@ class CircuitEditor(tk.Toplevel):
 
         self.length_var = tk.StringVar(value="20")
         self.width_var = tk.StringVar(value="12")
-        self.all_circuits = dao.get_all()
+        self.all_circuits = get_all()
 
         # Input frame for name, length and width
         input_frame = ttk.Frame(self)
