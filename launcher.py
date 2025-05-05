@@ -5,7 +5,7 @@ from games.pixelKart.pixelKart import main as pixelkart_main
 import subprocess
 
 
-selected_circuit = None
+selected_circuit = "Basic"
 
 def launch_game(game):
     if game == "cube":
@@ -44,7 +44,7 @@ root.grid_columnconfigure(0, weight=1)
 root.grid_columnconfigure(1, weight=1)
 root.grid_columnconfigure(2, weight=1)
 
-label_cube = ctk.CTkLabel(frame_cube, text="Cube", font=("OCR A Extended", 20, "bold"), text_color="#32CD32")
+label_cube = ctk.CTkLabel(frame_cube, text="Cubee", font=("OCR A Extended", 20, "bold"), text_color="#32CD32")
 label_cube.pack(pady=20)
 button_cube = ctk.CTkButton(frame_cube, text="Jouer", command=lambda: launch_game("cube"))
 button_cube.pack(pady=10)
