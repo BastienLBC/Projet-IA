@@ -150,34 +150,33 @@ class AiPlayer(Player):
 
         return direction
 
-    def calculate_reward(self, from_x, from_y, to_x, to_y):
+    def calculate_reward(state, action, next_state, is_terminal):
         """
-        Calcule la récompense pour un déplacement
-        @param from_x: Position x de départ
-        @param from_y: Position y de départ
-        @param to_x: Position x d'arrivée
-        @param to_y: Position y d'arrivée
-        @return: La récompense calculée
+        Fonction de récompense améliorée.
         """
-        print(f"Reward calculated: 25 (from {from_x},{from_y} to {to_x},{to_y})")
-        reward = 25  # Récompense de base pour un mouvement valide
+        reward = 0
 
-        # Vérifier si le mouvement est valide
-        if not (0 <= to_x < self.board.size and 0 <= to_y < self.board.size):
-            return -50  # Pénalité pour un mouvement invalide
+        # Récompense pour atteindre un objectif
+        if is_terminal:
+            reward += 100  # Récompense élevée pour gagner ou atteindre un objectif final
 
-        # Vérifier si la case est occupée par l'adversaire
-        if self.board.matrix[to_x][to_y] == self.enemy.color:
-            return -50
-
-        # Pénalité si on s'éloigne du centre
-        distance_to_center = abs(to_x - self.board.size // 2) + abs(to_y - self.board.size // 2)
-        reward -= distance_to_center * 2
-
-        # Bonus si on s'approche de l'adversaire
-        distance_to_enemy = abs(to_x - self.enemy.x) + abs(to_y - self.enemy.y)
-        if distance_to_enemy < abs(from_x - self.enemy.x) + abs(from_y - self.enemy.y):
+        # Récompense pour des objectifs intermédiaires
+        if next_state.get('intermediate_goal_achieved', False):
             reward += 10
+
+        # Pénalité pour des actions inutiles ou répétitives
+        if action in state.get('useless_actions', []):
+            reward -= 5
+
+        # Récompense pour se rapprocher de l'objectif
+        distance_to_goal = next_state.get('distance_to_goal', float('inf'))
+        previous_distance = state.get('distance_to_goal', float('inf'))
+        if distance_to_goal < previous_distance:
+            reward += 1  # Récompense pour la progression
+
+        # Pénalité pour s'éloigner de l'objectif
+        if distance_to_goal > previous_distance:
+            reward -= 1
 
         return reward
 
