@@ -150,33 +150,39 @@ class AiPlayer(Player):
 
         return direction
 
-    def calculate_reward(state, action, next_state, is_terminal):
+    def calculate_reward(self, previous_state, current_state):
         """
-        Fonction de récompense améliorée.
+        Calcule la récompense basée sur la transition entre l'état précédent et l'état actuel.
+
+        Args:
+            previous_state (dict): L'état du plateau avant l'action.
+            current_state (dict): L'état du plateau après l'action.
+
+        Returns:
+            float: La récompense calculée.
         """
         reward = 0
 
-        # Récompense pour atteindre un objectif
-        if is_terminal:
-            reward += 100  # Récompense élevée pour gagner ou atteindre un objectif final
+        # Récompense pour les cases capturées
+        previous_score = previous_state["current_player"]["score"]
+        current_score = current_state["current_player"]["score"]
+        reward += (current_score - previous_score) * 10  # Exemple : 10 points par case capturée
 
-        # Récompense pour des objectifs intermédiaires
-        if next_state.get('intermediate_goal_achieved', False):
-            reward += 10
+        # Pénalité si le joueur perd une case
+        previous_opponent_score = previous_state["opponent"]["score"]
+        current_opponent_score = current_state["opponent"]["score"]
+        reward -= (current_opponent_score - previous_opponent_score) * 5  # Exemple : -5 points par case perdue
 
-        # Pénalité pour des actions inutiles ou répétitives
-        if action in state.get('useless_actions', []):
-            reward -= 5
+        # Récompense pour avoir enfermé des cases
+        if "enclosed_areas" in current_state:
+            reward += len(current_state["enclosed_areas"]) * 15  # Exemple : 15 points par zone enfermée
 
-        # Récompense pour se rapprocher de l'objectif
-        distance_to_goal = next_state.get('distance_to_goal', float('inf'))
-        previous_distance = state.get('distance_to_goal', float('inf'))
-        if distance_to_goal < previous_distance:
-            reward += 1  # Récompense pour la progression
-
-        # Pénalité pour s'éloigner de l'objectif
-        if distance_to_goal > previous_distance:
-            reward -= 1
+        # Autres règles spécifiques
+        if current_state["game_over"]:
+            if current_state["winner"] == "current_player":
+                reward += 100  # Bonus pour gagner
+            else:
+                reward -= 100  # Pénalité pour perdre
 
         return reward
 
@@ -200,7 +206,6 @@ class AiPlayer(Player):
         new_x = self.x + dx
         new_y = self.y + dy
 
-        # Vérifie si le mouvement est valide
         if 0 <= new_x < self.board.size and 0 <= new_y < self.board.size:
             self.x = new_x
             self.y = new_y
