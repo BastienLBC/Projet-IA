@@ -49,6 +49,7 @@ class Circuit:
             elif (direction == 'Est') and self.can_move(x + 1, y) :
                 self.move_right(1)
                 speed = 1
+                self.cpt_laps()
             else:
                 self.current_player.speed = 0
 
@@ -61,6 +62,7 @@ class Circuit:
                 self.move_left(speed)
             elif (direction == 'Est') and (self.can_move(x + 1, y) and self.can_move(x-1, y)):
                 self.move_right(speed)
+                self.cpt_laps()
             else:
                 self.current_player.speed = 0
 
@@ -188,7 +190,7 @@ class Circuit:
 
         self.moove()
         self.speed_limiter()
-        self.cpt_laps()
+        
         
     """
     def speed_limiter(self):
