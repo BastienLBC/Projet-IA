@@ -14,8 +14,8 @@ class Circuit:
         self.nb_laps = 2 #nombre de tours à faire
         self.circuit = gp
         self.grid = [list(row) for row in gp.split(",")] if gp else None
-        self.rows = len(self.grid) 
-        self.cols = len(self.grid[0]) 
+        self.rows = 12 
+        self.cols = 20 
         self.current_player = player1
 
     def switch_player(self)->None:
@@ -130,7 +130,7 @@ class Circuit:
         """
         Ralentit la vitesse du joueur
         """
-        if self.current_player.speed > -1:
+        if self.current_player.speed >= -1:
             self.current_player.speed -= 1
     
     def turn_left(self):
