@@ -1,3 +1,4 @@
+from games.pixelKart.pixelKart_circuitFrames import CircuitFrame
 from games.pixelKart.pixelKart_circuitFrames import *
 from games.pixelKart.const import *
 from games.pixelKart.direction import *
@@ -14,8 +15,14 @@ class Circuit:
         self.nb_laps = 2 #nombre de tours à faire
         self.circuit = gp
         self.grid = [list(row) for row in gp.split(",")] if gp else None
+
+        root = tk.Tk()
+        root.withdraw()  # empêche l'ouverture d'une fenêtre
+
+        self.pixelKart_circuitFrames = CircuitRaceFrame(container=root, circuit=gp)
         self.rows = self.pixelKart_circuitFrames.rows
         self.cols = self.pixelKart_circuitFrames.cols
+        
         self.current_player = player1
 
     def switch_player(self)->None:
