@@ -14,8 +14,8 @@ class Circuit:
         self.nb_laps = 2 #nombre de tours à faire
         self.circuit = gp
         self.grid = [list(row) for row in gp.split(",")] if gp else None
-        self.rows = 12 
-        self.cols = 20 
+        self.rows = self.pixelKart_circuitFrames.rows
+        self.cols = self.pixelKart_circuitFrames.cols
         self.current_player = player1
 
     def switch_player(self)->None:
