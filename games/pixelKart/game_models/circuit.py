@@ -112,6 +112,9 @@ class Circuit:
         elif case_type == "WALL":
             self.current_player.inLife = False
             self.current_player.speed = 0
+        elif case_type == "FINISH" and self.current_player.direction != "Est":
+            self.current_player.inLife = False 
+            
 
     def type_case(self):
         """
