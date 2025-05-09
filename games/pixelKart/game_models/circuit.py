@@ -45,38 +45,38 @@ class Circuit:
         
         if speed == 2:
             if (direction == 'Nord') and self.can_move(x, y - 1) :
+                self.speed_limiter()
                 self.move_up(1)
                 speed = 1
-                self.speed_limiter()
             elif (direction == 'Sud') and self.can_move(x, y + 1) :
+                self.speed_limiter()
                 self.move_down(1)
                 speed = 1
-                self.speed_limiter()
             elif (direction == 'Ouest') and self.can_move(x - 1, y) :
+                self.speed_limiter()
                 self.move_left(1)
                 speed = 1
-                self.speed_limiter()
             elif (direction == 'Est') and self.can_move(x + 1, y) :
+                self.speed_limiter()
                 self.move_right(1)
                 speed = 1
-                self.speed_limiter()
                 self.cpt_laps()
             else:
                 self.current_player.speed = 0
 
         if speed == 1 or speed == -1:
             if (direction == 'Nord') and (self.can_move(x, y - 1) or self.can_move(x, y + 1)):
+                self.speed_limiter()
                 self.move_up(speed)
-                self.speed_limiter()
             elif (direction == 'Sud') and (self.can_move(x, y + 1) or self.can_move(x, y - 1)):
+                self.speed_limiter()
                 self.move_down(speed)
-                self.speed_limiter()
             elif (direction == 'Ouest') and (self.can_move(x - 1, y) and self.can_move(x +1, y)):
+                self.speed_limiter()
                 self.move_left(speed)
-                self.speed_limiter()
             elif (direction == 'Est') and (self.can_move(x + 1, y) and self.can_move(x-1, y)):
-                self.move_right(speed)
                 self.speed_limiter()
+                self.move_right(speed)
                 self.cpt_laps()
             else:
                 self.current_player.speed = 0
