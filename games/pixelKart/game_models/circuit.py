@@ -8,14 +8,14 @@ class Circuit:
     
     def __init__(self, player1, player2, gp:str=None):
         
-        self.rows = 20
-        self.cols = 30
         self.player1 = player1
         self.player2 = player2
         self.start_line = [] #liste de tuple de positions ex:[(0,0),(0,1),(0,2)]
         self.nb_laps = 2 #nombre de tours à faire
         self.circuit = gp
         self.grid = [list(row) for row in gp.split(",")] if gp else None
+        self.rows = len(self.grid) 
+        self.cols = len(self.grid[0]) 
         self.current_player = player1
 
     def switch_player(self)->None:
@@ -99,7 +99,7 @@ class Circuit:
         """
         case_type = self.type_case()
         if case_type == "GRASS":
-            self.current_player.speed = max(0, self.current_player.speed // 2)
+            self.current_player.speed = max(1, self.current_player.speed // 2)
         elif case_type == "WALL":
             self.current_player.inLife = False
             self.current_player.speed = 0
