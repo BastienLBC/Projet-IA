@@ -35,10 +35,8 @@ class GameView(ctk.CTk):
         )
         self.info_label.pack(fill="both", expand=True, padx=10, pady=10)
 
-        # Gestion des événements clavier
         self.bind_all("<Key>", self.on_key_press)
 
-        # Bouton pour réinitialiser la partie
         self.reset_button = ctk.CTkButton(
             info_frame,
             text="Recommencer",
