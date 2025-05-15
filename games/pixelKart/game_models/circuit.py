@@ -8,14 +8,15 @@ class Circuit:
     
     def __init__(self, player1, player2, gp:str=None):
         
-        self.rows = 20
-        self.cols = 30
         self.player1 = player1
         self.player2 = player2
         self.start_line = [] #liste de tuple de positions ex:[(0,0),(0,1),(0,2)]
         self.nb_laps = 2 #nombre de tours à faire
         self.circuit = gp
         self.grid = [list(row) for row in gp.split(",")] if gp else None
+        self.rows = 30
+        self.cols = 30
+        
         self.current_player = player1
 
     def switch_player(self)->None:
@@ -38,29 +39,45 @@ class Circuit:
         
         if speed == 2:
             if (direction == 'Nord') and self.can_move(x, y - 1) :
+                self.speed_limiter()
                 self.move_up(1)
                 speed = 1
+                if self.type_case() == "GRASS":
+                    return
             elif (direction == 'Sud') and self.can_move(x, y + 1) :
+                self.speed_limiter()
                 self.move_down(1)
                 speed = 1
+                if self.type_case() == "GRASS":
+                    return
             elif (direction == 'Ouest') and self.can_move(x - 1, y) :
+                self.speed_limiter()
                 self.move_left(1)
                 speed = 1
+                if self.type_case() == "GRASS":
+                    return
             elif (direction == 'Est') and self.can_move(x + 1, y) :
+                self.speed_limiter()
                 self.move_right(1)
                 speed = 1
                 self.cpt_laps()
+                if self.type_case() == "GRASS":
+                    return
             else:
                 self.current_player.speed = 0
 
         if speed == 1 or speed == -1:
             if (direction == 'Nord') and (self.can_move(x, y - 1) or self.can_move(x, y + 1)):
+                self.speed_limiter()
                 self.move_up(speed)
             elif (direction == 'Sud') and (self.can_move(x, y + 1) or self.can_move(x, y - 1)):
+                self.speed_limiter()
                 self.move_down(speed)
             elif (direction == 'Ouest') and (self.can_move(x - 1, y) and self.can_move(x +1, y)):
+                self.speed_limiter()
                 self.move_left(speed)
             elif (direction == 'Est') and (self.can_move(x + 1, y) and self.can_move(x-1, y)):
+                self.speed_limiter()
                 self.move_right(speed)
                 self.cpt_laps()
             else:
@@ -91,10 +108,13 @@ class Circuit:
         """
         case_type = self.type_case()
         if case_type == "GRASS":
-            self.current_player.speed = max(0, self.current_player.speed // 2)
+            self.current_player.speed = max(1, self.current_player.speed // 2)
         elif case_type == "WALL":
             self.current_player.inLife = False
             self.current_player.speed = 0
+        elif case_type == "FINISH" and self.current_player.direction != "Est":
+            self.current_player.inLife = False 
+            
 
     def type_case(self):
         """
@@ -122,7 +142,7 @@ class Circuit:
         """
         Ralentit la vitesse du joueur
         """
-        if self.current_player.speed > -1:
+        if self.current_player.speed >= -1:
             self.current_player.speed -= 1
     
     def turn_left(self):
@@ -151,6 +171,8 @@ class Circuit:
         self.player2.speed = 0
         self.player1.inLife = True
         self.player2.inLife = True
+        self.player1.direction = "Est"
+        self.player2.direction = "Est"
         self.load_start_line()
         self.start()
 
