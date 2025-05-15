@@ -3,9 +3,11 @@ import os
 from games.pixelKart.pixelKart_dao import get_all
 from games.pixelKart.pixelKart import main as pixelkart_main
 import subprocess
-
+from games.pixelKart.pixel_kart_settings import PixelKartSettings
 
 selected_circuit = None
+selected_laps = 2
+selected_mode = "Humain vs Random"
 
 def launch_game(game):
     if game == "cube":
@@ -13,10 +15,16 @@ def launch_game(game):
     elif game == "alumettes":
         os.system("python games/torches/Alumettes.py")
     elif game == "pixelkart":
-        if selected_circuit:
-            subprocess.run(["python", "games/pixelKart/pixelKart.py", selected_circuit])
+        print(f"selected_circuit: {selected_circuit}, selected_laps: {selected_laps}, selected_mode: {selected_mode}")
+        if selected_circuit and selected_laps and selected_mode:
+            subprocess.run(["python", "games/pixelKart/pixelKart.py", selected_circuit, str(selected_laps), selected_mode])
         else:
-            print("Veuillez sélectionner un circuit avant de lancer le jeu.")
+            popup = ctk.CTkToplevel()
+            popup.title("Erreur")
+            popup.geometry("450x150")
+            ctk.CTkLabel(popup, text="Veuillez sélectionner un circuit\net un nombre de tours avant de lancer le jeu.",
+                         font=("Arial", 16, "underline"), text_color="lightgreen").pack(pady=20)
+            ctk.CTkButton(popup, text="OK", command=popup.destroy).pack(pady=10)
 
 def update_selected_circuit(new_circuit):
     global selected_circuit
@@ -59,11 +67,18 @@ label_pixelkart.pack(pady=20)
 button_pixelkart = ctk.CTkButton(frame_pixelkart, text="Jouer", command=lambda: launch_game("pixelkart"))
 button_pixelkart.pack(pady=10)
 
-circuits = get_all()
-circuit_names = list(circuits.keys())
+button_pixelkart_settings = ctk.CTkButton(
+    frame_pixelkart,
+    text="Paramètres",
+    command=lambda: PixelKartSettings(root, callback=update_selected)
+)
+button_pixelkart_settings.pack(pady=10)
 
-circuit_var = ctk.StringVar(value=selected_circuit)
-circuit_dropdown = ctk.CTkOptionMenu(frame_pixelkart, values=circuit_names, command=update_selected_circuit, variable=circuit_var)
-circuit_dropdown.pack(pady=10)
+def update_selected(new_circuit, new_laps):
+    global selected_circuit, selected_laps
+    selected_circuit = new_circuit
+    selected_laps = new_laps
+    print(f"Circuit sélectionné : {selected_circuit}, {selected_laps}")
+
 
 root.mainloop()

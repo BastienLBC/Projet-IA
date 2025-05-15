@@ -4,16 +4,16 @@ from games.pixelKart.game_view import *
 
 class GameController:
 
-    def __init__(self, player1: kart, player2: kart, circuit: str):
-        """
-        Initialise le contrôleur de jeu avec les joueurs et le circuit.
-        Utilise 'Basic' si le circuit demandé n'existe pas.
-        """
 
         self.model = Circuit(player1, player2, circuit)
         self.view = GameView(self)
 
     def start(self)->None:
+    def __init__(self, player1: kart, player2: kart, circuit: str):
+        """
+        Initialise le contrôleur de jeu avec les joueurs et le circuit.
+        Utilise 'Basic' si le circuit demandé n'existe pas.
+        """e:
         """
         Lance le jeu
         """

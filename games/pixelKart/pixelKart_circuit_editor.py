@@ -37,7 +37,7 @@ class CircuitEditor(tk.Toplevel):
 
         self.length_var = tk.StringVar(value="20")
         self.width_var = tk.StringVar(value="12")
-        self.all_circuits = dao.get_all()
+        self.all_circuits = get_all()
 
         # Input frame for name, length and width
         input_frame = ttk.Frame(self)
@@ -56,6 +56,7 @@ class CircuitEditor(tk.Toplevel):
 
         # Frame for grid
         self.grid_frame = CircuitEditorFrame(self)
+        self.grid_frame.init_cells()
         self.grid_frame.pack(pady=10, fill="both", expand=True)
 
         # Frame to import existing
@@ -118,7 +119,7 @@ class CircuitEditor(tk.Toplevel):
             circuit_name = name_var.get()
             circuit_data = self.grid_frame.grid_to_dto()
             try :
-                dao.save_circuit(circuit_name, circuit_data)
+                save_circuit(circuit_name, circuit_data)
                 self.all_circuits[circuit_name] = circuit_data
                 self.circuit_var.set(circuit_name)
                 self.circuit_dropdown['menu'].add_command(label=circuit_name, command=tk._setit(self.circuit_var, circuit_name))
@@ -163,7 +164,7 @@ class CircuitEditor(tk.Toplevel):
 
         def reload_circuits(self):
             """Recharge les circuits et met à jour la liste déroulante."""
-            self.all_circuits = dao.get_all()
+            self.all_circuits = get_all()
             menu = self.circuit_dropdown['menu']
             menu.delete(0, 'end')
             for circuit_name in self.all_circuits.keys():
