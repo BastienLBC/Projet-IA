@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import Tk, ttk
-from games.pixelKart.pixelKart_dao import get_all, save_circuit
+from games.pixelKart.pixelKart_dao import dao
 from games.pixelKart.pixelKart_circuitFrames import CircuitEditorFrame
 class CircuitEditor(tk.Toplevel):
     """
