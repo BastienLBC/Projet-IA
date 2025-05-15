@@ -47,7 +47,7 @@ class GameController:
                 -"{joueur} a gagné", si la partie est terminée
                 -"Au tour du grand {joueur}" sinon
         """
-        if self.model.is_finished():
+        if self.model.is_finish():
             return f"{self.model.get_winner().name} a gagné !"
 
     def handle_player_moove(self, bind:str)->None:
@@ -61,7 +61,7 @@ class GameController:
             human_player.Event = bind  # Stocke la touche
 
             self.model.moove(bind)  # Déplace selon la touche reçue
-            if self.model.is_finished():
+            if self.model.is_finish():
                 self.handle_end_game()
             else:
                 self.model.switch_player()
@@ -76,7 +76,7 @@ class GameController:
             """
             moove = self.model.get_current_player().play() #choisi un bind random
             self.model.moove(moove)
-            if self.model.is_finished():
+            if self.model.is_finish():
                 self.handle_end_game()
             else:
                 self.model.switch_player()
