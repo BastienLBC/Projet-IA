@@ -1,7 +1,6 @@
-import customtkinter as ctk
 from games.pixelKart.pixelKart_dao import get_all
 from games.pixelKart.pixelKart_circuit_editor import CircuitEditor
-import subprocess
+import customtkinter as ctk
 
 class PixelKartSettings(ctk.CTkToplevel):
     def __init__(self, parent, callback):
@@ -29,16 +28,15 @@ class PixelKartSettings(ctk.CTkToplevel):
         ctk.CTkButton(self, text="Ouvrir l'éditeur de circuits", command=self.open_circuit_editor).pack(pady=10)
         ctk.CTkButton(self, text="Sauvegarder et fermer", command=self.save_and_close).pack(pady=20)
 
-
     def open_circuit_editor(self):
         editor = CircuitEditor(self, callback=lambda x: self.circuit_var.set(x))
         editor.grab_set()
+        editor.wait_window()
+        self.refresh_circuit_options()
 
-    def import_circuit(self):
-        pass
-
-    def export_circuit(self):
-        pass
+    def refresh_circuit_options(self):
+        self.circuits = get_all()
+        self.circuit_dropdown.configure(values=list(self.circuits.keys()))
 
     def save_and_close(self):
         global selected_circuit, selected_laps, selected_mode
@@ -62,5 +60,5 @@ class PixelKartSettings(ctk.CTkToplevel):
             return
 
         print(f"Paramètres sauvegardés : Circuit={selected_circuit}, Tours={selected_laps}, Mode={selected_mode}")
-        self.callback(selected_circuit,selected_laps)
+        self.callback(selected_circuit, selected_laps)
         self.destroy()
