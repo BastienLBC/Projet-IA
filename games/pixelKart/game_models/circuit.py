@@ -43,26 +43,26 @@ class Circuit:
                 self.move_up(1)
                 speed = 1
                 if self.type_case() == "GRASS":
-                    return
+                    self.current_player.speed = 1
             elif (direction == 'Sud') and self.can_move(x, y + 1) :
                 self.speed_limiter()
                 self.move_down(1)
                 speed = 1
                 if self.type_case() == "GRASS":
-                    return
+                    self.current_player.speed = 1
             elif (direction == 'Ouest') and self.can_move(x - 1, y) :
                 self.speed_limiter()
                 self.move_left(1)
                 speed = 1
                 if self.type_case() == "GRASS":
-                    return
+                    self.current_player.speed = 1
             elif (direction == 'Est') and self.can_move(x + 1, y) :
                 self.speed_limiter()
                 self.move_right(1)
                 speed = 1
                 self.cpt_laps()
                 if self.type_case() == "GRASS":
-                    return
+                    self.current_player.speed = 1
             else:
                 self.current_player.speed = 0
 
@@ -317,6 +317,6 @@ class Circuit:
         Retourne un dictionnaire des positions des karts avec leurs couleurs.
         """
         return {
-            (self.player1.y, self.player1.x): "red",
-            (self.player2.y, self.player2.x): "blue"
+            (self.player1.y, self.player1.x, self.player1.direction): "red",
+            (self.player2.y, self.player2.x, self.player2.direction): "blue"
         }
