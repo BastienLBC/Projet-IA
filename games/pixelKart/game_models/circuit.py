@@ -142,7 +142,7 @@ class Circuit:
         """
         Ralentit la vitesse du joueur
         """
-        if self.current_player.speed >= -1:
+        if self.current_player.speed > -1:
             self.current_player.speed -= 1
     
     def turn_left(self):
