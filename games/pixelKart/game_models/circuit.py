@@ -43,26 +43,26 @@ class Circuit:
                 self.move_up(1)
                 speed = 1
                 if self.type_case() == "GRASS":
-                    self.current_player.speed = 1
+                    return
             elif (direction == 'Sud') and self.can_move(x, y + 1) :
                 self.speed_limiter()
                 self.move_down(1)
                 speed = 1
                 if self.type_case() == "GRASS":
-                    self.current_player.speed = 1
+                    return
             elif (direction == 'Ouest') and self.can_move(x - 1, y) :
                 self.speed_limiter()
                 self.move_left(1)
                 speed = 1
                 if self.type_case() == "GRASS":
-                    self.current_player.speed = 1
+                    return
             elif (direction == 'Est') and self.can_move(x + 1, y) :
                 self.speed_limiter()
                 self.move_right(1)
                 speed = 1
                 self.cpt_laps()
                 if self.type_case() == "GRASS":
-                    self.current_player.speed = 1
+                    return
             else:
                 self.current_player.speed = 0
 
