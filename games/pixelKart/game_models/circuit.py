@@ -38,26 +38,24 @@ class Circuit:
         speed = self.current_player.speed
         
         if speed == 2:
-            if (direction == 'Nord') and self.can_move(x, y - 1) :
+            if (direction == 'Nord') and (self.can_move(x, y - 1) or self.can_move(x, y + 1)):
                 self.speed_limiter()
                 self.move_up(1)
                 speed = 1
                 if self.type_case() == "GRASS":
                     return
-            elif (direction == 'Sud') and self.can_move(x, y + 1) :
+            elif (direction == 'Sud') and (self.can_move(x, y + 1) or self.can_move(x, y - 1)):
                 self.speed_limiter()
                 self.move_down(1)
                 speed = 1
                 if self.type_case() == "GRASS":
                     return
-            elif (direction == 'Ouest') and self.can_move(x - 1, y) :
-                self.speed_limiter()
+            elif (direction == 'Ouest') and (self.can_move(x - 1, y) or self.can_move(x +1, y)):
                 self.move_left(1)
                 speed = 1
                 if self.type_case() == "GRASS":
                     return
-            elif (direction == 'Est') and self.can_move(x + 1, y) :
-                self.speed_limiter()
+            elif (direction == 'Est') and (self.can_move(x + 1, y) or self.can_move(x-1, y)):
                 self.move_right(1)
                 speed = 1
                 self.cpt_laps()
@@ -73,10 +71,10 @@ class Circuit:
             elif (direction == 'Sud') and (self.can_move(x, y + 1) or self.can_move(x, y - 1)):
                 self.speed_limiter()
                 self.move_down(speed)
-            elif (direction == 'Ouest') and (self.can_move(x - 1, y) and self.can_move(x +1, y)):
+            elif (direction == 'Ouest') and (self.can_move(x - 1, y) or self.can_move(x +1, y)):
                 self.speed_limiter()
                 self.move_left(speed)
-            elif (direction == 'Est') and (self.can_move(x + 1, y) and self.can_move(x-1, y)):
+            elif (direction == 'Est') and (self.can_move(x + 1, y) or self.can_move(x-1, y)):
                 self.speed_limiter()
                 self.move_right(speed)
                 self.cpt_laps()
