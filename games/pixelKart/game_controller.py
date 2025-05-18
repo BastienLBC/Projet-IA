@@ -81,10 +81,11 @@ class GameController:
                 self.model.switch_player()
             self.view.update_view()
 
-    def handle_end_game(self)->None:
-        """
-        Fin du jeu, assigne le gagnant et le perdant
-        """
+    def handle_end_game(self) -> None:
         winner = self.model.get_winner()
         loser = self.model.get_loser()
+        if winner:
+            winner.win()
+        if loser:
+            loser.lose()
         self.view.end_game()

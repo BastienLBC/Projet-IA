@@ -161,17 +161,17 @@ class CircuitRaceFrame (CircuitFrame):
 
     def update_view(self, karts):
         """
-        Args : 
-            kart : dict : {position: color}
+        Mets à jour l'affichage du circuit en affichant les karts.
+        Args :
+            karts : dict : {(ligne, colonne, direction): couleur}
         """
-        # Clear previous kart cells
+        # Effacer les cellules existantes des karts
         for cell in self.karts_cells:
             cell.destroy()
         self.karts_cells.clear()
 
-        # Add new kart cells
         for position, color in karts.items():
-            line, col = position
+            line, col, *_ = position
             if 0 <= line < self.rows and 0 <= col < self.cols:
                 cell = tk.Label(self, bg=color, width=2, height=1, borderwidth=1, relief="solid")
                 cell.grid(row=line, column=col, sticky="nsew")

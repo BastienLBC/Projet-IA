@@ -5,8 +5,10 @@ import games.pixelKart.pixelKart_dao as dao
 import games.pixelKart.game_models.circuit as circuit
 
 class PixelKartGame:
-    def __init__(self, circuit_name):
+    def __init__(self, circuit_name, laps, mode):
         self.circuit_name = circuit_name
+        self.laps = laps
+        self.mode = mode
         self.controller = None
         self.game_view = None
 
@@ -19,6 +21,7 @@ class PixelKartGame:
         player2 = kart(name="Player2")
 
         self.controller = circuit.Circuit(player1, player2, gp=circuit_data)
+        self.controller.nb_laps = self.laps
         self.controller.start()
 
         circuit_rows = 12
