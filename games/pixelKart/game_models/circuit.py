@@ -28,27 +28,17 @@ class Circuit:
         speed = self.current_player.speed
 
         if speed == 2:
-<<<<<<< HEAD
             if (direction == 'Nord') and self.can_move(x, y - 1):
-=======
-            if (direction == 'Nord') and (self.can_move(x, y - 1) or self.can_move(x, y + 1)):
->>>>>>> d923b97262d9d247a4e6975a79dfb3eb16ef97eb
                 self.speed_limiter()
                 self.move_up(1)
                 speed = 1
                 if self.type_case() == "GRASS":
-<<<<<<< HEAD
                     self.current_player.speed = 1
             elif (direction == 'Sud') and self.can_move(x, y + 1):
-=======
-                    return
-            elif (direction == 'Sud') and (self.can_move(x, y + 1) or self.can_move(x, y - 1)):
->>>>>>> d923b97262d9d247a4e6975a79dfb3eb16ef97eb
                 self.speed_limiter()
                 self.move_down(1)
                 speed = 1
                 if self.type_case() == "GRASS":
-<<<<<<< HEAD
                     self.current_player.speed = 1
             elif (direction == 'Ouest') and self.can_move(x - 1, y):
                 self.speed_limiter()
@@ -58,20 +48,11 @@ class Circuit:
                     self.current_player.speed = 1
             elif (direction == 'Est') and self.can_move(x + 1, y):
                 self.speed_limiter()
-=======
-                    return
-            elif (direction == 'Ouest') and (self.can_move(x - 1, y) or self.can_move(x +1, y)):
-                self.move_left(1)
-                speed = 1
-                if self.type_case() == "GRASS":
-                    return
-            elif (direction == 'Est') and (self.can_move(x + 1, y) or self.can_move(x-1, y)):
->>>>>>> d923b97262d9d247a4e6975a79dfb3eb16ef97eb
                 self.move_right(1)
                 speed = 1
                 self.cpt_laps()
                 if self.type_case() == "GRASS":
-                    return
+                    self.current_player.speed = 1
             else:
                 self.current_player.speed = 0
 
@@ -82,17 +63,10 @@ class Circuit:
             elif (direction == 'Sud') and (self.can_move(x, y + 1) or self.can_move(x, y - 1)):
                 self.speed_limiter()
                 self.move_down(speed)
-<<<<<<< HEAD
             elif (direction == 'Ouest') and (self.can_move(x - 1, y) and self.can_move(x + 1, y)):
                 self.speed_limiter()
                 self.move_left(speed)
             elif (direction == 'Est') and (self.can_move(x + 1, y) and self.can_move(x - 1, y)):
-=======
-            elif (direction == 'Ouest') and (self.can_move(x - 1, y) or self.can_move(x +1, y)):
-                self.speed_limiter()
-                self.move_left(speed)
-            elif (direction == 'Est') and (self.can_move(x + 1, y) or self.can_move(x-1, y)):
->>>>>>> d923b97262d9d247a4e6975a79dfb3eb16ef97eb
                 self.speed_limiter()
                 self.move_right(speed)
                 self.cpt_laps()
@@ -260,18 +234,7 @@ class Circuit:
             self.switch_player()
 
     def get_karts_positions(self):
-<<<<<<< HEAD
         positions = {}
-        # On retourne la position sous forme (ligne, colonne, direction)
         positions[(self.player1.y, self.player1.x, self.player1.direction)] = "blue"
         positions[(self.player2.y, self.player2.x, self.player2.direction)] = "red"
         return positions
-=======
-        """
-        Retourne un dictionnaire des positions des karts avec leurs couleurs.
-        """
-        return {
-            (self.player1.y, self.player1.x): "red",
-            (self.player2.y, self.player2.x): "blue"
-        }
->>>>>>> d923b97262d9d247a4e6975a79dfb3eb16ef97eb
