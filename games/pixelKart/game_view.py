@@ -1,6 +1,5 @@
 import customtkinter as ctk
 from games.pixelKart.pixelKart_circuitFrames import CircuitRaceFrame
-from games.pixelKart.pixel_kart_settings import *
 
 class GameView(ctk.CTk):
     """Gère la vue du jeu PixelKart"""
@@ -93,7 +92,7 @@ class GameView(ctk.CTk):
 
         karts_data = self.controller.get_karts_positions()
         self.update_player_info(self.controller.player1, self.controller.player2,
-                                laps_remaining=self.pixel_kart_settings.selected_laps)
+                                laps_remaining=self.controller.nb_laps)
         self.update_view(self.controller.circuit, karts_data)
 
     def update_view(self, circuit, karts):
