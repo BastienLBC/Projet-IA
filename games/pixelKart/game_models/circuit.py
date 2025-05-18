@@ -317,6 +317,6 @@ class Circuit:
         Retourne un dictionnaire des positions des karts avec leurs couleurs.
         """
         return {
-            (self.player1.y, self.player1.x, self.player1.direction): "red",
-            (self.player2.y, self.player2.x, self.player2.direction): "blue"
+            (self.player1.y, self.player1.x): "red",
+            (self.player2.y, self.player2.x): "blue"
         }
