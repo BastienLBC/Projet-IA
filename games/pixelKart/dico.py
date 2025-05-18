@@ -1,0 +1,2 @@
+def generate_key(x, y, speed, type_case):
+    return f"{x},{y},{speed},{type_case(x, y-1)},{type_case(x+1, y)},{type_case(x+2, y)},{type_case(x+3, y)},{type_case(x-1, y)},{type_case(x-2, y)},{type_case(x-3, y)},{type_case(x, y+1)},{type_case(x+1, y+1)},{type_case(x+2, y+1)},{type_case(x-1, y+1)},{type_case(x-2, y+1)},{type_case(x, y+2)},{type_case(x+1, y+2)},{type_case(x-1, y+2)},{type_case(x, y+3)}"

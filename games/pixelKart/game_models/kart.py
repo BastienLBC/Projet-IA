@@ -1,4 +1,6 @@
 import random
+from games.pixelKart.const import PIXEL_TYPES
+from games.pixelKart.dao import find_entry_by_key, save_entry
 
 class kart:
     
@@ -44,6 +46,37 @@ class humanKart(kart):
         Retourne un bind reçu par l'utilisateur
         """
         return self.Event
+
+class aiKart(kart):
+    
+    def __init__(self, name: str, learning_rate: float = 0.01, gamma: float = 0.9,
+                 epsilon: float = 0.9) -> None:
+        super().__init__(name)
+        self.lr = learning_rate
+        self.gamma = gamma
+        self.eps = epsilon
+        self.board = None
+        self.q_table = {}
+
+    def get_q_value(self, key):
+        entry = find_entry_by_key(key)
+        q_value = entry['reward'] if entry else 0.0
+        print(f"Loaded Q-value for {key}: {q_value}")  # vérifie le chargement des valeurs
+        return q_value
+
+    def set_q_value(self, key, reward):
+        save_entry({'unique_key': key, 'reward': reward})
+
+    def type_case(self,xi,yi):
+        case_type = None
+        if self.circuit:
+            x, y = xi, yi
+            if 0 <= y < len(self.grid) and 0 <= x < len(self.grid[y]):
+                case_letter = self.grid[y][x]
+                case_type = next(
+                    (case for case, properties in PIXEL_TYPES.items() if properties["letter"] == case_letter),
+                    None)
+        return case_type
 
         
         
