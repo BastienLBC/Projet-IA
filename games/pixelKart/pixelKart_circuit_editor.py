@@ -1,151 +1,107 @@
-import tkinter as tk
-from tkinter import Tk, ttk
-from games.pixelKart.pixelKart_dao import get_all, save_circuit
+# python
+import customtkinter as ctk
+from games.pixelKart.pixelKart_dao import get_all, save_circuit as dao_save_circuit, update_circuit
 from games.pixelKart.pixelKart_circuitFrames import CircuitEditorFrame
-class CircuitEditor(tk.Toplevel):
-    """
-    CircuitEditor is a graphical user interface (GUI) application for creating and editing circuit grids.
-    It inherits from Toplevel to be used as a secondary window.
-    Attributes:
-        length_var (tk.StringVar): A Tkinter variable to store the length of the grid.
-        width_var (tk.StringVar): A Tkinter variable to store the width of the grid.
-        all_circuits (dict): A dictionary containing all available circuits retrieved from the data access object (DAO).
-        grid_frame (CircuitEditorFrame): A custom frame for displaying and interacting with the circuit grid.
-        circuit_var (tk.StringVar): A Tkinter variable to store the name of the selected circuit for import.
-        callback (function): A callback function to be executed when a circuit is chosen.
-    Methods:
-        __init__():
-            Initializes the CircuitEditor GUI, setting up the layout, input fields, and grid frame.
-        import_circuit():
-            Updates the grid frame with the circuit's data.
-        save_circuit():
-            Ask a name and saves the circuit using the DAO.
-        change_size():
-            Updates the grid size based on the user-provided length and width values.
-    """
 
+class CircuitEditor(ctk.CTkToplevel):
     def __init__(self, parent, callback):
-        """
-        Initializes the CircuitEditor GUI. Requires a parent window.
-        Precondition : 
-            callback is a fonction which take one str argument
-        """
         super().__init__(parent)
-        self.title("Circuit Editor")
-
         self.callback = callback
-
-        self.length_var = tk.StringVar(value="20")
-        self.width_var = tk.StringVar(value="12")
+        self.title("Circuit Editor")
+        self.geometry("800x600")
+        self.length_var = ctk.StringVar(value="20")
+        self.width_var = ctk.StringVar(value="12")
         self.all_circuits = get_all()
 
-        # Input frame for name, length and width
-        input_frame = ttk.Frame(self)
-        input_frame.pack(pady=5, fill="x")
+        main_frame = ctk.CTkFrame(self)
+        main_frame.pack(padx=20, pady=20, fill="both", expand=True)
 
-        ttk.Label(input_frame, text="Length:").pack(side="left", padx=5)
-        length_entry = ttk.Entry(input_frame, textvariable=self.length_var, width=5)
-        length_entry.pack(side="left")
-
-        ttk.Label(input_frame, text="Width:").pack(side="left", padx=5)
-        width_entry = ttk.Entry(input_frame, textvariable=self.width_var, width=5)
-        width_entry.pack(side="left")
-        # Buttun to change size
-        change_size_button = ttk.Button(input_frame, text="Change size", command=self.change_size)
+        # Zone de saisie pour la taille
+        size_frame = ctk.CTkFrame(main_frame)
+        size_frame.pack(pady=(10,5), fill="x")
+        ctk.CTkLabel(size_frame, text="Length:").pack(side="left", padx=5)
+        length_entry = ctk.CTkEntry(size_frame, textvariable=self.length_var, width=60)
+        length_entry.pack(side="left", padx=5)
+        ctk.CTkLabel(size_frame, text="Width:").pack(side="left", padx=5)
+        width_entry = ctk.CTkEntry(size_frame, textvariable=self.width_var, width=60)
+        width_entry.pack(side="left", padx=5)
+        change_size_button = ctk.CTkButton(size_frame, text="Change size", command=self.change_size)
         change_size_button.pack(side="left", padx=5)
 
-        # Frame for grid
-        self.grid_frame = CircuitEditorFrame(self)
+        # Zone de saisie pour le nom du circuit
+        name_frame = ctk.CTkFrame(main_frame)
+        name_frame.pack(pady=(5,10), fill="x")
+        ctk.CTkLabel(name_frame, text="Nom du circuit:").pack(side="left", padx=5)
+        self.name_var = ctk.StringVar()
+        name_entry = ctk.CTkEntry(name_frame, textvariable=self.name_var)
+        name_entry.pack(side="left", padx=5, fill="x", expand=True)
+
+        # Cadre de la grille
+        self.grid_frame = CircuitEditorFrame(main_frame)
         self.grid_frame.init_cells()
         self.grid_frame.pack(pady=10, fill="both", expand=True)
 
-        # Frame to import existing
-        import_frame = ttk.Frame(self)
-        import_frame.pack(pady=5, fill="x")
-
-        circuit_label = tk.Label(import_frame, text="Import circuit:")
-        circuit_label.pack(side="left", padx=5)
-        self.circuit_var = tk.StringVar()
-        self.circuit_dropdown = tk.OptionMenu(import_frame, self.circuit_var, *list(self.all_circuits.keys()))
-        self.circuit_var.set(list(self.all_circuits.keys())[0] if self.all_circuits.keys() else "")
+        # Cadre des actions
+        action_frame = ctk.CTkFrame(main_frame)
+        action_frame.pack(pady=(10,5), fill="x")
+        # Import existant
+        import_frame = ctk.CTkFrame(action_frame)
+        import_frame.pack(side="left", fill="x", expand=True, padx=5)
+        ctk.CTkLabel(import_frame, text="Import circuit:").pack(side="left", padx=5)
+        self.circuit_var = ctk.StringVar()
+        circuit_options = list(self.all_circuits.keys())
+        self.circuit_dropdown = ctk.CTkOptionMenu(import_frame, values=circuit_options, variable=self.circuit_var)
+        if circuit_options:
+            self.circuit_var.set(circuit_options[0])
         self.circuit_dropdown.pack(side="left", padx=5)
-        import_button = ttk.Button(import_frame, text="Import", command=self.import_circuit)
+        import_button = ctk.CTkButton(import_frame, text="Import", command=self.import_circuit)
         import_button.pack(side="left", padx=5)
-
-        # Frame to save
-        save_frame = ttk.Frame(self)
-        save_frame.pack(pady=5, fill="x")
-
-        save_button = ttk.Button(save_frame, text="Save", command=self.save_circuit)
+        # Actions Save et Chose
+        act_buttons = ctk.CTkFrame(action_frame)
+        act_buttons.pack(side="right", fill="x", expand=True, padx=5)
+        save_button = ctk.CTkButton(act_buttons, text="Save", command=self.save_circuit)
         save_button.pack(side="left", padx=5)
-
-        chose_button = ttk.Button(save_frame, text="Chose", command=self.chose)
+        chose_button = ctk.CTkButton(act_buttons, text="Chose", command=self.chose)
         chose_button.pack(side="left", padx=5)
-    
+
     def chose(self):
-        """
-        Calls the callback function with the selected circuit name.
-        This method is typically used to notify the parent window about the selected circuit.
-        """
         circuit_name = self.circuit_var.get()
         self.callback(circuit_name)
+        self.destroy()
 
     def import_circuit(self):
-        """
-        Imports a circuit based on the selected circuit name from the user interface.
-        This method retrieves the circuit data transfer object (DTO) corresponding to the 
-        selected circuit name and updates the grid frame with the circuit's data.
-        If the circuit name does not exist in the available circuits, an error message is printed.
-        """
-        
         circuit_name = self.circuit_var.get()
-        print(f"Import {circuit_name}")
         if circuit_name in self.all_circuits:
             dto = self.all_circuits[circuit_name]
-            print(f"=> {dto}")
         else:
-            print(f"Error: Circuit '{circuit_name}' not found.")
+            self.show_popup("Erreur", f"Circuit '{circuit_name}' introuvable.")
             return
         self.grid_frame.dto_to_grid(dto)
-        
         self.length_var.set(self.grid_frame.cols)
         self.width_var.set(self.grid_frame.rows)
 
     def save_circuit(self):
-        """
-        Opens a popup to ask for the circuit name and saves the circuit using the DAO.
-        """
-        def save_action():
-            circuit_name = name_var.get()
-            circuit_data = self.grid_frame.grid_to_dto()
-            try :
-                save_circuit(circuit_name, circuit_data)
-                self.all_circuits[circuit_name] = circuit_data
-                self.circuit_var.set(circuit_name)
-                self.circuit_dropdown['menu'].add_command(label=circuit_name, command=tk._setit(self.circuit_var, circuit_name))
-                popup.destroy()
-            except Exception as e:
-                error_popup = tk.Toplevel(self)
-                error_popup.title("Error")
-                ttk.Label(error_popup, text=f"An error occurred: {str(e)}").pack(pady=10)
-                ttk.Button(error_popup, text="OK", command=error_popup.destroy).pack(pady=5)
-                
-
-        popup = tk.Toplevel(self)
-        popup.title("Save Circuit")
-
-        ttk.Label(popup, text="Circuit Name:").pack(pady=5)
-        name_var = tk.StringVar()
-        name_entry = ttk.Entry(popup, textvariable=name_var)
-        name_entry.pack(pady=5)
-
-        save_popup_button = ttk.Button(popup, text="Save", command=save_action)
-        save_popup_button.pack(pady=5)
+        circuit_name = self.name_var.get().strip()
+        if not circuit_name:
+            self.show_popup("Erreur", "Veuillez renseigner un nom pour le circuit.")
+            return
+        circuit_data = self.grid_frame.grid_to_dto()
+        try:
+            circuits = get_all()
+            if circuit_name in circuits:
+                if not self.ask_yes_no("Confirmation", "Ce circuit existe déjà. Voulez-vous le remplacer ?"):
+                    return
+                update_circuit(circuit_name, circuit_data)
+            else:
+                dao_save_circuit(circuit_name, circuit_data)
+            self.all_circuits[circuit_name] = circuit_data
+            self.circuit_var.set(circuit_name)
+            self.circuit_dropdown.configure(values=list(self.all_circuits.keys()))
+            self.show_popup("Succès", "Le circuit a été sauvegardé avec succès.")
+        except Exception as e:
+            self.show_popup("Erreur", f"Erreur lors de la sauvegarde : {str(e)}")
 
     def change_size(self):
-        """
-        change the size based on length and width entry
-        """
         try:
             rows = int(self.width_var.get())
         except ValueError:
@@ -156,52 +112,41 @@ class CircuitEditor(tk.Toplevel):
         except ValueError:
             cols = 20
             self.length_var.set(str(cols))
-        
         self.grid_frame.rows = rows
         self.grid_frame.cols = cols
         self.grid_frame.clear()
         self.grid_frame.init_cells()
 
-        def reload_circuits(self):
-            """Recharge les circuits et met à jour la liste déroulante."""
-            self.all_circuits = get_all()
-            menu = self.circuit_dropdown['menu']
-            menu.delete(0, 'end')
-            for circuit_name in self.all_circuits.keys():
-                menu.add_command(label=circuit_name, command=tk._setit(self.circuit_var, circuit_name))
+    def show_popup(self, title, message):
+        popup = ctk.CTkToplevel(self)
+        popup.grab_set()
+        popup.title(title)
+        popup.geometry("300x150")
+        label = ctk.CTkLabel(popup, text=message, font=("Arial", 14))
+        label.pack(pady=20, padx=10)
+        ok_button = ctk.CTkButton(popup, text="OK", command=popup.destroy)
+        ok_button.pack(pady=10)
+        popup.wait_window()
 
-        def save_circuit(self):
-            """
-            Opens a popup to ask for the circuit name and saves the circuit using the DAO.
-            """
-
-            def save_action():
-                circuit_name = name_var.get()
-                circuit_data = self.grid_frame.grid_to_dto()
-                try:
-                    save_circuit(circuit_name, circuit_data)  # Utilise la fonction DAO pour sauvegarder
-                    self.reload_circuits()  # Recharge la liste des circuits
-                    self.circuit_var.set(circuit_name)
-                    popup.destroy()
-                except Exception as e:
-                    error_popup = tk.Toplevel(self)
-                    error_popup.title("Error")
-                    ttk.Label(error_popup, text=f"An error occurred: {str(e)}").pack(pady=10)
-                    ttk.Button(error_popup, text="OK", command=error_popup.destroy).pack(pady=5)
-
-            popup = tk.Toplevel(self)
-            popup.title("Save Circuit")
-
-            ttk.Label(popup, text="Circuit Name:").pack(pady=5)
-            name_var = tk.StringVar()
-            name_entry = ttk.Entry(popup, textvariable=name_var)
-            name_entry.pack(pady=5)
-
-            save_popup_button = ttk.Button(popup, text="Save", command=save_action)
-            save_popup_button.pack(pady=5)
-
-if __name__ == "__main__":
-    root = Tk()
-    root.withdraw()  # Hide the root window
-    editor = CircuitEditor(root, callback=lambda x : print(f"Callback with {x}"))
-    editor.mainloop()
+    def ask_yes_no(self, title, message):
+        result = [None]
+        popup = ctk.CTkToplevel(self)
+        popup.grab_set()
+        popup.title(title)
+        popup.geometry("300x150")
+        label = ctk.CTkLabel(popup, text=message, font=("Arial", 14))
+        label.pack(pady=20, padx=10)
+        def yes():
+            result[0] = True
+            popup.destroy()
+        def no():
+            result[0] = False
+            popup.destroy()
+        button_frame = ctk.CTkFrame(popup)
+        button_frame.pack(pady=10)
+        yes_button = ctk.CTkButton(button_frame, text="Oui", command=yes)
+        yes_button.pack(side="left", padx=5)
+        no_button = ctk.CTkButton(button_frame, text="Non", command=no)
+        no_button.pack(side="left", padx=5)
+        popup.wait_window()
+        return result[0]

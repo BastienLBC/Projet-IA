@@ -103,3 +103,9 @@ class GameView(ctk.CTk):
             self.game_frame.dto_to_grid(circuit)
         if karts:
             self.game_frame.update_view(karts)
+
+    def reset(self):
+        self.game_frame.dto_to_grid(self.controller.model.circuit)
+        karts_data = self.controller.get_karts_positions()
+        self.game_frame.update_view(karts_data)
+        self.info_label.configure(text="")
