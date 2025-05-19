@@ -15,7 +15,7 @@ class kart:
         self.wins = 0
         self.losses = 0
 
-    @staticmethod
+    #@staticmethod
     def play(self):
         """
         Retourne une direction reçu par l'utilisateur
