@@ -5,7 +5,7 @@ from Game.dico import generate_key
 class Base(DeclarativeBase):
     pass
 
-engine = create_engine('sqlite:///ia33.db')
+engine = create_engine('sqlite:///store1.db')
 # Création d'une session
 Session = sessionmaker(bind=engine)
 SESSION = Session()
@@ -49,29 +49,49 @@ def find_entry_by_key(unique_key):
     entry = SESSION.query(QTable).filter(QTable.unique_key == unique_key).first()
     return entry.to_dto() if entry else None
 
-def save_entry(entry_dto):
+def save_entry(entry_dto, commit=True):
+    """Save or update an entry.
+
+    Parameters
+    ----------
+    entry_dto : dict
+        Data representing the entry.
+    commit : bool, optional
+        Whether to immediately commit the change. Defaults to ``True``.
     """
-    Save or update an entry in the database.
-    @param entry_dto: dict
-    """
-    # Check if the entry with the unique_key already exists
-    existing_entry = SESSION.query(QTable).filter(QTable.unique_key == entry_dto['unique_key']).first()
+
+    existing_entry = (
+        SESSION.query(QTable)
+        .filter(QTable.unique_key == entry_dto["unique_key"])
+        .first()
+    )
 
     if existing_entry:
-        # If the entry exists, update the reward value
-        existing_entry.reward = entry_dto['reward']
-        print(f"Updated entry with unique_key: {entry_dto['unique_key']} to reward: {entry_dto['reward']}")
+        existing_entry.reward = entry_dto["reward"]
+        print(
+            f"Updated entry with unique_key: {entry_dto['unique_key']} to reward: {entry_dto['reward']}"
+        )
     else:
-        # If the entry doesn't exist, insert a new record
         new_entry = QTable.from_dto(entry_dto)
         SESSION.add(new_entry)
-        print(f"Saved new entry with unique_key: {entry_dto['unique_key']} and reward: {entry_dto['reward']}")
+        print(
+            f"Saved new entry with unique_key: {entry_dto['unique_key']} and reward: {entry_dto['reward']}"
+        )
 
-    # Commit the transaction
+    if commit:
+        try:
+            SESSION.commit()
+        except Exception as e:
+            SESSION.rollback()
+            print(f"Error saving entry: {e}")
+
+
+def commit_session():
+    """Commit all pending changes to the database."""
     try:
         SESSION.commit()
     except Exception as e:
-        SESSION.rollback()  # Rollback the transaction in case of error
+        SESSION.rollback()
         print(f"Error saving entry: {e}")
 
 
