@@ -346,27 +346,3 @@ class AiPlayer(Player):
     @property
     def enemy(self):
         return self.game.players1 if self == self.game.players2 else self.game.players2
-    def upload(self, db_path="store.db") -> None:
-        """Save the current Q-table into a SQLite database.
-
-        Parameters
-        ----------
-        db_path : str, optional
-            Path to the SQLite database file. Defaults to ``"store.db"``.
-        """
-
-        import Game.dao as dao
-        from sqlalchemy import create_engine
-        from sqlalchemy.orm import sessionmaker
-
-        # Reconfigure DAO to use the provided database path
-        engine = create_engine(f"sqlite:///{db_path}")
-        dao.engine = engine
-        dao.Session = sessionmaker(bind=engine)
-        dao.SESSION = dao.Session()
-        dao.init_db()
-
-        for key, reward in self.q_table.items():
-            dao.save_entry({"unique_key": key, "reward": reward}, commit=False)
-
-        dao.commit_session()
