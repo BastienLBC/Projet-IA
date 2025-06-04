@@ -61,7 +61,7 @@ class aiKart(kart):
     def get_q_value(self, key):
         entry = find_entry_by_key(key)
         q_value = entry['reward'] if entry else 0.0
-        print(f"Loaded Q-value for {key}: {q_value}")  # vérifie le chargement des valeurs
+        print(f"Loaded Q-value for {key}: {q_value}")
         return q_value
 
     def set_q_value(self, key, reward):
