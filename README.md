@@ -39,6 +39,21 @@ Pour jouer contre un autre joueur, modifiez la classe Player en HumanPlayer pour
 ```
 games/Cube/main.py
 ```
+
+### Entraîner l'IA Cubee
+
+La fonction `GameController.training` permet de lancer une série de parties entre deux IA sans interface afin d'améliorer leur Q-table. Elle se trouve dans `games/Cube/Game/game_controller.py`.
+
+```python
+from Game.game_models.players import AiPlayer
+from Game.game_controller import GameController
+
+ai1 = AiPlayer(name="IA_1", color="blue")
+ai2 = AiPlayer(name="IA_2", color="red")
+
+GameController.training(ai1, ai2, board=3, nb_games=5000, epsilon=10)
+GameController.compare_ai(ai1, ai2)
+```
 ### Allumettes
 
 Par défaut, vous jouez contre une IA.
