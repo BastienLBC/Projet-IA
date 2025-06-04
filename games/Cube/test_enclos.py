@@ -181,10 +181,16 @@ tests = [
 
 @pytest.mark.parametrize("board_matrix,turn,expected", tests)
 def test_enclosure(board_matrix, turn, expected):
-    player1 = HumanPlayer(name="P1", color="red")  
-    player2 = HumanPlayer(name="P2", color="green")  
+    player1 = HumanPlayer(name="P1", color="red")
+    player2 = HumanPlayer(name="P2", color="green")
     game = GameModel(player1, player2, board=len(board_matrix))
-    game.matrix = board_matrix  # Set the board correctly
+    import copy
+    game.matrix = copy.deepcopy(board_matrix)  # Prevent side effects
+    # Position players in opposite corners to avoid random placement
+    game.players1.x = 0
+    game.players1.y = 0
+    game.players2.x = len(board_matrix) - 1
+    game.players2.y = len(board_matrix) - 1
     game.current_player = game.players1 if turn == 1 else game.players2
     
 

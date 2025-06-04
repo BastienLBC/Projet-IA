@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine, Column, String, Float
 from sqlalchemy.orm import sessionmaker, DeclarativeBase
-from dico import generate_key
+from .dico import generate_key
 
 class Base(DeclarativeBase):
     pass

@@ -6,7 +6,7 @@ if __name__ == "__main__":
     init_db()
 
     
-    ai1 = AiPlayer(name="IA_1", color="blue", learning_rate=0.01, gamma=0.9, epsilon=0.9)
+    ai1 = AiPlayer(name="IA_1", color="blue", learning_rate=0.01, gamma=0.9, epsilon=0.05)
     ai2 = AiPlayer(name="IA_2", color="red", learning_rate=0.01, gamma=0.9, epsilon=0.9)
     human = HumanPlayer(name="Joueur 1", color="green")
 

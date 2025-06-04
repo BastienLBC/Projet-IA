@@ -5,6 +5,7 @@ et fait les liens entre les deux modèles game_view et game_model.py
 from Game.game_models.game_model import *
 from Game.game_models.players import *
 from Game.game_view import *
+from Game.dao import commit_session
 
 import random
 
@@ -124,6 +125,8 @@ class GameController:
 
             training.play()
             training.reset()
+
+        commit_session()
 
     def compare_ai(*ais: AiPlayer):
         """Compare les performances des IA"""
