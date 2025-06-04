@@ -1,4 +1,3 @@
-
 import random
 from tkinter import *
 from Game.dico import generate_key
@@ -6,9 +5,10 @@ from Game.dao import find_entry_by_key, save_entry
 
 from Game.game_models.game_model import GameModel
 
+
 class Player:
 
-    def __init__(self,name:str, color:str)-> None:
+    def __init__(self, name: str, color: str) -> None:
         self.name = name
         self.color = color
         self.wins = 0
@@ -23,8 +23,8 @@ class Player:
         """
         Retourne un bind random
         """
-        return random.choice(['UP', 'DOWN', 'LEFT', 'RIGHT'])
-    
+        return random.choice(["UP", "DOWN", "LEFT", "RIGHT"])
+
     def win(self) -> None:
         """
         Ajoute une victoire au nb de victoires
@@ -36,9 +36,10 @@ class Player:
         Ajoute une défaite au nb de défaites
         """
         self.losses += 1
-        
+
+
 class HumanPlayer(Player):
-    def __init__(self, name:str, color:str)-> None:
+    def __init__(self, name: str, color: str) -> None:
         super().__init__(name, color)
 
     def play(self):
@@ -47,13 +48,20 @@ class HumanPlayer(Player):
         """
         return self.Event
 
+
 class AiPlayer(Player):
     """
     Classe qui représente une IA
     """
 
-    def __init__(self, name: str, color: str, learning_rate: float = 0.01, gamma: float = 0.9,
-                 epsilon: float = 0.9) -> None:
+    def __init__(
+        self,
+        name: str,
+        color: str,
+        learning_rate: float = 0.01,
+        gamma: float = 0.9,
+        epsilon: float = 0.9,
+    ) -> None:
         super().__init__(name, color)
         self.lr = learning_rate
         self.gamma = gamma
@@ -63,23 +71,34 @@ class AiPlayer(Player):
 
     def get_q_value(self, key):
         entry = find_entry_by_key(key)
-        q_value = entry['reward'] if entry else 0.0
-        print(f"Loaded Q-value for {key}: {q_value}")  # vérifie le chargement des valeurs
+        q_value = entry["reward"] if entry else 0.0
+        print(
+            f"Loaded Q-value for {key}: {q_value}"
+        )  # vérifie le chargement des valeurs
         return q_value
 
     def set_q_value(self, key, reward):
-        save_entry({'unique_key': key, 'reward': reward})
+        save_entry({"unique_key": key, "reward": reward})
 
     def choose_action(self):
+        """Choisit une action valide selon l'epsilon-greedy."""
+
         actions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+
+        valid_actions = [
+            a for a in actions if self.board.can_move(self.x + a[0], self.y + a[1])
+        ]
+
+        if not valid_actions:
+            valid_actions = actions
+
         if random.random() < self.eps:
-            return random.choice(actions)  # Exploration
-        else:
-            return self.exploit(actions)  # Exploitation
+            return random.choice(valid_actions)  # Exploration
+        return self.exploit(valid_actions)  # Exploitation
 
     def exploit(self, actions):
         best_action = None
-        best_value = float('-inf')
+        best_value = float("-inf")
         for dx, dy in actions:
             nx, ny = self.x + dx, self.y + dy
             if 0 <= nx < self.board.size and 0 <= ny < self.board.size:
@@ -139,13 +158,13 @@ class AiPlayer(Player):
         """
         dx, dy = action
         if dx == 0 and dy == -1:
-            return 'UP'
+            return "UP"
         elif dx == 0 and dy == 1:
-            return 'DOWN'
+            return "DOWN"
         elif dx == -1 and dy == 0:
-            return 'LEFT'
+            return "LEFT"
         elif dx == 1 and dy == 0:
-            return 'RIGHT'
+            return "RIGHT"
         return None
 
     def play(self):
@@ -250,7 +269,9 @@ class AiPlayer(Player):
             reward -= 1
 
         # Légère préférence pour se rapprocher du centre
-        distance_to_center = abs(to_x - self.board.size // 2) + abs(to_y - self.board.size // 2)
+        distance_to_center = abs(to_x - self.board.size // 2) + abs(
+            to_y - self.board.size // 2
+        )
         reward -= distance_to_center * 0.5
 
         # Fin de partie : récompense ou pénalité décisive
@@ -296,8 +317,6 @@ class AiPlayer(Player):
         self.eps = self.eps * coef
         if self.eps < min:
             self.eps = min
-
-
 
     @property
     def enemy(self):
