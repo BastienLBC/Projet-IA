@@ -1,7 +1,13 @@
 import random
 from tkinter import *
 from Game.dico import generate_key
-from Game.dao import find_entry_by_key, save_entry, commit_session
+from Game.dao import (
+    find_entry_by_key,
+    save_entry,
+    commit_session,
+    find_all_entries,
+)
+
 
 from Game.game_models.game_model import GameModel
 
@@ -70,13 +76,20 @@ class AiPlayer(Player):
         self.gamma = gamma
         self.eps = epsilon
         self.board = None
-        self.q_table = {}
+
+        self.q_table = {
+            entry["unique_key"]: entry["reward"] for entry in find_all_entries()
+        }
         self.commit_frequency = commit_frequency
         self._pending = 0
 
     def get_q_value(self, key):
+        if key in self.q_table:
+            return self.q_table[key]
         entry = find_entry_by_key(key)
         q_value = entry["reward"] if entry else 0.0
+
+        self.q_table[key] = q_value
         print(
             f"Loaded Q-value for {key}: {q_value}"
         )  # vérifie le chargement des valeurs
@@ -84,14 +97,13 @@ class AiPlayer(Player):
 
     def set_q_value(self, key, reward):
 
+        self.q_table[key] = reward
+
         save_entry({"unique_key": key, "reward": reward}, commit=False)
         self._pending += 1
         if self._pending >= self.commit_frequency:
             commit_session()
             self._pending = 0
-
-        save_entry({"unique_key": key, "reward": reward})
-
 
     def choose_action(self):
         """Choisit une action valide selon l'epsilon-greedy."""
