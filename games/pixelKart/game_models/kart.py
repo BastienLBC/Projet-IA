@@ -1,6 +1,7 @@
 import random
 from games.pixelKart.const import PIXEL_TYPES
 from games.pixelKart.dao import find_entry_by_key, save_entry
+from games.pixelKart.dico import generate_key
 
 class kart:
     
@@ -49,23 +50,47 @@ class humanKart(kart):
 
 class aiKart(kart):
     
-    def __init__(self, name: str, learning_rate: float = 0.01, gamma: float = 0.9,
-                 epsilon: float = 0.9) -> None:
+    def __init__(
+        self,
+        name: str,
+        learning_rate: float = 0.01,
+        gamma: float = 0.9,
+        epsilon: float = 0.9,
+    ) -> None:
         super().__init__(name)
         self.lr = learning_rate
         self.gamma = gamma
         self.eps = epsilon
-        self.board = None
-        self.q_table = {}
+
+        from games.pixelKart.dao import find_all_entries
+
+        self.q_table = {
+            entry["unique_key"]: entry["reward"] for entry in find_all_entries()
+        }
+        self.commit_frequency = 50
+        self._pending = 0
+        self.circuit = None
+        self.grid = None
 
     def get_q_value(self, key):
+        if key in self.q_table:
+            return self.q_table[key]
+
         entry = find_entry_by_key(key)
         q_value = entry['reward'] if entry else 0.0
+        self.q_table[key] = q_value
         print(f"Loaded Q-value for {key}: {q_value}")
         return q_value
 
     def set_q_value(self, key, reward):
-        save_entry({'unique_key': key, 'reward': reward})
+        self.q_table[key] = reward
+        save_entry({'unique_key': key, 'reward': reward}, commit=False)
+        self._pending += 1
+        if self._pending >= self.commit_frequency:
+            from games.pixelKart.dao import commit_session
+
+            commit_session()
+            self._pending = 0
 
     def type_case(self,xi,yi):
         case_type = None
@@ -77,6 +102,42 @@ class aiKart(kart):
                     (case for case, properties in PIXEL_TYPES.items() if properties["letter"] == case_letter),
                     None)
         return case_type
+
+    # --- Q-learning helpers -------------------------------------------------
+
+    def state_key(self):
+        """Compute the state representation for the current position."""
+        return generate_key(self.x, self.y, self.speed, self.type_case)
+
+    def choose_action(self):
+        actions = ["Accelerate", "Decelerate", "Left", "Right", "Nothing"]
+
+        if random.random() < self.eps:
+            return random.choice(actions)
+
+        state = self.state_key()
+        best_action = None
+        best_value = float("-inf")
+        for act in actions:
+            key = f"{state}:{act}"
+            value = self.get_q_value(key)
+            if value > best_value:
+                best_value = value
+                best_action = act
+        return best_action if best_action is not None else random.choice(actions)
+
+    def update_q_table(self, state, action, reward, next_state):
+        current_key = f"{state}:{action}"
+        next_values = [self.get_q_value(f"{next_state}:{a}") for a in ["Accelerate", "Decelerate", "Left", "Right", "Nothing"]]
+        next_q = max(next_values)
+        current_q = self.get_q_value(current_key)
+        new_q = current_q + self.lr * (reward + self.gamma * next_q - current_q)
+        self.set_q_value(current_key, new_q)
+
+    def next_epsilon(self, coef: float = 0.95, min_val: float = 0.05) -> None:
+        self.eps *= coef
+        if self.eps < min_val:
+            self.eps = min_val
 
         
         
