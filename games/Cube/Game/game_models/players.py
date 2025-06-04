@@ -83,8 +83,15 @@ class AiPlayer(Player):
         for dx, dy in actions:
             nx, ny = self.x + dx, self.y + dy
             if 0 <= nx < self.board.size and 0 <= ny < self.board.size:
-                key = generate_key(self.x, self.y, self.enemy.x, self.enemy.y, self.board.get_matrix_state(),
-                                   self.board.get_board_state())
+                key = generate_key(
+                    self.x,
+                    self.y,
+                    self.enemy.x,
+                    self.enemy.y,
+                    self.board.get_matrix_state(),
+                    self.board.get_board_state(),
+                    (dx, dy),
+                )
                 q_value = self.get_q_value(key)
                 if q_value > best_value:
                     best_value = q_value
@@ -96,12 +103,28 @@ class AiPlayer(Player):
         Met à jour la table Q avec la nouvelle valeur calculée
         """
         # Génère les clés pour l'état actuel et suivant
-        current_key = generate_key(*state)
-        next_key = generate_key(*next_state)
+        current_key = generate_key(*state, action)
+
+        # Calcul du meilleur Q pour l'état suivant sur toutes les actions
+        possible_actions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+        next_q_values = [
+            self.get_q_value(
+                generate_key(
+                    next_state[0],
+                    next_state[1],
+                    next_state[2],
+                    next_state[3],
+                    next_state[4],
+                    next_state[5],
+                    a,
+                )
+            )
+            for a in possible_actions
+        ]
+        next_q = max(next_q_values)
 
         # Obtient les valeurs Q actuelles
         current_q = self.get_q_value(current_key)
-        next_q = self.get_q_value(next_key)
 
         # Calcule la nouvelle valeur Q
         new_q = current_q + self.lr * (reward + self.gamma * next_q - current_q)
