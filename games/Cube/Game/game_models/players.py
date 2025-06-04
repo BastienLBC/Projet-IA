@@ -8,6 +8,7 @@ from Game.dao import (
     find_all_entries,
 )
 
+
 from Game.game_models.game_model import GameModel
 
 
@@ -66,13 +67,16 @@ class AiPlayer(Player):
         learning_rate: float = 0.01,
         gamma: float = 0.9,
         epsilon: float = 0.9,
+
         commit_frequency: int = 50,
+
     ) -> None:
         super().__init__(name, color)
         self.lr = learning_rate
         self.gamma = gamma
         self.eps = epsilon
         self.board = None
+
         self.q_table = {
             entry["unique_key"]: entry["reward"] for entry in find_all_entries()
         }
@@ -84,6 +88,7 @@ class AiPlayer(Player):
             return self.q_table[key]
         entry = find_entry_by_key(key)
         q_value = entry["reward"] if entry else 0.0
+
         self.q_table[key] = q_value
         print(
             f"Loaded Q-value for {key}: {q_value}"
@@ -91,7 +96,9 @@ class AiPlayer(Player):
         return q_value
 
     def set_q_value(self, key, reward):
+
         self.q_table[key] = reward
+
         save_entry({"unique_key": key, "reward": reward}, commit=False)
         self._pending += 1
         if self._pending >= self.commit_frequency:
