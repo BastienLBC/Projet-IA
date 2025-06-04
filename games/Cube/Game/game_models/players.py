@@ -178,6 +178,7 @@ class AiPlayer(Player):
             self._old_state[1],
             new_x,
             new_y,
+            self._old_state[5],
         )
 
         new_state = (
@@ -193,35 +194,73 @@ class AiPlayer(Player):
         direction = self.action_to_direction(self._last_action)
         print(f"Reward: {reward}, Action: {direction}")
 
-    def calculate_reward(self, from_x, from_y, to_x, to_y):
-        """
-        Calcule la récompense pour un déplacement
-        @param from_x: Position x de départ
-        @param from_y: Position y de départ
-        @param to_x: Position x d'arrivée
-        @param to_y: Position y d'arrivée
-        @return: La récompense calculée
-        """
-        print(f"Reward calculated: 25 (from {from_x},{from_y} to {to_x},{to_y})")
-        reward = 25  # Récompense de base pour un mouvement valide
+    def calculate_reward(self, from_x, from_y, to_x, to_y, old_board_state):
+        """Calcule la récompense liée au dernier déplacement.
 
-        # Vérifier si le mouvement est valide
+        La fonction prend en compte plusieurs éléments :
+        - la validité du mouvement
+        - la capture de nouvelles cases
+        - la variation des scores après le coup (prise d'enclos par exemple)
+        - la proximité de l'adversaire et du centre
+
+        Args:
+            from_x (int): position X avant déplacement
+            from_y (int): position Y avant déplacement
+            to_x   (int): nouvelle position X
+            to_y   (int): nouvelle position Y
+            old_board_state (dict): état du plateau avant le déplacement
+
+        Returns:
+            float: récompense calculée
+        """
+
+        # Mouvement hors plateau ou sur l'adversaire => forte pénalité
         if not (0 <= to_x < self.board.size and 0 <= to_y < self.board.size):
-            return -50  # Pénalité pour un mouvement invalide
-
-        # Vérifier si la case est occupée par l'adversaire
+            return -50
         if self.board.matrix[to_x][to_y]["color"] == self.enemy.color:
             return -50
 
-        # Pénalité si on s'éloigne du centre
+        reward = 0
+
+        # Bonus lors de la conquête d'une nouvelle case blanche
+        if self.board.matrix[to_x][to_y]["color"] == "white":
+            reward += 5
+
+        # Légère pénalité si on reste dans sa propre zone
+        if self.board.matrix[to_x][to_y]["color"] == self.color:
+            reward -= 1
+
+        # Variation de score depuis l'état précédent
+        if self == self.game.players1:
+            old_score = old_board_state["players1"]["score"]
+            enemy_old_score = old_board_state["players2"]["score"]
+        else:
+            old_score = old_board_state["players2"]["score"]
+            enemy_old_score = old_board_state["players1"]["score"]
+
+        reward += (self.score - old_score) * 20
+        reward -= (self.enemy.score - enemy_old_score) * 20
+
+        # Encourager la proximité de l'adversaire
+        old_dist_enemy = abs(from_x - self.enemy.x) + abs(from_y - self.enemy.y)
+        new_dist_enemy = abs(to_x - self.enemy.x) + abs(to_y - self.enemy.y)
+        if new_dist_enemy < old_dist_enemy:
+            reward += 2
+        else:
+            reward -= 1
+
+        # Légère préférence pour se rapprocher du centre
         distance_to_center = abs(to_x - self.board.size // 2) + abs(to_y - self.board.size // 2)
-        reward -= distance_to_center * 2
+        reward -= distance_to_center * 0.5
 
-        # Bonus si on s'approche de l'adversaire
-        distance_to_enemy = abs(to_x - self.enemy.x) + abs(to_y - self.enemy.y)
-        if distance_to_enemy < abs(from_x - self.enemy.x) + abs(from_y - self.enemy.y):
-            reward += 10
+        # Fin de partie : récompense ou pénalité décisive
+        if self.game.is_finished():
+            if self.game.get_winner() == self:
+                reward += 100
+            else:
+                reward -= 100
 
+        print(f"Reward calculated: {reward} (from {from_x},{from_y} to {to_x},{to_y})")
         return reward
 
     def is_valid_move(self, x, y):
