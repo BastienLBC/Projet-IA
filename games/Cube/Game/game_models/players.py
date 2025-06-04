@@ -61,7 +61,9 @@ class AiPlayer(Player):
         learning_rate: float = 0.01,
         gamma: float = 0.9,
         epsilon: float = 0.9,
+
         commit_frequency: int = 50,
+
     ) -> None:
         super().__init__(name, color)
         self.lr = learning_rate
@@ -81,11 +83,15 @@ class AiPlayer(Player):
         return q_value
 
     def set_q_value(self, key, reward):
+
         save_entry({"unique_key": key, "reward": reward}, commit=False)
         self._pending += 1
         if self._pending >= self.commit_frequency:
             commit_session()
             self._pending = 0
+
+        save_entry({"unique_key": key, "reward": reward})
+
 
     def choose_action(self):
         """Choisit une action valide selon l'epsilon-greedy."""
