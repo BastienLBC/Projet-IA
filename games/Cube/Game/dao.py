@@ -79,7 +79,7 @@ if __name__ == "__main__":
     init_db()
 
     # Exemple d'utilisation
-    unique_key = generate_key('A1', 'B2', 'C3', 'D4', 'matrix_state', 'board_state')
+    unique_key = generate_key('A1', 'B2', 'C3', 'D4', 'matrix_state', 'board_state', 'action')
     entry_dto = {'unique_key': unique_key, 'reward': 0.5}
     save_entry(entry_dto)
 
