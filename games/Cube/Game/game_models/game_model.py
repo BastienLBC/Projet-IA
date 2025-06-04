@@ -73,21 +73,15 @@ class GameModel:
         return self.current_player
 
     def moove(self, bind):
-        player = self.current_player
-
-        if (bind == 'UP') and self.can_move(player.x, player.y - 1):
+        if (bind == 'UP') and self.can_move(self.current_player.x, self.current_player.y - 1):
             self.move_up()
-        elif (bind == 'DOWN') and self.can_move(player.x, player.y + 1):
+        elif (bind == 'DOWN') and self.can_move(self.current_player.x, self.current_player.y + 1):
             self.move_down()
-        elif (bind == 'LEFT') and self.can_move(player.x - 1, player.y):
+        elif (bind == 'LEFT') and self.can_move(self.current_player.x - 1, self.current_player.y):
             self.move_left()
-        elif (bind == 'RIGHT') and self.can_move(player.x + 1, player.y):
+        elif (bind == 'RIGHT') and self.can_move(self.current_player.x + 1, self.current_player.y):
             self.move_right()
-
         self.check_enclosure()
-
-        if hasattr(player, "after_move"):
-            player.after_move()
 
     def move_up(self):
         self.current_player.y -= 1
@@ -205,38 +199,18 @@ class GameModel:
         player = self.current_player
         opponent = self.players1 if self.current_player == self.players2 else self.players2
 
-        # Travail sur une copie pour éviter de modifier une matrice partagée
-        self.matrix = [[cell.copy() for cell in row] for row in self.matrix]
-        matrix = self.matrix
-
         reachable = [[False for _ in range(self.board)] for _ in range(self.board)]
-        queue = []
-
-        for x in range(self.board):
-            for y in range(self.board):
-                if matrix[x][y]["color"] == player.color:
-                    reachable[x][y] = True
-                    queue.append((x, y))
-
-        if not reachable[player.x][player.y]:
-            reachable[player.x][player.y] = True
-            queue.append((player.x, player.y))
+        queue = [(player.x, player.y)]
 
         while queue:
             x, y = queue.pop(0)  
             for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
                 nx, ny = x + dx, y + dy
-                if (
-                    0 <= nx < self.board
-                    and 0 <= ny < self.board
-                    and not reachable[nx][ny]
-                    and (
-                        matrix[nx][ny]["color"] == "white"
-                        or matrix[nx][ny]["color"] == player.color
-                    )
-                ):
+                if (0 <= nx < self.board and 0 <= ny < self.board and
+                    not reachable[nx][ny] and 
+                    (self.matrix[nx][ny]["color"] == "white" or self.matrix[nx][ny]["color"] == player.color)):
                     reachable[nx][ny] = True
-                    queue.append((nx, ny))
+                    queue.append((nx, ny))  
 
         for x in range(self.board):
             for y in range(self.board):
