@@ -1,7 +1,7 @@
 import random
 from tkinter import *
 from Game.dico import generate_key
-from Game.dao import find_entry_by_key, save_entry
+from Game.dao import find_entry_by_key, save_entry, commit_session
 
 from Game.game_models.game_model import GameModel
 
@@ -61,6 +61,9 @@ class AiPlayer(Player):
         learning_rate: float = 0.01,
         gamma: float = 0.9,
         epsilon: float = 0.9,
+
+        commit_frequency: int = 50,
+
     ) -> None:
         super().__init__(name, color)
         self.lr = learning_rate
@@ -68,6 +71,8 @@ class AiPlayer(Player):
         self.eps = epsilon
         self.board = None
         self.q_table = {}
+        self.commit_frequency = commit_frequency
+        self._pending = 0
 
     def get_q_value(self, key):
         entry = find_entry_by_key(key)
@@ -78,7 +83,15 @@ class AiPlayer(Player):
         return q_value
 
     def set_q_value(self, key, reward):
+
+        save_entry({"unique_key": key, "reward": reward}, commit=False)
+        self._pending += 1
+        if self._pending >= self.commit_frequency:
+            commit_session()
+            self._pending = 0
+
         save_entry({"unique_key": key, "reward": reward})
+
 
     def choose_action(self):
         """Choisit une action valide selon l'epsilon-greedy."""
