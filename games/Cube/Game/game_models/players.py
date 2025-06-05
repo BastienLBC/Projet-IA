@@ -1,7 +1,7 @@
 import random
 from tkinter import *
 from Game.dico import generate_key
-from Game.dao import find_entry_by_key, save_entry
+from Game.dao import find_entry_by_key, save_entry, save_entries
 
 from Game.game_models.game_model import GameModel
 
@@ -68,6 +68,8 @@ class AiPlayer(Player):
         self.eps = epsilon
         self.board = None
         self.q_table = {}
+        self.auto_commit = True
+        self._pending_entries = []
 
     def get_q_value(self, key):
         entry = find_entry_by_key(key)
@@ -78,7 +80,16 @@ class AiPlayer(Player):
         return q_value
 
     def set_q_value(self, key, reward):
-        save_entry({"unique_key": key, "reward": reward})
+        entry = {"unique_key": key, "reward": reward}
+        if self.auto_commit:
+            save_entry(entry)
+        else:
+            self._pending_entries.append(entry)
+
+    def commit_pending_entries(self):
+        if self._pending_entries:
+            save_entries(self._pending_entries)
+            self._pending_entries.clear()
 
     def choose_action(self):
         """Choisit une action valide selon l'epsilon-greedy."""
@@ -181,6 +192,7 @@ class AiPlayer(Player):
         )
 
         # Choix de l'action
+        direction = self.go_to_center()
         self._last_action = self.choose_action()
         direction = self.action_to_direction(self._last_action)
 
@@ -309,6 +321,35 @@ class AiPlayer(Player):
             self.x = new_x
             self.y = new_y
 
+    def go_to_center(self):
+        """Calcule la direction pour se rapprocher du centre du plateau.
+
+        Cette méthode renvoie une direction (UP, DOWN, LEFT, RIGHT) qui fait
+        avancer l'IA d'une case vers le centre du plateau si le déplacement est
+        possible. ``None`` est renvoyé si l'IA se trouve déjà au centre ou si
+        aucun mouvement valide ne permet de s'en rapprocher.
+        """
+        if self.board is None:
+            return None
+
+        target_x = self.board.size // 2
+        target_y = self.board.size // 2
+
+        # Stop seeking the centre if the tile is already claimed
+        if self.board.get_case_color(target_x, target_y) != "white":
+            return None
+
+        if self.x < target_x and self.board.can_move(self.x + 1, self.y):
+            return "RIGHT"
+        if self.x > target_x and self.board.can_move(self.x - 1, self.y):
+            return "LEFT"
+        if self.y < target_y and self.board.can_move(self.x, self.y + 1):
+            return "DOWN"
+        if self.y > target_y and self.board.can_move(self.x, self.y - 1):
+            return "UP"
+
+        return None
+    
     def next_epsilon(self, coef: float = 0.95, min: float = 0.05) -> None:
         """
         Réduit l'epsilon pour favoriser l'exploitation au fil du temps.
@@ -321,3 +362,27 @@ class AiPlayer(Player):
     @property
     def enemy(self):
         return self.game.players1 if self == self.game.players2 else self.game.players2
+    def upload(self, db_path="store.db") -> None:
+        """Save the current Q-table into a SQLite database.
+
+        Parameters
+        ----------
+        db_path : str, optional
+            Path to the SQLite database file. Defaults to ``"store.db"``.
+        """
+
+        import Game.dao as dao
+        from sqlalchemy import create_engine
+        from sqlalchemy.orm import sessionmaker
+
+        # Reconfigure DAO to use the provided database path
+        engine = create_engine(f"sqlite:///{db_path}")
+        dao.engine = engine
+        dao.Session = sessionmaker(bind=engine)
+        dao.SESSION = dao.Session()
+        dao.init_db()
+
+        for key, reward in self.q_table.items():
+            dao.save_entry({"unique_key": key, "reward": reward}, commit=False)
+
+        

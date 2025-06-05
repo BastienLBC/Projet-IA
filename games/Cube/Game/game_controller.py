@@ -112,6 +112,8 @@ class GameController:
         Entraine les ia
         """
         training = GameModel(ai1, ai2, board)
+        ai1.auto_commit = False
+        ai2.auto_commit = False
         for i in range(nb_games):
             if i % epsilon == 0:
                 ai1.next_epsilon()
@@ -123,7 +125,12 @@ class GameController:
                 print(f"Progression : {progress:.0f}%")
 
             training.play()
+            ai1.commit_pending_entries()
+            ai2.commit_pending_entries()
             training.reset()
+        ai1.auto_commit = True
+        ai2.auto_commit = True
+
 
     def compare_ai(*ais: AiPlayer):
         """Compare les performances des IA"""

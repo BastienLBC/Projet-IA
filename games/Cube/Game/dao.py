@@ -5,7 +5,7 @@ from Game.dico import generate_key
 class Base(DeclarativeBase):
     pass
 
-engine = create_engine('sqlite:///store1.db')
+engine = create_engine('sqlite:///store3.db')
 # Création d'une session
 Session = sessionmaker(bind=engine)
 SESSION = Session()
@@ -49,7 +49,7 @@ def find_entry_by_key(unique_key):
     entry = SESSION.query(QTable).filter(QTable.unique_key == unique_key).first()
     return entry.to_dto() if entry else None
 
-def save_entry(entry_dto):
+def save_entry(entry_dto, commit=True):
     """
     Save or update an entry in the database.
     @param entry_dto: dict
@@ -66,8 +66,18 @@ def save_entry(entry_dto):
         new_entry = QTable.from_dto(entry_dto)
         SESSION.add(new_entry)
         print(f"Saved new entry with unique_key: {entry_dto['unique_key']} and reward: {entry_dto['reward']}")
+    if commit:
+        try:
+            SESSION.commit()
+        except Exception as e:
+            SESSION.rollback()  # Rollback the transaction in case of error
+            print(f"Error saving entry: {e}")
 
-    # Commit the transaction
+def save_entries(entries, commit=True):
+    """Save or update multiple entries and commit once."""
+    for dto in entries:
+        save_entry(dto, commit=False)
+    
     try:
         SESSION.commit()
     except Exception as e:
