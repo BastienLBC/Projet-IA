@@ -90,6 +90,13 @@ class GameView(ctk.CTk):
             bind = "Nothing"
         self.controller.one_action(bind)
 
+        if not self.controller.is_finish():
+            self.controller.switch_player()
+            ai_move = self.controller.current_player.play()
+            self.controller.one_action(ai_move)
+            if not self.controller.is_finish():
+                self.controller.switch_player()
+
         karts_data = self.controller.get_karts_positions()
         self.update_player_info(self.controller.player1, self.controller.player2,
                                 laps_remaining=self.controller.nb_laps)
@@ -105,7 +112,7 @@ class GameView(ctk.CTk):
             self.game_frame.update_view(karts)
 
     def reset(self):
-        self.game_frame.dto_to_grid(self.controller.model.circuit)
+        self.game_frame.dto_to_grid(self.controller.circuit)
         karts_data = self.controller.get_karts_positions()
         self.game_frame.update_view(karts_data)
         self.info_label.configure(text="")

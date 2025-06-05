@@ -27,6 +27,21 @@ class Circuit:
         direction = self.current_player.direction
         speed = self.current_player.speed
 
+        new_x, new_y = x, y
+        if direction == 'Nord':
+            new_y -= speed
+        elif direction == 'Sud':
+            new_y += speed
+        elif direction == 'Ouest':
+            new_x -= speed
+        elif direction == 'Est':
+            new_x += speed
+
+        if not self.can_move(new_x, new_y):
+            self.current_player.inLife = False
+            self.current_player.speed = 0
+            return
+
         if speed == 2:
             if (direction == 'Nord') and self.can_move(x, y - 1):
                 self.speed_limiter()
@@ -88,6 +103,8 @@ class Circuit:
         self.current_player.x += speed
 
     def can_move(self, x, y):
+        if self.grid:
+            return 0 <= y < len(self.grid) and 0 <= x < len(self.grid[y])
         return 0 <= x < self.rows and 0 <= y < self.cols
 
     def speed_limiter(self):
