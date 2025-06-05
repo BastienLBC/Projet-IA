@@ -11,13 +11,13 @@ if __name__ == "__main__":
     human = HumanPlayer(name="Joueur 1", color="green")
 
     board_size = 4
-    nb_games = 20000
-    eps = 400
-    
-    GameController.training(ai1, ai2, board_size, nb_games, eps)
-    print("------------------------------------------------------------")
-    
-    GameController.compare_ai(ai1, ai2)
+    # nb_games = 20000
+    # eps = 400
+    #
+    # GameController.training(ai1, ai2, board_size, nb_games, eps)
+    # print("------------------------------------------------------------")
+    #
+    # GameController.compare_ai(ai1, ai2)
     
     
     ai2.epsilon = 0.05

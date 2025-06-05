@@ -272,14 +272,6 @@ class AiPlayer(Player):
         reward += (self.score - old_score) * 20
         reward -= (self.enemy.score - enemy_old_score) * 20
 
-        # Encourager la proximité de l'adversaire
-        old_dist_enemy = abs(from_x - self.enemy.x) + abs(from_y - self.enemy.y)
-        new_dist_enemy = abs(to_x - self.enemy.x) + abs(to_y - self.enemy.y)
-        if new_dist_enemy < old_dist_enemy:
-            reward += 2
-        else:
-            reward -= 1
-
         # Légère préférence pour se rapprocher du centre
         distance_to_center = abs(to_x - self.board.size // 2) + abs(
             to_y - self.board.size // 2
@@ -335,7 +327,6 @@ class AiPlayer(Player):
         target_x = self.board.size // 2
         target_y = self.board.size // 2
 
-        # Stop seeking the centre if the tile is already claimed
         if self.board.get_case_color(target_x, target_y) != "white":
             return None
 
