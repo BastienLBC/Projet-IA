@@ -1,13 +1,7 @@
 import random
 from tkinter import *
 from Game.dico import generate_key
-from Game.dao import (
-    find_entry_by_key,
-    save_entry,
-    commit_session,
-    find_all_entries,
-)
-
+from Game.dao import find_entry_by_key, save_entry, save_entries
 
 from Game.game_models.game_model import GameModel
 
@@ -67,43 +61,35 @@ class AiPlayer(Player):
         learning_rate: float = 0.01,
         gamma: float = 0.9,
         epsilon: float = 0.9,
-
-        commit_frequency: int = 50,
-
     ) -> None:
         super().__init__(name, color)
         self.lr = learning_rate
         self.gamma = gamma
         self.eps = epsilon
         self.board = None
-
-        self.q_table = {
-            entry["unique_key"]: entry["reward"] for entry in find_all_entries()
-        }
-        self.commit_frequency = commit_frequency
-        self._pending = 0
+        self.q_table = {}
+        self.auto_commit = True
+        self._pending_entries = []
 
     def get_q_value(self, key):
-        if key in self.q_table:
-            return self.q_table[key]
         entry = find_entry_by_key(key)
         q_value = entry["reward"] if entry else 0.0
-
-        self.q_table[key] = q_value
         print(
             f"Loaded Q-value for {key}: {q_value}"
         )  # vérifie le chargement des valeurs
         return q_value
 
     def set_q_value(self, key, reward):
+        entry = {"unique_key": key, "reward": reward}
+        if self.auto_commit:
+            save_entry(entry)
+        else:
+            self._pending_entries.append(entry)
 
-        self.q_table[key] = reward
-
-        save_entry({"unique_key": key, "reward": reward}, commit=False)
-        self._pending += 1
-        if self._pending >= self.commit_frequency:
-            commit_session()
-            self._pending = 0
+    def commit_pending_entries(self):
+        if self._pending_entries:
+            save_entries(self._pending_entries)
+            self._pending_entries.clear()
 
     def choose_action(self):
         """Choisit une action valide selon l'epsilon-greedy."""
@@ -206,6 +192,7 @@ class AiPlayer(Player):
         )
 
         # Choix de l'action
+        direction = self.go_to_center()
         self._last_action = self.choose_action()
         direction = self.action_to_direction(self._last_action)
 
@@ -285,14 +272,6 @@ class AiPlayer(Player):
         reward += (self.score - old_score) * 20
         reward -= (self.enemy.score - enemy_old_score) * 20
 
-        # Encourager la proximité de l'adversaire
-        old_dist_enemy = abs(from_x - self.enemy.x) + abs(from_y - self.enemy.y)
-        new_dist_enemy = abs(to_x - self.enemy.x) + abs(to_y - self.enemy.y)
-        if new_dist_enemy < old_dist_enemy:
-            reward += 2
-        else:
-            reward -= 1
-
         # Légère préférence pour se rapprocher du centre
         distance_to_center = abs(to_x - self.board.size // 2) + abs(
             to_y - self.board.size // 2
@@ -334,6 +313,34 @@ class AiPlayer(Player):
             self.x = new_x
             self.y = new_y
 
+    def go_to_center(self):
+        """Calcule la direction pour se rapprocher du centre du plateau.
+
+        Cette méthode renvoie une direction (UP, DOWN, LEFT, RIGHT) qui fait
+        avancer l'IA d'une case vers le centre du plateau si le déplacement est
+        possible. ``None`` est renvoyé si l'IA se trouve déjà au centre ou si
+        aucun mouvement valide ne permet de s'en rapprocher.
+        """
+        if self.board is None:
+            return None
+
+        target_x = self.board.size // 2
+        target_y = self.board.size // 2
+
+        if self.board.get_case_color(target_x, target_y) != "white":
+            return None
+
+        if self.x < target_x and self.board.can_move(self.x + 1, self.y):
+            return "RIGHT"
+        if self.x > target_x and self.board.can_move(self.x - 1, self.y):
+            return "LEFT"
+        if self.y < target_y and self.board.can_move(self.x, self.y + 1):
+            return "DOWN"
+        if self.y > target_y and self.board.can_move(self.x, self.y - 1):
+            return "UP"
+
+        return None
+    
     def next_epsilon(self, coef: float = 0.95, min: float = 0.05) -> None:
         """
         Réduit l'epsilon pour favoriser l'exploitation au fil du temps.
@@ -346,3 +353,27 @@ class AiPlayer(Player):
     @property
     def enemy(self):
         return self.game.players1 if self == self.game.players2 else self.game.players2
+    def upload(self, db_path="store.db") -> None:
+        """Save the current Q-table into a SQLite database.
+
+        Parameters
+        ----------
+        db_path : str, optional
+            Path to the SQLite database file. Defaults to ``"store.db"``.
+        """
+
+        import Game.dao as dao
+        from sqlalchemy import create_engine
+        from sqlalchemy.orm import sessionmaker
+
+        # Reconfigure DAO to use the provided database path
+        engine = create_engine(f"sqlite:///{db_path}")
+        dao.engine = engine
+        dao.Session = sessionmaker(bind=engine)
+        dao.SESSION = dao.Session()
+        dao.init_db()
+
+        for key, reward in self.q_table.items():
+            dao.save_entry({"unique_key": key, "reward": reward}, commit=False)
+
+        
