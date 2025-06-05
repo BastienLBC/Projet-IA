@@ -5,7 +5,7 @@ from .dico import generate_key
 class Base(DeclarativeBase):
     pass
 
-engine = create_engine('sqlite:///store.db')
+engine = create_engine('sqlite:///kart.db')
 # Création d'une session
 Session = sessionmaker(bind=engine)
 SESSION = Session()

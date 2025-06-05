@@ -1,9 +1,7 @@
-import argparse
+from games.pixelKart.dao import init_db, commit_session
 from games.pixelKart.pixelKart_dao import get_by_name
 from games.pixelKart.game_models.circuit import Circuit
 from games.pixelKart.game_models.kart import aiKart, kart
-from games.pixelKart.dao import commit_session
-
 
 def train(circuit_name: str, episodes: int = 1000, laps: int = 1, max_steps: int = 500):
     circuit_data = get_by_name(circuit_name)
@@ -11,8 +9,8 @@ def train(circuit_name: str, episodes: int = 1000, laps: int = 1, max_steps: int
         raise ValueError(f"Circuit '{circuit_name}' not found")
 
     ai = aiKart("AI")
-    dummy = kart("dummy")
-    env = Circuit(ai, dummy, gp=circuit_data)
+    bob = kart("bob")
+    env = Circuit(ai, bob, gp=circuit_data)
     env.nb_laps = laps
 
     for _ in range(episodes):
@@ -52,16 +50,10 @@ def train(circuit_name: str, episodes: int = 1000, laps: int = 1, max_steps: int
     commit_session()
 
 
+
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("circuit", default="Basic")
-    parser.add_argument("--episodes", type=int, default=1000)
-    parser.add_argument("--laps", type=int, default=1)
-    args = parser.parse_args()
-
-    train(args.circuit, args.episodes, args.laps)
-
+    init_db()
+    train("Masque", 100000, 2)
 
 if __name__ == "__main__":
     main()
-
