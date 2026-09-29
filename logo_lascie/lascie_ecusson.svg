@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1024 1024" width="1024" height="1024">
+<title>LASCIE</title>
+<defs>
+<radialGradient id="fond" cx="50%" cy="45%" r="72%"><stop offset="0" stop-color="#18233c"/><stop offset="1" stop-color="#05080f"/></radialGradient>
+<radialGradient id="halo" cx="512" cy="470" r="470" gradientUnits="userSpaceOnUse"><stop offset="0.35" stop-color="#2f5fd0" stop-opacity="0.45"/><stop offset="1" stop-color="#2f5fd0" stop-opacity="0"/></radialGradient>
+<linearGradient id="or" x1="0.1" y1="0" x2="0.9" y2="1"><stop offset="0" stop-color="#fff4c4"/><stop offset="0.28" stop-color="#f8cf55"/><stop offset="0.55" stop-color="#d9951a"/><stop offset="0.78" stop-color="#ffe07a"/><stop offset="1" stop-color="#b57508"/></linearGradient>
+<linearGradient id="marine" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#22335c"/><stop offset="1" stop-color="#0c142a"/></linearGradient>
+<linearGradient id="marine_l" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2d4577"/><stop offset="1" stop-color="#13203f"/></linearGradient>
+<path id="ecu" d="M290 118L734 118L792 176L792 470C792 670 662 822 512 912C362 822 232 670 232 470L232 176Z"/>
+<clipPath id="ecu_clip"><use xlink:href="#ecu"/></clipPath>
+<radialGradient id="rayons" cx="512" cy="470" r="620" gradientUnits="userSpaceOnUse"><stop offset="0.2" stop-color="#ffffff" stop-opacity="0.07"/><stop offset="0.9" stop-color="#ffffff" stop-opacity="0"/></radialGradient>
+<path id="lettre" d="M419 272L497 272L497 490L651 490L651 560L621 590L389 590L389 302Z"/>
+<linearGradient id="biseau" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe9a0"/><stop offset="0.5" stop-color="#d18f16"/><stop offset="1" stop-color="#8a5606"/></linearGradient>
+<path id="queue_g" d="M78 672L182 672L182 798L78 798L112 735Z"/>
+<path id="queue_d" d="M946 672L842 672L842 798L946 798L912 735Z"/>
+<path id="bande" d="M148 632L876 632L876 758L148 758Z"/>
+<linearGradient id="or_sombre" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d8a032"/><stop offset="1" stop-color="#7d4c05"/></linearGradient>
+</defs>
+<rect width="1024" height="1024" fill="url(#fond)"/>
+<circle cx="512" cy="470" r="470" fill="url(#halo)"/>
+<path d="M512 470L1410.6 419.8L1410.6 520.2ZM512 470L1361.4 767.5L1323 860.3ZM512 470L1182.9 1069.9L1111.9 1140.9ZM512 470L902.3 1281L809.5 1319.4ZM512 470L562.2 1368.6L461.8 1368.6ZM512 470L214.5 1319.4L121.7 1281ZM512 470L-87.9 1140.9L-158.9 1069.9ZM512 470L-299 860.3L-337.4 767.5ZM512 470L-386.6 520.2L-386.6 419.8ZM512 470L-337.4 172.5L-299 79.7ZM512 470L-158.9 -129.9L-87.9 -200.9ZM512 470L121.7 -341L214.5 -379.4ZM512 470L461.8 -428.6L562.2 -428.6ZM512 470L809.5 -379.4L902.3 -341ZM512 470L1111.9 -200.9L1182.9 -129.9ZM512 470L1323 79.7L1361.4 172.5Z" fill="url(#rayons)"/>
+<use xlink:href="#ecu" fill="#04060b" stroke="#04060b" stroke-width="36" stroke-linejoin="round"/>
+<use xlink:href="#ecu" fill="url(#marine)"/>
+<rect x="212" y="98" width="300" height="834" fill="url(#marine_l)" clip-path="url(#ecu_clip)"/>
+<use xlink:href="#ecu" fill="none" stroke="#04060b" stroke-width="62" clip-path="url(#ecu_clip)"/>
+<use xlink:href="#ecu" fill="none" stroke="url(#or)" stroke-width="46" clip-path="url(#ecu_clip)" stroke-linejoin="round"/>
+<use xlink:href="#ecu" fill="none" stroke="#f8cf55" stroke-opacity="0.22" stroke-width="78" clip-path="url(#ecu_clip)"/>
+<path d="M432 185L440.7 206L463.4 207.8L446.1 222.6L451.4 244.7L432 232.8L412.6 244.7L417.9 222.6L400.6 207.8L423.3 206Z" fill="#04060b" stroke="#04060b" stroke-width="8" stroke-linejoin="round"/>
+<path d="M432 192L438.9 208.5L456.7 210L443.1 221.6L447.3 239L432 229.7L416.7 239L420.9 221.6L407.3 210L425.1 208.5Z" fill="url(#or)"/>
+<path d="M512 171L522.8 197.1L551 199.3L529.5 217.7L536.1 245.2L512 230.4L487.9 245.2L494.5 217.7L473 199.3L501.2 197.1Z" fill="#04060b" stroke="#04060b" stroke-width="8" stroke-linejoin="round"/>
+<path d="M512 178L521 199.6L544.3 201.5L526.6 216.7L532 239.5L512 227.3L492 239.5L497.4 216.7L479.7 201.5L503 199.6Z" fill="url(#or)"/>
+<path d="M592 185L600.7 206L623.4 207.8L606.1 222.6L611.4 244.7L592 232.8L572.6 244.7L577.9 222.6L560.6 207.8L583.3 206Z" fill="#04060b" stroke="#04060b" stroke-width="8" stroke-linejoin="round"/>
+<path d="M592 192L598.9 208.5L616.7 210L603.1 221.6L607.3 239L592 229.7L576.7 239L580.9 221.6L567.3 210L585.1 208.5Z" fill="url(#or)"/>
+<use xlink:href="#lettre" fill="#04060b" stroke="#04060b" stroke-width="26" stroke-linejoin="round" transform="translate(12 14)"/>
+<use xlink:href="#lettre" fill="#04060b" stroke="#04060b" stroke-width="26" stroke-linejoin="round" transform="translate(10.8 12.6)"/>
+<use xlink:href="#lettre" fill="#04060b" stroke="#04060b" stroke-width="26" stroke-linejoin="round" transform="translate(9.6 11.2)"/>
+<use xlink:href="#lettre" fill="#04060b" stroke="#04060b" stroke-width="26" stroke-linejoin="round" transform="translate(8.4 9.8)"/>
+<use xlink:href="#lettre" fill="#04060b" stroke="#04060b" stroke-width="26" stroke-linejoin="round" transform="translate(7.2 8.4)"/>
+<use xlink:href="#lettre" fill="#04060b" stroke="#04060b" stroke-width="26" stroke-linejoin="round" transform="translate(6 7)"/>
+<use xlink:href="#lettre" fill="#04060b" stroke="#04060b" stroke-width="26" stroke-linejoin="round" transform="translate(4.8 5.6)"/>
+<use xlink:href="#lettre" fill="#04060b" stroke="#04060b" stroke-width="26" stroke-linejoin="round" transform="translate(3.6 4.2)"/>
+<use xlink:href="#lettre" fill="#04060b" stroke="#04060b" stroke-width="26" stroke-linejoin="round" transform="translate(2.4 2.8)"/>
+<use xlink:href="#lettre" fill="#04060b" stroke="#04060b" stroke-width="26" stroke-linejoin="round" transform="translate(1.2 1.4)"/>
+<use xlink:href="#lettre" fill="#04060b" stroke="#04060b" stroke-width="26" stroke-linejoin="round"/>
+<use xlink:href="#lettre" fill="#8a5606" transform="translate(12 14)"/>
+<use xlink:href="#lettre" fill="#8a5606" transform="translate(10.8 12.6)"/>
+<use xlink:href="#lettre" fill="#8a5606" transform="translate(9.6 11.2)"/>
+<use xlink:href="#lettre" fill="#8a5606" transform="translate(8.4 9.8)"/>
+<use xlink:href="#lettre" fill="#8a5606" transform="translate(7.2 8.4)"/>
+<use xlink:href="#lettre" fill="#8a5606" transform="translate(6 7)"/>
+<use xlink:href="#lettre" fill="#8a5606" transform="translate(4.8 5.6)"/>
+<use xlink:href="#lettre" fill="#8a5606" transform="translate(3.6 4.2)"/>
+<use xlink:href="#lettre" fill="#8a5606" transform="translate(2.4 2.8)"/>
+<use xlink:href="#lettre" fill="#8a5606" transform="translate(1.2 1.4)"/>
+<use xlink:href="#lettre" fill="url(#biseau)"/>
+<path d="M424.4 285L484 285L484 503L638 503L638 554.6L615.6 577L402 577L402 307.4Z" fill="url(#or)"/>
+<use xlink:href="#queue_g" fill="#04060b" stroke="#04060b" stroke-width="28" stroke-linejoin="round"/>
+<use xlink:href="#queue_d" fill="#04060b" stroke="#04060b" stroke-width="28" stroke-linejoin="round"/>
+<use xlink:href="#queue_g" fill="url(#or_sombre)"/>
+<use xlink:href="#queue_d" fill="url(#or_sombre)"/>
+<path d="M148 758L182 758L182 798Z" fill="#4a2c02" stroke="#04060b" stroke-width="6" stroke-linejoin="round"/>
+<path d="M876 758L842 758L842 798Z" fill="#4a2c02" stroke="#04060b" stroke-width="6" stroke-linejoin="round"/>
+<use xlink:href="#bande" fill="#04060b" stroke="#04060b" stroke-width="28" stroke-linejoin="round"/>
+<use xlink:href="#bande" fill="url(#or)"/>
+<path d="M4.7 0V-86H37V-24.6H72.1V0ZM79.5 0 112.6 -86H146.1L179.2 0H145.6L139.4 -16H119.3L113.1 0ZM122.7 -38.1H135.8L129.3 -54.5ZM217.7 1.3Q208.6 1.3 200.2 -0.2Q191.8 -1.7 186 -4.7V-28.8Q192.3 -25.8 200.2 -23.8Q208.1 -21.8 214.2 -21.8Q218.2 -21.8 220.5 -22.8Q222.7 -23.8 222.7 -25.6Q222.7 -28 218.5 -29.4Q214.2 -30.7 207.3 -33.3Q199 -36.5 194.2 -39.9Q189.4 -43.4 187.3 -48.3Q185.2 -53.1 185.2 -60.5Q185.2 -87.3 223 -87.3Q227.3 -87.3 232.6 -86.7Q237.8 -86.1 242.8 -85.2Q247.9 -84.3 251.3 -83.2V-58.9Q244 -62 238.4 -63Q232.8 -64.1 228.5 -64.1Q225.1 -64.1 221.7 -63.5Q218.2 -62.9 218.2 -60.8Q218.2 -59 221.3 -58Q224.3 -57 231 -55.2Q241.7 -52.2 247 -48.1Q252.4 -44.1 254.2 -38.5Q256 -33 256 -25.8Q256 -13.5 246.4 -6.1Q236.8 1.3 217.7 1.3ZM316.8 1.3Q291.4 1.3 278.4 -9.9Q265.3 -21.1 265.3 -43Q265.3 -64.9 278.2 -76.1Q291.1 -87.3 316.5 -87.3Q324.8 -87.3 331.1 -86.1Q337.5 -84.9 343.6 -82.7V-54.5Q331.4 -60.1 318.6 -60.1Q309.3 -60.1 303.8 -56.4Q298.3 -52.7 298.3 -43Q298.3 -33.3 303.9 -29.6Q309.5 -25.9 318.9 -25.9Q331.7 -25.9 343.9 -31.5V-3.3Q337.7 -1.2 331.4 0.1Q325 1.3 316.8 1.3ZM355.9 0V-86H388.2V0ZM402.9 0V-86H471.7V-62.8H435.2V-55H466.6V-31H435.2V-23.2H471.7V0Z" transform="translate(273.8 737) scale(1.0000)" fill="#0b1426"/>
+</svg>

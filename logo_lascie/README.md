@@ -1,33 +1,28 @@
 # Logo du clan LASCIE
 
-![Logo LASCIE](lascie_logo.png)
+Trois propositions de logo carré pour l'avatar du groupe Steam, construites sur le nom et la lettre L.
 
-**Concept :** « Lascie » se lit « la scie ». Le logo montre donc une lame de scie circulaire lancée
-à pleine vitesse : les dents sont orientées dans le sens de rotation, avec des découpes en turbine
-et des arcs de vitesse. Un **L** est au centre, et le nom est écrit en lettres blanches avec un relief orange.
+![Les 3 propositions](apercu.png)
 
-![Aperçu](apercu.png)
+| Proposition | Fichiers | Style |
+|---|---|---|
+| 1 · Écusson | `lascie_ecusson.png` / `.svg` | Blason de clan classique : bouclier, L doré en relief, trois étoiles, nom sur un ruban |
+| 2 · Hexagone | `lascie_hexagone.png` / `.svg` | Style e-sport moderne : L en italique découpé dans un hexagone, nom en lettres larges |
+| 3 · Badge rond | `lascie_badge.png` / `.svg` | Insigne rond : nom en arc et L blanc au centre. C'est le plus lisible en tout petit |
 
-## Fichiers
-
-| Fichier | Usage |
-|---|---|
-| `lascie_logo.png` | **À envoyer sur Steam** comme avatar du groupe (1024 × 1024, moins de 1 Mo) |
-| `lascie_logo_184.png` | Même logo à la taille d'affichage des avatars Steam (184 × 184) |
-| `lascie_logo.svg` | Fichier source vectoriel : se redimensionne sans perte et s'ouvre dans Inkscape, Figma, etc. |
-| `lascie_icone.png` / `lascie_icone.svg` | Version sans texte (icône Discord, très petites tailles…) |
-| `variantes/` | Le même logo en bleu, rouge et vert (PNG 1024 × 1024) |
-| `apercu.png` | Planche d'aperçu : tailles réelles sur Steam et variantes de couleur |
+- Les **PNG** (1024 × 1024, moins de 500 Ko) sont prêts à être envoyés sur Steam.
+- Les **SVG** sont les fichiers sources vectoriels : ils se redimensionnent sans perte et s'ouvrent dans Inkscape, Figma, etc.
+- `apercu.png` montre les trois pistes aux tailles d'affichage réelles de Steam (184, 64 et 32 px).
 
 ## Mettre le logo sur le groupe Steam
 
 1. Sur la page du groupe (avec un compte administrateur), cliquer sur **Modifier le profil du groupe**.
-2. Dans la section **Avatar**, importer `lascie_logo.png`, puis enregistrer.
+2. Dans la section **Avatar**, importer le PNG choisi, puis enregistrer.
 
 Steam redimensionne automatiquement l'image en 184, 64 et 32 px (formats JPG ou PNG, 1 Mo maximum).
 
 ## Crédits
 
-Police du nom et du L : **Kanit Black Italic**, sous licence SIL Open Font License, qui permet de
-l'utiliser librement, y compris dans un logo. Dans les SVG, le texte est converti en tracés : il n'y a
+Polices : Kanit, Goldman et Russo One, toutes sous licence SIL Open Font License. Cette licence permet de
+les utiliser librement, y compris dans un logo. Dans les SVG, le texte est converti en tracés : il n'y a
 aucune police à installer.
