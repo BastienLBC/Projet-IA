@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1024 1024" width="1024" height="1024">
+<title>LASCIE</title>
+<defs>
+<radialGradient id="fond" cx="50%" cy="42%" r="72%"><stop offset="0" stop-color="#0f1a2e"/><stop offset="1" stop-color="#03050a"/></radialGradient>
+<radialGradient id="halo" cx="512" cy="512" r="520" gradientUnits="userSpaceOnUse"><stop offset="0.3" stop-color="#1a9bff" stop-opacity="0.38"/><stop offset="1" stop-color="#1a9bff" stop-opacity="0"/></radialGradient>
+<linearGradient id="hexa" x1="0.2" y1="0" x2="0.8" y2="1"><stop offset="0" stop-color="#8be8ff"/><stop offset="0.45" stop-color="#23a6ff"/><stop offset="1" stop-color="#1747d1"/></linearGradient>
+<path id="hex" d="M512 82L884.4 297L884.4 727L512 942L139.6 727L139.6 297Z"/>
+<clipPath id="hex_clip"><use xlink:href="#hex"/></clipPath>
+<linearGradient id="ombre" x1="432" y1="432" x2="712" y2="712" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0b2f8f" stop-opacity="0.6"/><stop offset="1" stop-color="#0b2f8f" stop-opacity="0"/></linearGradient>
+</defs>
+<rect width="1024" height="1024" fill="url(#fond)"/>
+<circle cx="512" cy="512" r="520" fill="url(#halo)"/>
+<use xlink:href="#hex" fill="#030710" stroke="#030710" stroke-width="48" stroke-linejoin="round"/>
+<use xlink:href="#hex" fill="url(#hexa)" stroke="url(#hexa)" stroke-width="14" stroke-linejoin="round"/>
+<path d="M299.9 741.1L381.8 276.3L533 276.3L953 696.3L897.7 1009.9L719.9 1161.1Z" fill="url(#ombre)" clip-path="url(#hex_clip)"/>
+<path d="M314.6 758.9L492.4 607.7L724.8 607.7L1144.8 1027.7L1118.2 1178.9L734.6 1178.9Z" fill="url(#ombre)" clip-path="url(#hex_clip)"/>
+<path d="M512 137.9L836 324.9L836 699L512 886.1L188 699L188 324.9Z" fill="none" stroke="#ffffff" stroke-opacity="0.35" stroke-width="7" stroke-linejoin="round"/>
+<path d="M381.8 276.3L533 276.3L477.7 589.9L299.9 741.1Z" fill="#07101f"/>
+<path d="M314.6 758.9L492.4 607.7L724.8 607.7L698.2 758.9Z" fill="#07101f"/>
+</svg>
